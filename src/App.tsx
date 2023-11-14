@@ -1,13 +1,13 @@
 import { Box } from "@chakra-ui/react";
 
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
-import { Home } from "./pages/Home/home";
+import { Home } from "./pages/Home";
 
 function App() {
 	return (
-		<Box>
+		<Box fontFamily={"SoDo Sans"}>
 			<Routes>
+				<Route path="/" element={<Home/>} />
 				<Route path="/" element={<Home/>} />
 			</Routes>
 		</Box>
