@@ -2,9 +2,37 @@
 import { Flex, Button } from "@chakra-ui/react";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useState } from "react";
+import axios from "axios"
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
-export const Payment = ({ setActive }: any) => {
+export const Payment = ({ setActive, total }: any) => {
 	const [isDisableButton, setIsDisableButton] = useState<any>(true);
+  const cart = useSelector(
+		(state: RootState) => state.CartReducer.products
+	);
+
+  const totalQuantity = useSelector(
+		(state: RootState) => state.CartReducer.countCart
+	);
+
+  const bayar = async (
+		totalQuantity: number,
+		total: number,
+		cart: any
+	) => {
+		try {
+			await axios.post(`http://localhost:8080/transaction`, {
+				total_quantity: totalQuantity,
+				total_price: total,
+				cashier_id: 1,
+				cart,
+			});
+			alert("Transation Success");
+		} catch (err) {
+			console.log(err);
+		}
+	};
 	return (
 		<Flex direction={"column"} justify={"space-between"} h={"100%"}>
 			<Flex w={"full"} gap={"30px"} direction={"column"}>
@@ -91,9 +119,10 @@ export const Payment = ({ setActive }: any) => {
 
 				<Button
 					isDisabled={isDisableButton}
-					// onClick={() => {
-					// 	bayar(totalQuantity, transactionPrice, cart);
-					// }}
+					onClick={() => {
+						bayar(totalQuantity, total, cart);
+            setActive("PaymentSuccess")
+					}}
 					borderRadius={"100px"}
 					background={"var(--black-b-30, #EBEBEB)"}
 				>
