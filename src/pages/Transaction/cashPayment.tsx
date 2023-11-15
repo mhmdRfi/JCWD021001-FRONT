@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import toRupiah from "@develoka/angka-rupiah-js";
@@ -11,7 +11,7 @@ export const CashPayment = ({
 	setActive,
 	setIsPayment,
 }: any) => {
-	const [payment, setPayment] = useState<number>(0);
+	const [payment, setPayment] = useState<any>(0 || "");
 	const cart = useSelector(
 		(state: RootState) => state.CartReducer.products
 	);
@@ -69,6 +69,7 @@ export const CashPayment = ({
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
+					onClick={() => setPayment(total)}
 				>
 					Exact Amount
 				</Button>
@@ -163,7 +164,7 @@ export const CashPayment = ({
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
 				>
-					Custom
+						<Input variant={"unstyled"} placeholder="Custom" textAlign={"center"} value={payment} onChange={(e) => setPayment(e.target.value)}/>
 				</Button>
 			</Flex>
 
