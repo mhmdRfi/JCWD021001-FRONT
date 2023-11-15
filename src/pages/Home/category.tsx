@@ -6,6 +6,7 @@ import {
 	Image,
 	Grid,
 	Button,
+	Box,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import toRupiah from "@develoka/angka-rupiah-js";
@@ -29,9 +30,9 @@ export const Category = () => {
 	const allProduct = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:3000/product"
+				"http://localhost:8080/product"
 			);
-			setProduct(response.data);
+			setProduct(response.data.data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -50,7 +51,7 @@ export const Category = () => {
 	];
 
 	return (
-		<Flex direction={"column"} mx={"32px"} gap={"24px"}>
+		<Flex direction={"column"} mx={"32px"} gap={"24px"} maxW={"872px"}>
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
@@ -93,28 +94,28 @@ export const Category = () => {
 								<Card
 									key={index}
 									bgColor={"white"}
-									maxW={"244px"}
 									display={"flex"}
 									p={"24px"}
-									gap={"16px"}
+									gap={"5px"}
 									flexDirection={"row"}
 									borderRadius={"16px"}
 									onClick={() => {
 										dispatch(addToCart(items));
 									}}
 								>
-									<Flex align={"center"}>
+									<Box>
 										<Image src={CoffeImg} w={"80px"} h={"80px"} />
-									</Flex>
-									<Flex direction={"column"} gap={"16px"}>
+									</Box>
+									<Flex direction={"column"} justify={"center"} gap={"16px"}>
 										<Text
 											fontWeight={600}
 											fontSize={"16px"}
 											lineHeight={"18px"}
 											m={0}
-											h={"36px"}
+											maxH={"36px"}
+											maxW={"150px"}
 											display={"flex"}
-											alignItems={"center"}
+											alignItems={"flex-start"}
 											overflow={"hidden"}
 										>
 											{items.name}

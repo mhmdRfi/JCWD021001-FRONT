@@ -9,8 +9,10 @@ import {
 import { IconCalendar } from "@tabler/icons-react";
 import { Product } from "./product";
 import { IconUser } from "@tabler/icons-react";
+import { useState } from "react";
 
 export const Cart = () => {
+  const [ name, setName ] = useState<string>()
 	const now = new Date();
 	const day: any = now.getDate();
 	const month: any = now.getMonth();
@@ -43,11 +45,12 @@ export const Cart = () => {
 			w={"100%"}
 			p={"32px"}
 			gap={"40px"}
+      position={"fixed"}
 		>
 			<Text>No SBX1316513</Text>
 
 			<Flex gap={"32px"}>
-				<Flex>
+				<Flex gap={2}>
 					<IconCalendar />
 					<Text>
 						{day} {months[month]} {year}
@@ -73,12 +76,14 @@ export const Cart = () => {
 					placeholder="Name"
 					variant={"unstyled"}
 					h={"40px"}
+          value={name}
+          onChange={(e) =>setName(e.target.value)}
 				/>
 			</InputGroup>
 
 			<Flex gap={"16px"} direction={"column"}>
         <Text>Products</Text>
-				<Product />
+				<Product name={name || "Customer"}/>
 			</Flex>
 		</Flex>
 	);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Text, Flex, Image, Button } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -7,15 +8,15 @@ import {
 	increment,
 	removeFromCart,
 } from "../../redux/reducer/transactionReducer";
-import { Transaction } from "../Transaction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IconTrash } from "@tabler/icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
+import CoffeImg from "../../assets/8485f2f23233df3900caffbd968659b3.png";
 
-export const Product = () => {
+export const Product = (props: any) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
 	const products = useSelector(
 		(state: RootState) => state.CartReducer.products
 	);
@@ -33,34 +34,35 @@ export const Product = () => {
 		dispatch(removeFromCart(productId));
 	};
 	return (
-		<Box display={"flex"} flexDirection={"column"}>
-			<Box minH={"340px"}>
+		<Box display={"flex"} flexDirection={"column"} w={"420px"}>
+			<Box
+				h={"340px"}
+				overflowX={"auto"}
+				sx={{
+					"::-webkit-scrollbar": {
+						display: "none",
+					},
+				}}
+			>
 				{products?.map((items, index) => {
 					return (
 						<Box
 							key={index}
-							bgColor={"red"}
-							h={"120px"}
 							display={"flex"}
+							bgColor={"white"}
+							h={"fit-content"}
 							justifyContent={"space-between"}
 							flexDirection={"column"}
 							justifyItems={"center"}
 							alignItems={"flex-start"}
-							onClick={() => navigate("/")}
+							// onClick={() => navigate("/")}
 						>
-							<Flex
-								gap={1}
-								align={"center"}
-								h={"fit-content"}
-							>
-								<Flex align={"center"}>
-									<Image
-										src="https://i.pinimg.com/564x/9a/36/29/9a36294e6670b2d7640cdf2c73c78edd.jpg"
-										h={"100px"}
-									/>
+							<Flex align={"center"} h={"fit-content"} w={"full"}>
+								<Flex align={"center"} w={"130px"} h={"110px"}>
+									<Image src={CoffeImg} h={"full"} w={"full"} />
 								</Flex>
-								<Flex direction={"column"} w={"full"}>
-									<Flex w={"full"}>
+								<Flex direction={"column"} w={"full"} gap={5}>
+									<Flex w={"full"} justify={"space-between"}>
 										<Text>
 											{items.name} ({items.total}x)
 										</Text>
@@ -69,7 +71,7 @@ export const Product = () => {
 										</Text>
 									</Flex>
 									<Flex
-										justify={"end"}
+										// justify={"end"}
 										// align={"center"}
 										gap={3}
 										h={"fit-content"}
@@ -103,8 +105,6 @@ export const Product = () => {
 									</Flex>
 								</Flex>
 							</Flex>
-
-							<Flex></Flex>
 						</Box>
 					);
 				})}
@@ -113,7 +113,17 @@ export const Product = () => {
 				<Flex justify={"end"} alignItems={"end"}>
 					{toRupiah(totalPrice)}
 				</Flex>
-				<Transaction />
+				<Button
+					w={"full"}
+					p={"14px 30px 12px 28px"}
+					borderRadius={"100px"}
+					background={"var(--brand-brand-500, #286043)"}
+					color={"var(--black-b-0, #FFF)"}
+					onClick={() => navigate("/transaction", {state: props.name})}
+				>
+					Proceed Payment
+					<IconArrowRight />
+				</Button>
 			</Flex>
 		</Box>
 	);

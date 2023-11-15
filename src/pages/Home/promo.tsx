@@ -22,9 +22,9 @@ export const Promo: React.FC = () => {
 	const allProduct = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:3000/product"
+				"http://localhost:8080/product"
 			);
-			setProduct(response.data);
+			setProduct(response.data.data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -40,6 +40,7 @@ export const Promo: React.FC = () => {
 			mx={"32px"}
 			gap={"24px"}
 			w={"fit-content"}
+			maxW={"872px"}
 		>
 			<Text fontSize={"18px"} fontWeight={600}>Promo</Text>
 			<Flex color={"black"} w={"fit-content"}>
@@ -51,15 +52,14 @@ export const Promo: React.FC = () => {
 					gap={"24px"}
 					h={"fit-content"}
 				>
-					{product?.map((items : any, index) => {
+					{product?.slice(0, 3).map((items : any, index) => {
 						return (
 							<Card
 								key={index}
 								bgColor={"white"}
-								maxW={"244px"}
 								display={"flex"}
 								p={"24px"}
-								gap={"16px"}
+								gap={"5px"}
 								flexDirection={"row"}
 								borderRadius={"16px"}
 								onClick={() => {
@@ -80,7 +80,7 @@ export const Promo: React.FC = () => {
 										alignItems={"center"}
 										overflow={"hidden"}
 									>
-										{items.name}
+										{items?.name}
 									</Text>
 									<Text
 										fontWeight={400}
@@ -88,7 +88,7 @@ export const Promo: React.FC = () => {
 										lineHeight={"150%"}
 										m={0}
 									>
-										{toRupiah(items.price)}
+										{toRupiah(items?.price)}
 									</Text>
 								</Flex>
 							</Card>
