@@ -27,7 +27,6 @@ export const CashPayment = ({
 	const bayar = async (
 		totalQuantity: number,
 		transactionPrice: number,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		cart: any
 	) => {
 		try {

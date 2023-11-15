@@ -175,7 +175,7 @@ export const Transaction = () => {
 				<Flex direction={"column"} gap={"30px"} h={"full"}>
 					<Text>Payment Methode</Text>
 					{activePage == "Payment" && (
-						<Payment setActive={setIsActivePage} />
+						<Payment setActive={setIsActivePage} total={transactionPrice + transactionPrice * (10 / 100)}/>
 					)}
 					{activePage == "Cash" && (
 						<CashPayment
