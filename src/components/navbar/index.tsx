@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	Box,
 	Flex,
@@ -11,7 +12,8 @@ import {
 import Logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png";
 import { IconSearch } from "@tabler/icons-react";
 
-export const Navbar = () => {
+export const Navbar : React.FC = ( {setProductName} : any ) => {
+
 	return (
 		<Box>
 			<Flex
@@ -51,6 +53,7 @@ export const Navbar = () => {
 						border="1px solid var(--black-b-200, #666)"
 						font-family="SoDo Sans"
 						pl={"50px"}
+						onChange={(e) => setProductName(e.target.value)}
 					/>
 				</InputGroup>
 

@@ -30,7 +30,7 @@ export const CashPayment = ({
 		cart: any
 	) => {
 		try {
-			await axios.post(`http://localhost:8080/transaction`, {
+			await axios.post(`${import.meta.env.VITE_APP_API_BASE_URL}/transaction`, {
 				total_quantity: totalQuantity,
 				total_price: transactionPrice,
 				cashier_id: 1,

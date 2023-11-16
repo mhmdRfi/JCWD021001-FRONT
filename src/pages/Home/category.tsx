@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	Flex,
@@ -13,7 +14,6 @@ import toRupiah from "@develoka/angka-rupiah-js";
 import axios from "axios";
 import { useDispatch } from "react-redux/es/exports";
 import { addToCart } from "../../redux/reducer/transactionReducer";
-import CoffeImg from "../../assets/8485f2f23233df3900caffbd968659b3.png";
 
 interface Product {
 	id: number;
@@ -23,27 +23,35 @@ interface Product {
 	quantity: number;
 }
 
-export const Category = () => {
+export const Category = ({ productName }: any) => {
 	const [product, setProduct] = useState<Product[] | null>(null);
+	const [activeButton, setActiveButton] = useState<string>("All");
 	const dispatch = useDispatch();
+	const [page, setPage] = useState<number>(1);
+	const [category, setCatogory] = useState<number>();
+	const [totalPage, setTotalPage] = useState<number>();
 
-	const allProduct = async () => {
+	const productPage = async (page: number, productName : string) => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8080/product"
+				`${
+					import.meta.env.VITE_APP_API_BASE_URL
+				}/product/${page}?categoryId=${category}&productName=${productName || ""}`
 			);
-			setProduct(response.data.data);
+			setProduct(response.data.data.result);
+			setTotalPage(response.data.data.totalPage);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+
 	useEffect(() => {
-		allProduct();
-	}, []);
+		productPage(page, productName);
+	}, [page, category, productName]);
 
 	const buttonValue = [
-		"Popular",
+		"All",
 		"Beverages",
 		"Food",
 		"Bean",
@@ -51,26 +59,39 @@ export const Category = () => {
 	];
 
 	return (
-		<Flex direction={"column"} mx={"32px"} gap={"24px"} maxW={"872px"}>
+		<Flex direction={"column"} mx={"32px"} gap={"24px"} w={"872px"}>
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
 			<Flex gap={"16px"}>
-				{buttonValue?.map((Items) => {
+				{buttonValue?.map((Items, index) => {
 					return (
 						<Button
+							key={index}
 							display={"flex"}
 							justifyContent={"center"}
 							alignItems={"center"}
 							fontSize={"14px"}
 							fontWeight={400}
-							color={"var(--black-b-80, #949494)"}
 							p={"14px 24px"}
+							cursor={"pointer"}
 							borderRadius={"100px"}
 							border={"1px solid var(--black-b-80, #949494)"}
-							_focus={{
-								background: "var(--brand-brand-500, #286043)",
-								color: "var(--black-b-0, #FFF)",
+							sx={
+								activeButton == Items
+									? {
+											background: "var(--brand-brand-500, #286043)",
+											color: "var(--black-b-0, #FFF)",
+									  }
+									: {
+											color: "var(--black-b-80, #949494)",
+											bgColor: "transparent",
+									  }
+							}
+							onClick={() => {
+								setActiveButton(Items),
+									setCatogory(index),
+									setPage(1);
 							}}
 						>
 							{Items}
@@ -95,18 +116,33 @@ export const Category = () => {
 									key={index}
 									bgColor={"white"}
 									display={"flex"}
+									gap={"20px"}
 									p={"24px"}
-									gap={"5px"}
 									flexDirection={"row"}
 									borderRadius={"16px"}
 									onClick={() => {
 										dispatch(addToCart(items));
 									}}
+									cursor={"pointer"}
 								>
 									<Box>
-										<Image src={CoffeImg} w={"80px"} h={"80px"} />
+										<Image
+											src={`${
+												import.meta.env.VITE_APP_IMAGE_URL
+											}/products/${
+												items?.image ||
+												"product_ChocolateCreamColdBrew.jpg"
+											}`}
+											minW={"80px"}
+											h={"80px"}
+											borderRadius={"16px"}
+										/>
 									</Box>
-									<Flex direction={"column"} justify={"center"} gap={"16px"}>
+									<Flex
+										direction={"column"}
+										justify={"center"}
+										gap={"10px"}
+									>
 										<Text
 											fontWeight={600}
 											fontSize={"16px"}
@@ -134,6 +170,27 @@ export const Category = () => {
 						})}
 					</Grid>
 				</Flex>
+			</Flex>
+
+			<Flex gap={5} justifyContent={"end"} mb={"50px"}>
+				<Button
+					cursor={"pointer"}
+					isDisabled={page > 1 ? false : true}
+					onClick={() => {
+						setPage(page - 1);
+					}}
+				>
+					Prev
+				</Button>
+				<Button
+					cursor={"pointer"}
+					isDisabled={page < Number(totalPage) ? false : true}
+					onClick={() => {
+						setPage(page + 1);
+					}}
+				>
+					Next
+				</Button>
 			</Flex>
 		</Flex>
 	);
