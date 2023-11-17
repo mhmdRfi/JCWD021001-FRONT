@@ -37,7 +37,7 @@ export const Product = ({ name, codeTransaction } : any) => {
 	return (
 		<Box display={"flex"} flexDirection={"column"} w={"420px"}>
 			<Box
-				h={"230px"}
+				h={"300px"}
 				overflowX={"auto"}
 				sx={{
 					"::-webkit-scrollbar": {

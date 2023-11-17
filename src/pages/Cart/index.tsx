@@ -59,7 +59,7 @@ export const Cart = () => {
 			direction={"column"}
 			bgColor={"white"}
 			p={"32px"}
-			gap={"30px"}
+			gap={"15px"}
 			position={"fixed"}
 		>
 			<Text display={"flex"} gap={"8px"}>

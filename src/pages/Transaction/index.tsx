@@ -25,7 +25,8 @@ import { IconX } from "@tabler/icons-react";
 export const Transaction = () => {
 	const [activePage, setIsActivePage] = useState<string>("Payment");
 	const [payment, setPayment] = useState<number>(0);
-	const [transactionSuccess, setTransactionSuccess] = useState<string>("failed")
+	const [transactionSuccess, setTransactionSuccess] =
+		useState<string>("failed");
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const now = new Date();
@@ -129,7 +130,7 @@ export const Transaction = () => {
 						},
 					}}
 				>
-					{cart?.map((items, index) => {
+					{cart?.map((items : any, index) => {
 						return (
 							<Box
 								key={index}
@@ -210,7 +211,9 @@ export const Transaction = () => {
 					{activePage == "Payment" && (
 						<Payment
 							setActive={setIsActivePage}
+							setIsPayment={setPayment}
 							total={transactionPrice + transactionPrice * (10 / 100)}
+							setTransactionSuccess={setTransactionSuccess}
 						/>
 					)}
 					{activePage == "Cash" && (
@@ -222,7 +225,13 @@ export const Transaction = () => {
 						/>
 					)}
 					{activePage == "PaymentSuccess" && (
-						<PaymentSuccess name={state?.name} payment={payment} codeTransaction={state?.transactionCode} transactionSuccess={transactionSuccess} />
+						<PaymentSuccess
+							name={state?.name}
+							total={transactionPrice + transactionPrice * (10 / 100)}
+							payment={payment}
+							codeTransaction={state?.transactionCode}
+							transactionSuccess={transactionSuccess}
+						/>
 					)}
 				</Flex>
 			</Flex>

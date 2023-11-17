@@ -171,6 +171,7 @@ export const CashPayment = ({
 					<Input
 						variant={"unstyled"}
 						placeholder="Custom"
+						_placeholder={{color:"black", fontSize: "16px", fontWeight: "600"}}
 						textAlign={"center"}
 						value={payment}
 						onChange={(e) => setPayment(e.target.value)}

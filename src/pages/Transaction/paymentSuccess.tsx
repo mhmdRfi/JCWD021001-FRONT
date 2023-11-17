@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex, Text } from "@chakra-ui/react";
 import toRupiah from "@develoka/angka-rupiah-js";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { IconCheck } from "@tabler/icons-react";
 import { IconX } from '@tabler/icons-react';
 import { useNavigate } from "react-router";
@@ -24,14 +22,12 @@ export const PaymentSuccess = ({
 	payment,
 	codeTransaction,
 	transactionSuccess,
+	total
 }: any) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [paymentSuccess, setPaymentSuccess] =
 		useState<boolean>(false);
-	const transactionPrice = useSelector(
-		(state: RootState) => state.CartReducer.totalPrice
-	);
 
 	setTimeout(() => setPaymentSuccess(true), 5000);
 
@@ -167,14 +163,12 @@ export const PaymentSuccess = ({
 					<Flex justify={"space-between"}>
 						<Text>Total</Text>
 						<Text>
-							{toRupiah(
-								transactionPrice + transactionPrice * (10 / 100)
-							)}
+							{toRupiah(total)}
 						</Text>
 					</Flex>
 					<Flex justify={"space-between"}>
 						<Text>Exchange</Text>
-						<Text>{toRupiah(payment - transactionPrice)}</Text>
+						<Text>{toRupiah(payment - total)}</Text>
 					</Flex>
 				</Flex>
 			</Flex>
