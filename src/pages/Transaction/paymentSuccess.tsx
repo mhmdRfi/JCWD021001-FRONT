@@ -2,7 +2,7 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import toRupiah from "@develoka/angka-rupiah-js";
 import { IconCheck } from "@tabler/icons-react";
-import { IconX } from '@tabler/icons-react';
+import { IconX } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { removeAllFromCart } from "../../redux/reducer/transactionReducer";
@@ -22,14 +22,15 @@ export const PaymentSuccess = ({
 	payment,
 	codeTransaction,
 	transactionSuccess,
-	total
+	total,
 }: any) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [paymentSuccess, setPaymentSuccess] =
 		useState<boolean>(false);
+	const [loading, setLoading] = useState(true);
 
-	setTimeout(() => setPaymentSuccess(true), 5000);
+	setTimeout(() => {setPaymentSuccess(true), setLoading(false)}, 5000);
 
 	return (
 		<Flex
@@ -99,10 +100,7 @@ export const PaymentSuccess = ({
 									color={"white"}
 								/>
 							</Flex>
-							<Text
-								fontSize={"24px"}
-								color={"red"}
-							>
+							<Text fontSize={"24px"} color={"red"}>
 								Payment Failed
 							</Text>
 						</Flex>
@@ -127,7 +125,7 @@ export const PaymentSuccess = ({
 							<div className="sweet-loading">
 								<BounceLoader
 									color={"#185b1f"}
-									loading={true}
+									loading={loading}
 									cssOverride={override}
 									size={100}
 									aria-label="spiner"
@@ -162,9 +160,7 @@ export const PaymentSuccess = ({
 					</Flex>
 					<Flex justify={"space-between"}>
 						<Text>Total</Text>
-						<Text>
-							{toRupiah(total)}
-						</Text>
+						<Text>{toRupiah(total)}</Text>
 					</Flex>
 					<Flex justify={"space-between"}>
 						<Text>Exchange</Text>

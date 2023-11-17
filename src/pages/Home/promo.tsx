@@ -82,12 +82,11 @@ export const Promo: React.FC = () => {
 										lineHeight={"18px"}
 										m={0}
 										maxH={"36px"}
-										maxW={"150px"}
-										display={"flex"}
+										w={"100px"}
 										alignItems={"flex-start"}
-										whiteSpace={"nowrap"}
 										overflow={"hidden"}
 										textOverflow={"ellipsis"}
+										isTruncated
 									>
 										{item?.name}
 									</Text>

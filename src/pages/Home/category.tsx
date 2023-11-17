@@ -8,12 +8,19 @@ import {
 	Grid,
 	Button,
 	Box,
+	Menu,
+	MenuButton,
+	MenuList,
+	MenuItem,
+	MenuOptionGroup,
+	MenuDivider,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import toRupiah from "@develoka/angka-rupiah-js";
 import axios from "axios";
 import { useDispatch } from "react-redux/es/exports";
 import { addToCart } from "../../redux/reducer/transactionReducer";
+import { IconSelector } from "@tabler/icons-react";
 
 interface Product {
 	id: number;
@@ -25,18 +32,22 @@ interface Product {
 
 export const Category = ({ productName }: any) => {
 	const [product, setProduct] = useState<Product[] | null>(null);
+	const [sortOrder, setSortOrder] = useState<string>("asc");
+	const [sortName, setSortName] = useState<string>("name");
 	const [activeButton, setActiveButton] = useState<string>("All");
 	const dispatch = useDispatch();
 	const [page, setPage] = useState<number>(1);
 	const [category, setCatogory] = useState<number>();
 	const [totalPage, setTotalPage] = useState<number>();
 
-	const productPage = async (page: number, productName : string) => {
+	const productPage = async (page: number, productName: string) => {
 		try {
 			const response = await axios.get(
 				`${
 					import.meta.env.VITE_APP_API_BASE_URL
-				}/product/${page}?categoryId=${category}&productName=${productName || ""}`
+				}/product/${page}?categoryId=${category}&sortName=${sortName}&sortOrder=${sortOrder}&productName=${
+					productName || ""
+				}`
 			);
 			setProduct(response.data.data.result);
 			setTotalPage(response.data.data.totalPage);
@@ -45,10 +56,9 @@ export const Category = ({ productName }: any) => {
 		}
 	};
 
-
 	useEffect(() => {
 		productPage(page, productName);
-	}, [page, category, productName]);
+	}, [page, category, productName, sortName, sortOrder]);
 
 	const buttonValue = [
 		"All",
@@ -63,11 +73,52 @@ export const Category = ({ productName }: any) => {
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
-			<Flex gap={"16px"}>
-				{buttonValue?.map((Items, index) => {
-					return (
-						<Button
-							key={index}
+			<Flex gap={"16px"} justify={"space-between"}>
+				<Flex gap={"16px"}>
+					{buttonValue?.map((Items, index) => {
+						return (
+							<Button
+								key={index}
+								display={"flex"}
+								justifyContent={"center"}
+								alignItems={"center"}
+								fontSize={"14px"}
+								fontWeight={400}
+								p={"14px 24px"}
+								cursor={"pointer"}
+								borderRadius={"100px"}
+								border={"1px solid var(--black-b-80, #949494)"}
+								sx={
+									activeButton == Items
+										? {
+												background: "var(--brand-brand-500, #286043)",
+												color: "var(--black-b-0, #FFF)",
+										  }
+										: {
+												color: "var(--black-b-80, #949494)",
+												bgColor: "transparent",
+										  }
+								}
+								onClick={() => {
+									setActiveButton(Items),
+										setCatogory(index),
+										setPage(1);
+								}}
+							>
+								{Items}
+							</Button>
+						);
+					})}
+					<Menu>
+						<MenuButton
+							as={Button}
+							rightIcon={
+								<IconSelector
+									stroke={1}
+									width={"15px"}
+									height={"15px"}
+								/>
+							}
 							display={"flex"}
 							justifyContent={"center"}
 							alignItems={"center"}
@@ -78,7 +129,7 @@ export const Category = ({ productName }: any) => {
 							borderRadius={"100px"}
 							border={"1px solid var(--black-b-80, #949494)"}
 							sx={
-								activeButton == Items
+								activeButton == "sort"
 									? {
 											background: "var(--brand-brand-500, #286043)",
 											color: "var(--black-b-0, #FFF)",
@@ -88,16 +139,57 @@ export const Category = ({ productName }: any) => {
 											bgColor: "transparent",
 									  }
 							}
-							onClick={() => {
-								setActiveButton(Items),
-									setCatogory(index),
-									setPage(1);
+							_active={{
+								background: "var(--brand-brand-500, #286043)",
+								color: "var(--black-b-0, #FFF)",
 							}}
+							onClick={() => setActiveButton("sort")}
 						>
-							{Items}
-						</Button>
-					);
-				})}
+							Sort
+						</MenuButton>
+						<MenuList minWidth="200px">
+							<MenuOptionGroup
+								title="Name"
+							>
+								<MenuItem
+									value="asc"
+									onClick={() => {
+										setSortName("name"), setSortOrder("asc");
+									}}
+								>
+									A-Z
+								</MenuItem>
+								<MenuItem
+									value="desc"
+									onClick={() => {
+										setSortName("name"), setSortOrder("desc");
+									}}
+								>
+									Z-A
+								</MenuItem>
+							</MenuOptionGroup>
+							<MenuDivider />
+							<MenuOptionGroup title="Price">
+								<MenuItem
+									value="Highest - Lowest"
+									onClick={() => {
+										setSortName("price"), setSortOrder("desc");
+									}}
+								>
+									Highest - Lowest
+								</MenuItem>
+								<MenuItem
+									value="Lowest - Highest"
+									onClick={() => {
+										setSortName("price"), setSortOrder("asc");
+									}}
+								>
+									Lowest - Highest
+								</MenuItem>
+							</MenuOptionGroup>
+						</MenuList>
+					</Menu>
+				</Flex>
 			</Flex>
 
 			<Flex>
