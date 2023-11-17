@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Flex, Image, Text, Divider } from "@chakra-ui/react";
+import {
+	Box,
+	Flex,
+	Image,
+	Text,
+	Divider,
+	Button,
+} from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import toRupiah from "@develoka/angka-rupiah-js";
@@ -12,10 +19,13 @@ import { CashPayment } from "./cashPayment";
 import { Payment } from "./payment";
 import { useState } from "react";
 import { PaymentSuccess } from "./paymentSuccess";
+import { IconNumber } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 
 export const Transaction = () => {
 	const [activePage, setIsActivePage] = useState<string>("Payment");
 	const [payment, setPayment] = useState<number>(0);
+	const [transactionSuccess, setTransactionSuccess] = useState<string>("failed")
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const now = new Date();
@@ -52,10 +62,30 @@ export const Transaction = () => {
 	return (
 		<Flex
 			bgColor={"var(--black-b-10, #FAFAFA)"}
-			p={"32px"}
+			p={"55px 32px 9px 32px"}
 			gap={"44px"}
 			fontSize={"14px"}
 		>
+			{activePage == "Payment" || activePage == "Cash" ? (
+				<Button
+					display={"flex"}
+					position={"absolute"}
+					top={2}
+					left={8}
+					fontSize={"14px"}
+					size={"xm"}
+					p={"8px 14px"}
+					borderRadius={"100px"}
+					fontWeight={400}
+					border={"1px solid black"}
+					bgColor={"transparent"}
+					gap={1.5}
+					onClick={() => navigate("/cashier")}
+				>
+					<IconX /> Cancel Order
+				</Button>
+			) : null}
+
 			{/* Left section */}
 			<Flex
 				direction={"column"}
@@ -65,21 +95,24 @@ export const Transaction = () => {
 				gap={"34px"}
 			>
 				<Flex w={"full"} justify={"space-between"}>
-					<Flex direction={"column"} gap={"24px"}>
-						<Text>No SBX1316513</Text>
-						<Flex>
-							<IconUser width={"24px"} height={"24px"} /> {state}
+					<Flex direction={"column"} gap={"24px"} fontSize={"16px"}>
+						<Text display={"flex"} gap={"8px"} alignItems={"center"}>
+							<IconNumber /> SBX{state?.transactionCode}
+						</Text>
+						<Flex alignItems={"center"} gap={"8px"} fontSize={"16px"}>
+							<IconUser width={"24px"} height={"24px"} />{" "}
+							{state?.name}
 						</Flex>
 					</Flex>
 
 					<Flex direction={"column"} gap={"24px"}>
-						<Flex gap={2}>
+						<Flex gap={2} alignItems={"center"} fontSize={"16px"}>
 							<IconCalendar />
 							<Text>
 								{day} {months[month]} {year}
 							</Text>
 						</Flex>
-						<Flex gap={2}>
+						<Flex gap={2} alignItems={"center"} fontSize={"16px"}>
 							<IconCalendar />
 							<Text>{time}</Text>
 						</Flex>
@@ -175,17 +208,21 @@ export const Transaction = () => {
 				<Flex direction={"column"} gap={"30px"} h={"full"}>
 					<Text>Payment Methode</Text>
 					{activePage == "Payment" && (
-						<Payment setActive={setIsActivePage} total={transactionPrice + transactionPrice * (10 / 100)}/>
+						<Payment
+							setActive={setIsActivePage}
+							total={transactionPrice + transactionPrice * (10 / 100)}
+						/>
 					)}
 					{activePage == "Cash" && (
 						<CashPayment
 							total={transactionPrice + transactionPrice * (10 / 100)}
 							setActive={setIsActivePage}
 							setIsPayment={setPayment}
+							setTransactionSuccess={setTransactionSuccess}
 						/>
 					)}
 					{activePage == "PaymentSuccess" && (
-						<PaymentSuccess name={state} payment={payment} />
+						<PaymentSuccess name={state?.name} payment={payment} codeTransaction={state?.transactionCode} transactionSuccess={transactionSuccess} />
 					)}
 				</Flex>
 			</Flex>

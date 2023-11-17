@@ -12,7 +12,8 @@ import {
 import Logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png";
 import { IconSearch } from "@tabler/icons-react";
 
-export const Navbar : React.FC = ( {setProductName} : any ) => {
+
+export const Navbar = ( {setProductName} : any ) => {
 
 	return (
 		<Box>

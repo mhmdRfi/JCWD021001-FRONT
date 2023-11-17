@@ -10,6 +10,7 @@ export const CashPayment = ({
 	total,
 	setActive,
 	setIsPayment,
+	setTransactionSuccess
 }: any) => {
 	const [payment, setPayment] = useState<any>(0 || "");
 	const cart = useSelector(
@@ -20,23 +21,26 @@ export const CashPayment = ({
 		(state: RootState) => state.CartReducer.countCart
 	);
 
-	// console.log(totalQuantity)
-	// console.log(cart)
-	// console.log(transactionPrice)
-
 	const bayar = async (
 		totalQuantity: number,
 		transactionPrice: number,
 		cart: any
 	) => {
 		try {
-			await axios.post(`${import.meta.env.VITE_APP_API_BASE_URL}/transaction`, {
-				total_quantity: totalQuantity,
-				total_price: transactionPrice,
-				cashier_id: 1,
-				cart,
-			});
-			alert("Transation Success");
+			if (payment >= transactionPrice) {
+				await axios.post(
+					`${import.meta.env.VITE_APP_API_BASE_URL}/transaction`,
+					{
+						total_quantity: totalQuantity,
+						total_price: transactionPrice,
+						cashier_id: 3,
+						cart,
+					}
+				);
+				setTransactionSuccess("success")
+			} else {
+				setTransactionSuccess("failed")
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -164,7 +168,13 @@ export const CashPayment = ({
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
 				>
-						<Input variant={"unstyled"} placeholder="Custom" textAlign={"center"} value={payment} onChange={(e) => setPayment(e.target.value)}/>
+					<Input
+						variant={"unstyled"}
+						placeholder="Custom"
+						textAlign={"center"}
+						value={payment}
+						onChange={(e) => setPayment(e.target.value)}
+					/>
 				</Button>
 			</Flex>
 

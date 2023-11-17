@@ -4,22 +4,37 @@ import toRupiah from "@develoka/angka-rupiah-js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { IconCheck } from "@tabler/icons-react";
+import { IconX } from '@tabler/icons-react';
 import { useNavigate } from "react-router";
-// import { useDispatch } from "react-redux";
-// import { removeItemsCart } from "../../redux/reducer/transactionReducer";
+import { useDispatch } from "react-redux";
+import { removeAllFromCart } from "../../redux/reducer/transactionReducer";
+import { useState, CSSProperties } from "react";
+import { IconNumber } from "@tabler/icons-react";
 
-export const PaymentSuccess = ({ name, payment }: any) => {
+import BounceLoader from "react-spinners/BounceLoader";
+
+const override: CSSProperties = {
+	display: "block",
+	margin: "0 auto",
+	borderColor: "green",
+};
+
+export const PaymentSuccess = ({
+	name,
+	payment,
+	codeTransaction,
+	transactionSuccess,
+}: any) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [paymentSuccess, setPaymentSuccess] =
+		useState<boolean>(false);
 	const transactionPrice = useSelector(
 		(state: RootState) => state.CartReducer.totalPrice
 	);
 
-  const removeItemsCart = useSelector((state : RootState) => state.CartReducer.products = [])
-  const removeTotalPrice = useSelector((state : RootState) => state.CartReducer.totalPrice = 0)
-  const removeTotalQuantity = useSelector((state : RootState) => state.CartReducer.countCart = 0)
+	setTimeout(() => setPaymentSuccess(true), 5000);
 
-
-	// const dispatch = useDispatch();
-	const navigate = useNavigate();
 	return (
 		<Flex
 			justify={"space-between"}
@@ -36,33 +51,110 @@ export const PaymentSuccess = ({ name, payment }: any) => {
 				w={"full"}
 				gap={"56px"}
 			>
-				<Flex
-					direction={"column"}
-					justify={"center"}
-					align={"center"}
-					gap={"32px"}
-				>
+				{paymentSuccess ? (
+					transactionSuccess == "success" ? (
+						<Flex
+							direction={"column"}
+							justify={"center"}
+							align={"center"}
+							gap={"32px"}
+						>
+							<Flex
+								w={"104px"}
+								h={"104px"}
+								borderRadius={"50%"}
+								background={
+									"var(--semantic-success-success-50, #EAF6EB)"
+								}
+								align={"center"}
+								justify={"center"}
+							>
+								<IconCheck
+									width={"56px"}
+									height={"56px"}
+									color={"#2CA538"}
+								/>
+							</Flex>
+							<Text
+								fontSize={"24px"}
+								color={"var(--semantic-success-success-500, #2CA538)"}
+							>
+								Payment Successful
+							</Text>
+						</Flex>
+					) : (
+						<Flex
+							direction={"column"}
+							justify={"center"}
+							align={"center"}
+							gap={"32px"}
+						>
+							<Flex
+								w={"104px"}
+								h={"104px"}
+								borderRadius={"50%"}
+								bgColor={"red"}
+								align={"center"}
+								justify={"center"}
+							>
+								<IconX
+									width={"56px"}
+									height={"56px"}
+									color={"white"}
+								/>
+							</Flex>
+							<Text
+								fontSize={"24px"}
+								color={"red"}
+							>
+								Payment Failed
+							</Text>
+						</Flex>
+					)
+				) : (
 					<Flex
-						w={"104px"}
-						h={"104px"}
-						borderRadius={"50%"}
-						background={"var(--semantic-success-success-50, #EAF6EB)"}
-						align={"center"}
+						direction={"column"}
 						justify={"center"}
+						align={"center"}
+						gap={"32px"}
 					>
-						<IconCheck
-							width={"56px"}
-							height={"56px"}
-							color={"#2CA538"}
-						/>
+						<Flex
+							w={"104px"}
+							h={"104px"}
+							borderRadius={"50%"}
+							background={
+								"var(--semantic-success-success-50, #EAF6EB)"
+							}
+							align={"center"}
+							justify={"center"}
+						>
+							<div className="sweet-loading">
+								<BounceLoader
+									color={"#185b1f"}
+									loading={true}
+									cssOverride={override}
+									size={100}
+									aria-label="spiner"
+									data-testid="loader"
+								/>
+							</div>
+						</Flex>
+						<Text
+							fontSize={"24px"}
+							color={"var(--semantic-success-success-500, #2CA538)"}
+						>
+							Payment Pending
+						</Text>
 					</Flex>
-					<Text>Payment Successful</Text>
-				</Flex>
+				)}
 
 				<Flex direction={"column"} gap={"24px"} w={"full"}>
 					<Flex justify={"space-between"}>
 						<Text>Order ID</Text>
-						<Text>No SBX1316513</Text>
+						<Text display={"flex"} gap={"8px"} alignItems={"center"}>
+							<IconNumber />
+							SBX{codeTransaction}
+						</Text>
 					</Flex>
 					<Flex justify={"space-between"}>
 						<Text>Customer</Text>
@@ -82,7 +174,7 @@ export const PaymentSuccess = ({ name, payment }: any) => {
 					</Flex>
 					<Flex justify={"space-between"}>
 						<Text>Exchange</Text>
-						<Text>SBX12345</Text>
+						<Text>{toRupiah(payment - transactionPrice)}</Text>
 					</Flex>
 				</Flex>
 			</Flex>
@@ -96,9 +188,7 @@ export const PaymentSuccess = ({ name, payment }: any) => {
 				p={"0px 24px"}
 				onClick={() => {
 					navigate("/cashier");
-          removeItemsCart;
-          removeTotalPrice;
-          removeTotalQuantity;
+					dispatch(removeAllFromCart);
 				}}
 			>
 				Back to Menu

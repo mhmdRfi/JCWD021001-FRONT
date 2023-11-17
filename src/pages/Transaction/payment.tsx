@@ -28,7 +28,6 @@ export const Payment = ({ setActive, total }: any) => {
 				cashier_id: 1,
 				cart,
 			});
-			alert("Transation Success");
 		} catch (err) {
 			console.log(err);
 		}

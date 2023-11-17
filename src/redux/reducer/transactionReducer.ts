@@ -106,15 +106,19 @@ const cartSlice = createSlice({
 			const Allprice = state.products.map(
 				(state) => state.initialPrice || state.price
 			);
-			console.log(Allprice);
 			if (Allprice.length > 0)
 				state.totalPrice = Allprice?.reduce((a, b) => a + b);
 			else state.totalPrice = 0;
 		},
+		removeAllFromCart: (state: CartState) : void => {
+			state.products = [],
+			state.totalPrice = 0,
+			state.countCart = 0
+		}
 	},
 });
 
-export const { addToCart, increment, decrement, removeFromCart } =
+export const { addToCart, increment, decrement, removeFromCart, removeAllFromCart } =
 	cartSlice.actions;
 
 export default cartSlice.reducer;

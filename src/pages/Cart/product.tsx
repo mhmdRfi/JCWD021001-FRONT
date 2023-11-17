@@ -6,14 +6,15 @@ import toRupiah from "@develoka/angka-rupiah-js";
 import {
 	decrement,
 	increment,
+	removeAllFromCart,
 	removeFromCart,
 } from "../../redux/reducer/transactionReducer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IconTrash } from "@tabler/icons-react";
-import { IconArrowRight } from "@tabler/icons-react";
+// import { IconArrowRight } from "@tabler/icons-react";
 
-export const Product = (props: any) => {
+export const Product = ({ name, codeTransaction } : any) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const products = useSelector(
@@ -32,10 +33,11 @@ export const Product = (props: any) => {
 	const handleRemove = (productId: number) => {
 		dispatch(removeFromCart(productId));
 	};
+
 	return (
 		<Box display={"flex"} flexDirection={"column"} w={"420px"}>
 			<Box
-				h={"340px"}
+				h={"230px"}
 				overflowX={"auto"}
 				sx={{
 					"::-webkit-scrollbar": {
@@ -54,7 +56,6 @@ export const Product = (props: any) => {
 							flexDirection={"column"}
 							justifyItems={"center"}
 							alignItems={"flex-start"}
-							// onClick={() => navigate("/")}
 						>
 							<Flex align={"center"} h={"fit-content"} w={"full"}>
 								<Flex align={"center"} w={"130px"} h={"110px"}>
@@ -70,8 +71,17 @@ export const Product = (props: any) => {
 										borderRadius={"16px"}
 									/>
 								</Flex>
-								<Flex direction={"column"} w={"full"} gap={5} pr={"10px"}>
-									<Flex w={"full"} justify={"space-between"} gap={"15px"}>
+								<Flex
+									direction={"column"}
+									w={"full"}
+									gap={5}
+									pr={"10px"}
+								>
+									<Flex
+										w={"full"}
+										justify={"space-between"}
+										gap={"15px"}
+									>
 										<Text>
 											{items.name} ({items.total}x)
 										</Text>
@@ -112,23 +122,42 @@ export const Product = (props: any) => {
 					);
 				})}
 			</Box>
-			<Flex direction={"column"}>
+			<Flex direction={"column"} gap={"10px"}>
 				<Flex justify={"end"} alignItems={"end"}>
 					{toRupiah(totalPrice)}
 				</Flex>
-				<Button
-					w={"full"}
-					p={"14px 30px 12px 28px"}
-					borderRadius={"100px"}
-					background={"var(--brand-brand-500, #286043)"}
-					color={"var(--black-b-0, #FFF)"}
-					onClick={() =>
-						navigate("/transaction", { state: props.name })
-					}
-				>
-					Proceed Payment
-					<IconArrowRight />
-				</Button>
+				<Flex gap={5}>
+					<Button
+						w={"full"}
+						h={"full"}
+						p={"14px 30px 12px 28px"}
+						borderRadius={"100px"}
+						border={"1px solid"}
+						bgColor={"transparent"}
+						borderColor={" var(--black-b-200, #666)"}
+						onClick={() => dispatch(removeAllFromCart())}
+					>
+						Cancel
+					</Button>
+					<Button
+						w={"full"}
+						h={"full"}
+						p={"14px 30px 12px 28px"}
+						borderRadius={"100px"}
+						background={"var(--brand-brand-500, #286043)"}
+						color={"var(--black-b-0, #FFF)"}
+						onClick={() =>
+							navigate("/transaction", {
+								state: {
+									name: name,
+									transactionCode: codeTransaction,
+								},
+							})
+						}
+					>
+						Order
+					</Button>
+				</Flex>
 			</Flex>
 		</Box>
 	);
