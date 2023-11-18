@@ -100,7 +100,7 @@ export const keepLogin = () => {
 
         dispatch(setUser(res?.data?.data));
         dispatch(keepLoginSuccess());
-        alert("Keep Login Success")
+        
       }
     } catch (err){
       localStorage.removeItem("token")
@@ -117,35 +117,6 @@ export const keepLogin = () => {
   }
 }
 
-export const { setUser, loginSuccess, logoutSuccess, keepLoginSuccess} = authReducer.actions;
-
-export default authReducer.reducer
-
-			if (token) {
-				const res = await axios.get(
-					"http://localhost:8080/auth/keep-login",
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-				dispatch(setUser(res?.data?.data));
-				dispatch(keepLoginSuccess());
-			}
-		} catch (err) {
-			localStorage.removeItem("token");
-			if (err && axios.isAxiosError(err)) {
-				const axiosError = err as AxiosError;
-				if (axiosError.response) {
-					alert(axiosError.response.data);
-				}
-			} else {
-				console.error("An unexpected error occurred:", err);
-			}
-		}
-	};
-};
 
 export const {
 	setUser,

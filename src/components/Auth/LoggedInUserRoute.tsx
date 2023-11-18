@@ -16,10 +16,11 @@ const LoggedInRoute: React.FC<AuthProps> = ({children}) => {
 
 
     if (isLogin) {
-        return <Navigate to="/home" />;
+        return <>{children}</>
+    } else {
+        return <Navigate to="/" />;
     }
 
-    return <>{children}</>
 };
 
 export default LoggedInRoute; 
