@@ -100,7 +100,6 @@ export const keepLogin = () => {
 
         dispatch(setUser(res?.data?.data));
         dispatch(keepLoginSuccess());
-        
       }
     } catch (err){
       localStorage.removeItem("token")
@@ -116,7 +115,6 @@ export const keepLogin = () => {
     }
   }
 }
-
 
 export const {
 	setUser,
