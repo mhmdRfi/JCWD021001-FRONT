@@ -20,6 +20,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  // Button,
   // Image,
 } from '@chakra-ui/react';
 import {
@@ -36,6 +37,12 @@ import {
 import { IconType } from 'react-icons';
 import { IconLayoutDashboard, IconCup, IconReportMoney, IconUsers } from '@tabler/icons-react'
 // import { LogoIcon } from './logo.png'
+import { useAppSelector } from '../../redux/hook';
+import { useAppDispatch } from '../../redux/hook';
+import { useNavigate } from 'react-router-dom';
+import { logoutSuccess } from '../../redux/reducer/authReducer';
+
+
 
 interface LinkItemProps {
   name: string;
@@ -62,6 +69,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Favourites', icon: FiStar },
   { name: 'Cashier', icon: IconUsers },
 ];
+
+
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
@@ -129,9 +138,12 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.authReducer);
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, md: 0 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
@@ -158,7 +170,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         Logo
       </Text>
 
-      <HStack spacing={{ base: '0', md: '6' }}>
+      <HStack className='navTop'
+      spacing={{ base: '0', md: '6' }}>
         <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={'center'}>
           <Menu>
@@ -176,9 +189,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">{user.username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                  {user.roleId === 1 ? 'Admin' : user.roleId === 2 ? 'Cashier' : 'Unknown Role'}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -194,7 +207,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              
+              <MenuItem onClick={() => {dispatch(logoutSuccess()); navigate("/")}}> Sign out</MenuItem>
+              
             </MenuList>
           </Menu>
         </Flex>
