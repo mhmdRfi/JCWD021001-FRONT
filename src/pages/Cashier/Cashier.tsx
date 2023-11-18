@@ -1,7 +1,7 @@
 import { Box, Flex, Icon, Image, Text, Link, Divider, 
     // useDisclosure 
 } from "@chakra-ui/react";
-// import { SidebarWithHeader } from "../../components/SideBar/SideBar";
+import { SidebarWithHeader } from "../../components/SideBar/SideBar";
 import cashier1 from "../../assets/cashier1.png"
 import { FaStar } from "react-icons/fa6";
 import axios from "axios";
@@ -25,12 +25,20 @@ function Cashier() {
     }
 
     const [cashier, setCashier] = useState<Cashier[]>([]);
+    
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(8);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentCashiers = cashier?.slice(indexOfFirstItem, indexOfLastItem);
+    
+    const [inactiveCashier, setInactiveCashier] = useState<Cashier[]>([]);
+    const [currentInactivePage, setCurrentInactivePage] = useState(1);
+    const [itemsPerInactivePage] = useState(8);
+    const indexOfLastInactiveItem = currentInactivePage * itemsPerPage;
+    const indexOfFirstInactiveItem = indexOfLastInactiveItem - itemsPerInactivePage;
+    const currentInactiveCashiers = inactiveCashier?.slice(indexOfFirstInactiveItem, indexOfLastInactiveItem);
 
     const fetchCashier = async () => {
         try{
@@ -51,13 +59,39 @@ function Cashier() {
     }, [])
 
     console.log(cashier);
+    const fetchInactiveCashier = async () => {
+        try{
+            const response = await axios.get("http://localhost:8080/user/inactive-cashier"
+            , {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+            });
+            setInactiveCashier(response.data?.data);
+        } catch (err){
+            console.log(err)
+        }
+    };
+    
+    useEffect (() => {
+        fetchInactiveCashier();
+    }, [])
+
+    console.log(cashier);
     
   return (
     <Box>
-        {/* <SidebarWithHeader/> */}
-        <Flex width={'1216px'}
+        <SidebarWithHeader/>
+        <Box position={'relative'}
+        marginLeft={{base: "0", md:'160px'}} 
+        marginTop={'20px'}
+        >
+
+        
+        <Flex 
         justifyContent={'space-between'}
-        alignItems={'center'}>
+        alignItems={'center'}
+        margin={'0 60px'}>
             <Flex gap={'10px'}>    
                 <Text color={'#949494'}>Last Updated</Text>
                 <Text>17 November 2023 01:37 PM</Text>
@@ -69,12 +103,11 @@ function Cashier() {
         </Flex>
 
         
-        <Flex width={'1216px'}
+        <Flex 
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        marginTop={'46px'}
-        marginBottom={'60px'}
+        margin={'46px 60px 60px'}
         >
             {currentCashiers?.map((item, index) => (
             <Flex className="cashier-container" alignItems={'center'}
@@ -83,6 +116,7 @@ function Cashier() {
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
+            minWidth={'225px'}
             maxWidth={'286px'} key={index}>
                 <Box width={'10px'}
                 height={'80px'}
@@ -119,7 +153,8 @@ function Cashier() {
                             gap={'8px'}>
                                     <UpdateCashier id = {item.id} 
                                     email = {item.email} 
-                                    username = {item.username} type = {item.type} status = {item.status}/>
+                                    username = {item.username} type = {item.type} status = {item.status}
+                                    onCashierUpdated={fetchCashier}/>
                                     <DeleteCashier id={item.id} username = {item.username} onCashierDeleted={fetchCashier}/>
                             </Flex>
                                 
@@ -141,17 +176,18 @@ function Cashier() {
         </Box>
         {/* <UpdateCashier userId={userId} isOpen={isOpen} onClose={onClose} /> */}
         <Box><Divider/></Box>
-        <Flex width={'1216px'}
+        <Flex 
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        marginTop={'60px'}>
+        margin={'46px 60px 60px'}>
             <Flex className="cashier-container" alignItems={'center'}
             gap={'24px'}
             flex={'1 0 calc(25% - 24px)'}
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
+            minWidth={'225px'}
             maxWidth={'286px'}>
                 <Box width={'10px'}
                 height={'80px'}
@@ -199,6 +235,7 @@ function Cashier() {
                 </Flex>
             </Flex>
         </Flex>
+        </Box>
     </Box>
   )
 }

@@ -95,6 +95,7 @@ export const keepLogin = () => {
 
         dispatch(setUser(res?.data?.data));
         dispatch(keepLoginSuccess());
+        alert("Keep Login Success")
       }
     } catch (err){
       localStorage.removeItem("token")

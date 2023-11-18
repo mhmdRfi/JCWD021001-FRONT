@@ -15,7 +15,8 @@ import {
     FormLabel, 
     Text,
     Icon,
-    FormErrorMessage} from '@chakra-ui/react'
+    FormErrorMessage,
+    Select} from '@chakra-ui/react'
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from 'axios';
@@ -42,12 +43,14 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
     email: string,
     username: string,
     password: string,
+    type: string,
   ) => {
     try{ 
       await axios.post("http://localhost:8080/auth/addcashier", {
       email,
       username,
-      password
+      password,
+      type
     }, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -68,6 +71,7 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
     email: "", 
     username: "",
     password: "pass123",
+    type: "",
     },
 
     validationSchema: CashierScheme,
@@ -76,8 +80,9 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
       values.email, 
       values.username,
       values.password,
+      values.type
       )
-      resetForm({values:{ email: "", username: "", password: "pass123" } })
+      resetForm({values:{ email: "", username: "", password: "pass123", type: "" } })
     }
   });
 
@@ -139,6 +144,24 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
                         {formik.touched.username && formik.errors.username && (
                           <FormErrorMessage>
                             {formik.errors.username}
+                          </FormErrorMessage>
+                        )}
+                      </FormControl>
+                      
+                      <FormControl isInvalid={!!(
+                      formik.touched.type && formik.errors.type)}>
+                        <FormLabel>Type</FormLabel>
+                        <Select name="type"
+                        placeholder='Choose cashier type'
+                        value={formik.values.type}
+                        onChange={formik.handleChange}>
+                            <option value={"full-time"}>Full-time</option>
+                            <option value={"part-time"}>Part-time</option>
+                        </Select>
+
+                        {formik.touched.type && formik.errors.type && (
+                          <FormErrorMessage>
+                            {formik.errors.type}
                           </FormErrorMessage>
                         )}
                       </FormControl>

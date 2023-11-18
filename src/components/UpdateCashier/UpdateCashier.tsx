@@ -24,8 +24,9 @@ interface UpdateCashierProps {
     username: string;
     type: string;
     status: string;
+    onCashierUpdated : () => void;
 }
-function UpdateCashier({id, email, username, type, status}: UpdateCashierProps) {
+function UpdateCashier({id, email, username, type, status, onCashierUpdated}: UpdateCashierProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const token = localStorage.getItem("token");
 
@@ -53,6 +54,7 @@ function UpdateCashier({id, email, username, type, status}: UpdateCashierProps) 
     );
 
     alert("Edit cashier is successful")
+    onCashierUpdated();
     onClose();
     } catch (err){
       console.log(err)

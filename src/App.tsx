@@ -4,25 +4,28 @@ import { Routes, Route } from "react-router-dom";
 // import { Home } from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Auth from "./components/Auth/Auth";
-import Register from "./pages/Register/Register";
 import Cashier from "./pages/Cashier/Cashier";
 import { Home } from "./pages/Home/Home";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import SetNewPassword from "./pages/ForgotPassword/SetNewPassword";
+import UseAuth from "./components/Auth/ProtectedRoute";
+import AdminRoute from "./components/Auth/AdminRoute";
+import LoggedInRoute from "./components/Auth/LoggedInUserRoute";
 
 function App() {
 	return (
 		<Box>
 			<Auth>
 			<Routes>
-				<Route path="/home" element={<Home/>} />
-				<Route path="/" element={<Login/>} />
+				<Route path="/" element={<LoggedInRoute><Login/></LoggedInRoute>} />
+				<Route path="/home" element={<UseAuth><Home/></UseAuth>} />
 				<Route path="/forgot-password" element={<ForgotPassword/>} />
 				<Route path="/auth/reset-password" element={<SetNewPassword/>} />
-				<Route path="/register" element={<Register/>} />
-				<Route path="/cashier-data" element={<Cashier/>} />
+				<Route path="/cashier-data" element={<AdminRoute><Cashier/></AdminRoute>} />
+
 			</Routes>
 			</Auth>
+			
 			
 		</Box>
 	);
