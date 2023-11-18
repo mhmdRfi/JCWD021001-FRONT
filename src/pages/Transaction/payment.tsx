@@ -7,7 +7,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 // import toRupiah from "@develoka/angka-rupiah-js";
 
-export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }: any) => {
+export const Payment = ({
+	setActive,
+	total,
+	setIsPayment,
+	setTransactionSuccess,
+	setCash,
+}: any) => {
 	const [isDisableButton, setIsDisableButton] = useState<any>(true);
 	const cart = useSelector(
 		(state: RootState) => state.CartReducer.products
@@ -33,9 +39,9 @@ export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }
 						cart,
 					}
 				);
-				setTransactionSuccess("success")
+				setTransactionSuccess("success");
 			} else {
-				setTransactionSuccess("failed")
+				setTransactionSuccess("failed");
 			}
 		} catch (err) {
 			console.log(err);
@@ -55,7 +61,9 @@ export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }
 					background="var(--black-b-0, #FFF)"
 					w={"full"}
 					cursor={"pointer"}
-					onClick={() => setActive("Cash")}
+					onClick={() => {
+						setActive("Cash"), setCash(true);
+					}}
 				>
 					Cash
 					<IconChevronRight />
@@ -78,7 +86,8 @@ export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }
 					}}
 					onClick={() => {
 						setIsDisableButton(false),
-							setIsPayment(total);
+							setIsPayment(total),
+							setCash(false);
 					}}
 				>
 					EDC
@@ -101,7 +110,9 @@ export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
 					onClick={() => {
-						setIsDisableButton(false), setIsPayment(total);
+						setIsDisableButton(false),
+							setIsPayment(total),
+							setCash(false);
 					}}
 				>
 					E-wallet
@@ -124,7 +135,9 @@ export const Payment = ({ setActive, total, setIsPayment,setTransactionSuccess }
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
 					onClick={() => {
-						setIsDisableButton(false), setIsPayment(total);
+						setIsDisableButton(false),
+							setIsPayment(total),
+							setCash(false);
 					}}
 				>
 					Starbucks

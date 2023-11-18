@@ -27,6 +27,7 @@ export const Transaction = () => {
 	const [payment, setPayment] = useState<number>(0);
 	const [transactionSuccess, setTransactionSuccess] =
 		useState<string>("failed");
+	const [cash, setCash] = useState<boolean>(false)
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const now = new Date();
@@ -214,6 +215,7 @@ export const Transaction = () => {
 							setIsPayment={setPayment}
 							total={transactionPrice + transactionPrice * (10 / 100)}
 							setTransactionSuccess={setTransactionSuccess}
+							setCash={setCash}
 						/>
 					)}
 					{activePage == "Cash" && (
@@ -231,6 +233,7 @@ export const Transaction = () => {
 							payment={payment}
 							codeTransaction={state?.transactionCode}
 							transactionSuccess={transactionSuccess}
+							cash={cash}
 						/>
 					)}
 				</Flex>

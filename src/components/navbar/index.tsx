@@ -6,14 +6,15 @@ import {
 	InputGroup,
 	InputLeftElement,
 	Input,
-	Text,
-	Avatar,
+	// Text,
+	// Avatar,
 } from "@chakra-ui/react";
 import Logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png";
 import { IconSearch } from "@tabler/icons-react";
+import { Profile } from "./profile";
 
 
-export const Navbar = ( {setProductName} : any ) => {
+export const Navbar = ({ setProductName }: any) => {
 
 	return (
 		<Box>
@@ -58,39 +59,7 @@ export const Navbar = ( {setProductName} : any ) => {
 					/>
 				</InputGroup>
 
-				<Flex minW={"220px"} justify={"center"} align={"center"}>
-					<Flex align={"center"} gap={"16px"}>
-						<Box>
-							<Box
-								w={"56px"}
-								h={"56px"}
-								borderRadius={"100%"}
-								overflow={"hidden"}
-							>
-								<Avatar
-									name="Dan Abrahmov"
-									src="https://bit.ly/dan-abramov"
-									w={"56px"}
-									h={"56px"}
-								/>
-							</Box>
-						</Box>
-						<Box
-							display={"flex"}
-							flexDirection={"column"}
-							gap={"8px"}
-						>
-							<Text m={0}>Tengku Chairu Abda</Text>
-							<Text
-								m={0}
-								fontSize={"14px"}
-								color="var(--black-b-70, #A3A3A3)"
-							>
-								Barista
-							</Text>
-						</Box>
-					</Flex>
-				</Flex>
+				<Profile/>
 			</Flex>
 		</Box>
 	);

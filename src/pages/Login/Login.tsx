@@ -25,9 +25,9 @@ function Login() {
           if (user.roleId === 1) {
               navigate('/cashier-data');
           } else if (user.roleId === 2) {
-              navigate('/home');
+              navigate('/cashier');
           } else {
-              navigate('/');
+              navigate('/home');
           }
       }
   },

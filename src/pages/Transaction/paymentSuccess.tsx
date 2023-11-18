@@ -23,6 +23,7 @@ export const PaymentSuccess = ({
 	codeTransaction,
 	transactionSuccess,
 	total,
+	cash,
 }: any) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -30,7 +31,15 @@ export const PaymentSuccess = ({
 		useState<boolean>(false);
 	const [loading, setLoading] = useState(true);
 
-	setTimeout(() => {setPaymentSuccess(true), setLoading(false)}, 5000);
+	if (cash) {
+		setTimeout(() => {
+			setPaymentSuccess(true), setLoading(false);
+		}, 500);
+	} else {
+		setTimeout(() => {
+			setPaymentSuccess(true), setLoading(false);
+		}, 5000);
+	}
 
 	return (
 		<Flex
@@ -175,10 +184,11 @@ export const PaymentSuccess = ({
 				borderRadius={"100px"}
 				background={"var(--brand-brand-500, #286043)"}
 				color={"var(--black-b-0, #FFF)"}
+				isDisabled={!paymentSuccess}
 				p={"0px 24px"}
 				onClick={() => {
 					navigate("/cashier");
-					dispatch(removeAllFromCart);
+					dispatch(removeAllFromCart());
 				}}
 			>
 				Back to Menu
