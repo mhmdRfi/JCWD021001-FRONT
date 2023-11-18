@@ -35,7 +35,7 @@ export const Profile = () => {
 	const user = useSelector(
 		(state: RootState) => state.authReducer.user
 	);
-	const [selectedImage, setSelectedImage] = useState<any>();
+	const [selectedImage, setSelectedImage] = useState<any>("");
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -50,7 +50,7 @@ export const Profile = () => {
 				formData
 			); 
 			dispatch(keepLogin());
-      
+
 			toast({
 				title: "Update imgae success",
 				status: "success",
@@ -64,7 +64,6 @@ export const Profile = () => {
 		}
 	};
 
-  console.log(user.avatar)
 
 	return (
 		<>
@@ -229,7 +228,7 @@ export const Profile = () => {
 										fontSize={"12px"}
 										size={"sm"}
 										_hover={{ bgColor: "transparent" }}
-                    onClick={() => updateAvatar(selectedImage)}
+                    onClick={() => {updateAvatar(selectedImage), setSelectedImage("")}}
 									>
 										Save
 									</Button>

@@ -100,7 +100,6 @@ export const keepLogin = () => {
 						},
 					}
 				);
-          alert("keep login")
 				dispatch(setUser(res?.data?.data));
 				dispatch(keepLoginSuccess());
 			}
