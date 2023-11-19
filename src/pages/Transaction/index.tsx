@@ -1,4 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import toRupiah from "@develoka/angka-rupiah-js";
+import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import { CashPayment } from "./cashPayment";
+import { Payment } from "./payment";
+import { useEffect, useState } from "react";
+import { PaymentSuccess } from "./paymentSuccess";
+import { QrisPayment } from "./qrisPayment";
 import {
 	Box,
 	Flex,
@@ -7,27 +19,20 @@ import {
 	Divider,
 	Button,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import toRupiah from "@develoka/angka-rupiah-js";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router";
+import {
+	IconCalendar,
+	IconUser,
+	IconNumber,
+	IconX,
+} from "@tabler/icons-react";
 import CoffeImg from "../../assets/8485f2f23233df3900caffbd968659b3.png";
-import { IconCalendar } from "@tabler/icons-react";
-import { IconUser } from "@tabler/icons-react";
-import { CashPayment } from "./cashPayment";
-import { Payment } from "./payment";
-import { useState } from "react";
-import { PaymentSuccess } from "./paymentSuccess";
-import { IconNumber } from "@tabler/icons-react";
-import { IconX } from "@tabler/icons-react";
 
 export const Transaction = () => {
 	const [activePage, setIsActivePage] = useState<string>("Payment");
 	const [payment, setPayment] = useState<number>(0);
 	const [transactionSuccess, setTransactionSuccess] =
-		useState<string>("failed");
-	const [cash, setCash] = useState<boolean>(false)
+		useState<boolean>(false);
+	const [cash, setCash] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const now = new Date();
@@ -60,38 +65,83 @@ export const Transaction = () => {
 	const transactionPrice = useSelector(
 		(state: RootState) => state.CartReducer.totalPrice
 	);
+	const totalQuantity = useSelector(
+		(state: RootState) => state.CartReducer.countCart
+	);
+	const user = useSelector(
+		(state: RootState) => state.authReducer.user.id
+	);
+
+	const [total, setTotal] = useState<number>(
+		transactionPrice + transactionPrice * (10 / 100)
+	);
+
+	const bayar = async (
+		totalQuantity: number,
+		transactionPrice: number,
+		cart: any
+	) => {
+		try {
+			if (total >= transactionPrice) {
+				await axios.post(
+					`${import.meta.env.VITE_APP_API_BASE_URL}/transaction`,
+					{
+						total_quantity: totalQuantity,
+						total_price: transactionPrice,
+						cashier_id: user,
+						cart,
+					}
+				);
+				setTransactionSuccess(true);
+			} else {
+				setTransactionSuccess(false);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	console.log(transactionSuccess);
+	useEffect(() => {
+		if (transactionSuccess) {
+			bayar(totalQuantity, total, cart);
+			setIsActivePage("PaymentSuccess");
+			console.log("test");
+		}
+	}, [transactionSuccess]);
 
 	return (
 		<Flex
 			bgColor={"var(--black-b-10, #FAFAFA)"}
-			p={"55px 32px 9px 32px"}
+			p={"40px 32px 9px 32px"}
 			gap={"44px"}
 			fontSize={"14px"}
+			direction={{ sm: "column", lg: "row" }}
+			mb={{ sm: "50px", lg: 0 }}
 		>
 			{activePage == "Payment" || activePage == "Cash" ? (
 				<Button
 					display={"flex"}
 					position={"absolute"}
 					top={2}
-					left={8}
-					fontSize={"14px"}
+					left={5}
+					fontSize={"12px"}
 					size={"xm"}
-					p={"8px 14px"}
+					p={"6px 12px"}
 					borderRadius={"100px"}
 					fontWeight={400}
-					border={"1px solid black"}
+					// border={"1px solid"}
 					bgColor={"transparent"}
 					gap={1.5}
 					onClick={() => navigate("/cashier")}
 				>
-					<IconX /> Cancel Order
+					<IconX size={"14px"} stroke={1}/> Cancel Order
 				</Button>
 			) : null}
 
 			{/* Left section */}
 			<Flex
 				direction={"column"}
-				w={"50%"}
+				w={{ sm: "100%", lg: "50%" }}
 				bgColor={"white"}
 				p={"32px 52px"}
 				gap={"34px"}
@@ -102,7 +152,7 @@ export const Transaction = () => {
 							<IconNumber /> SBX{state?.transactionCode}
 						</Text>
 						<Flex alignItems={"center"} gap={"8px"} fontSize={"16px"}>
-							<IconUser width={"24px"} height={"24px"} />{" "}
+							<IconUser width={"24px"} height={"24px"} />
 							{state?.name}
 						</Flex>
 					</Flex>
@@ -131,7 +181,7 @@ export const Transaction = () => {
 						},
 					}}
 				>
-					{cart?.map((items : any, index) => {
+					{cart?.map((items: any, index) => {
 						return (
 							<Box
 								key={index}
@@ -201,7 +251,7 @@ export const Transaction = () => {
 
 			{/* Right Section */}
 			<Flex
-				w={"50%"}
+				w={{ sm: "100%", lg: "50%" }}
 				bgColor={"white"}
 				direction={"column"}
 				p={"32px 52px"}
@@ -213,14 +263,14 @@ export const Transaction = () => {
 						<Payment
 							setActive={setIsActivePage}
 							setIsPayment={setPayment}
-							total={transactionPrice + transactionPrice * (10 / 100)}
+							total={total}
 							setTransactionSuccess={setTransactionSuccess}
 							setCash={setCash}
 						/>
 					)}
 					{activePage == "Cash" && (
 						<CashPayment
-							total={transactionPrice + transactionPrice * (10 / 100)}
+							total={total}
 							setActive={setIsActivePage}
 							setIsPayment={setPayment}
 							setTransactionSuccess={setTransactionSuccess}
@@ -229,11 +279,19 @@ export const Transaction = () => {
 					{activePage == "PaymentSuccess" && (
 						<PaymentSuccess
 							name={state?.name}
-							total={transactionPrice + transactionPrice * (10 / 100)}
+							total={total}
 							payment={payment}
 							codeTransaction={state?.transactionCode}
 							transactionSuccess={transactionSuccess}
 							cash={cash}
+						/>
+					)}
+					{activePage == "Qris" && (
+						<QrisPayment
+							setTransactionSuccess={setTransactionSuccess}
+							setActive={setIsActivePage}
+							name={state?.name}
+							codeTransaction={state?.transactionCode}
 						/>
 					)}
 				</Flex>

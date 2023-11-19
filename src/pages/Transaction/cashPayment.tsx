@@ -1,50 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import toRupiah from "@develoka/angka-rupiah-js";
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const CashPayment = ({
 	total,
 	setActive,
 	setIsPayment,
-	setTransactionSuccess
+	setTransactionSuccess,
 }: any) => {
 	const [payment, setPayment] = useState<any>(0 || "");
-	const cart = useSelector(
-		(state: RootState) => state.CartReducer.products
-	);
 
-	const totalQuantity = useSelector(
-		(state: RootState) => state.CartReducer.countCart
-	);
-
-	const bayar = async (
-		totalQuantity: number,
-		transactionPrice: number,
-		cart: any
-	) => {
-		try {
-			if (payment >= transactionPrice) {
-				await axios.post(
-					`${import.meta.env.VITE_APP_API_BASE_URL}/transaction`,
-					{
-						total_quantity: totalQuantity,
-						total_price: transactionPrice,
-						cashier_id: 3,
-						cart,
-					}
-				);
-				setTransactionSuccess("success")
-			} else {
-				setTransactionSuccess("failed")
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
 
 	return (
 		<Flex
@@ -52,6 +19,7 @@ export const CashPayment = ({
 			h={"full"}
 			direction={"column"}
 			justify={"space-between"}
+			gap={{sm: 10, lg: 0}}
 			// display={"none"}
 		>
 			<Flex w={"full"} gap={"20px"} direction={"column"}>
@@ -82,6 +50,7 @@ export const CashPayment = ({
 					padding="24px 0px"
 					flexDirection="column"
 					justifyContent="center"
+					isDisabled={total > 100000 ? true : false}
 					alignItems={"center"}
 					gap="16px"
 					alignSelf="stretch"
@@ -95,9 +64,7 @@ export const CashPayment = ({
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
-					onClick={
-						total > 100000 ? () => null : () => setPayment(100000)
-					}
+					onClick={() => setPayment(100000)}
 				>
 					100.000
 				</Button>
@@ -108,6 +75,7 @@ export const CashPayment = ({
 					justifyContent="center"
 					alignItems={"center"}
 					gap="16px"
+					isDisabled={total > 150000 ? true : false}
 					alignSelf="stretch"
 					borderRadius={"16px"}
 					background="var(--black-b-20, #F5F5F5)"
@@ -119,9 +87,7 @@ export const CashPayment = ({
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
-					onClick={
-						total > 150000 ? () => null : () => setPayment(150000)
-					}
+					onClick={() => setPayment(150000)}
 				>
 					150.000
 				</Button>
@@ -132,6 +98,7 @@ export const CashPayment = ({
 					justifyContent="center"
 					alignItems={"center"}
 					gap="16px"
+					isDisabled={total > 200000 ? true : false}
 					alignSelf="stretch"
 					borderRadius={"16px"}
 					background="var(--black-b-20, #F5F5F5)"
@@ -143,9 +110,7 @@ export const CashPayment = ({
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
 					}}
-					onClick={
-						total > 200000 ? () => null : () => setPayment(200000)
-					}
+					onClick={() => setPayment(200000)}
 				>
 					200.00
 				</Button>
@@ -171,7 +136,11 @@ export const CashPayment = ({
 					<Input
 						variant={"unstyled"}
 						placeholder="Custom"
-						_placeholder={{color:"black", fontSize: "16px", fontWeight: "600"}}
+						_placeholder={{
+							color: "black",
+							fontSize: "16px",
+							fontWeight: "600",
+						}}
 						textAlign={"center"}
 						value={payment}
 						onChange={(e) => setPayment(e.target.value)}
@@ -179,7 +148,7 @@ export const CashPayment = ({
 				</Button>
 			</Flex>
 
-			<Flex w={"full"} direction={"column"} gap={"20px"}>
+			<Flex w={"full"} direction={"column"} gap={{sm: "28px",lg: "20px"}}>
 				<Flex justify={"space-between"} w={"full"}>
 					<Text>Payment</Text>
 					<Text>{toRupiah(payment)}</Text>
@@ -212,7 +181,7 @@ export const CashPayment = ({
 					<Button
 						onClick={() => {
 							setIsPayment(payment);
-							bayar(totalQuantity, total, cart);
+							setTransactionSuccess(true)
 							setActive("PaymentSuccess");
 						}}
 						borderRadius={"100px"}

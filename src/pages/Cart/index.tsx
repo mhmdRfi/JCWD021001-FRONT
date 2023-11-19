@@ -59,108 +59,125 @@ export const Cart = () => {
 			direction={"column"}
 			bgColor={"white"}
 			p={"32px"}
-			gap={"15px"}
-			position={"fixed"}
+			maxW={"100%"}
+			h={"100vh"}
+			justifyContent={"space-around"}
+			gap={10}
 		>
-			<Text display={"flex"} gap={"8px"}>
-				<IconNumber /> SBX{randomCode}
-			</Text>
-
-			<Flex gap={"32px"}>
-				<Flex gap={2}>
-					<IconCalendar />
-					<Text>
-						{day} {months[month]} {year}
+			<Flex
+				direction={"column"}
+				minH={{sm: "30%", xl: "40%"}}
+				justify={"space-around"}
+			>
+				<Flex h={"full"} align={"center"}>
+					<Text display={"flex"} gap={"8px"}>
+						<IconNumber /> SBX{randomCode}
 					</Text>
 				</Flex>
-				<Flex gap={2}>
-					<IconCalendar />
-					<Text>{time}</Text>
+
+				<Flex gap={"32px"} h={"full"} direction={{sm: "column", lg: "row"}} justify={{sm: "center", lg: "start"}}>
+					<Flex gap={2} align={"center"}>
+						<IconCalendar />
+						<Text>
+							{day} {months[month]} {year}
+						</Text>
+					</Flex>
+					<Flex gap={2} align={"center"}>
+						<IconCalendar />
+						<Text>{time}</Text>
+					</Flex>
+				</Flex>
+
+				<Flex h={"full"} justify={"center"} align={"center"}>
+					<InputGroup ml={"-9px"}>
+						<InputLeftElement
+							pointerEvents="none"
+							display={"flex"}
+							justifyContent={"center"}
+							alignItems={"center"}
+						>
+							<IconUser width={"24px"} height={"24px"} />
+						</InputLeftElement>
+						<Input
+							type="tel"
+							placeholder="Name"
+							variant={"unstyled"}
+							h={"40px"}
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+					</InputGroup>
+				</Flex>
+
+				<Flex justify={"space-around"} gap={5} w={"full"} h={"full"} align={"center"}>
+					<Button
+						w={{ sm: "100px", md: "140px", xl: "166px" }}
+						h={"100px"}
+						display={"flex"}
+						flexDirection={"column"}
+						justifyContent={"center"}
+						alignItems={"center"}
+						border={"1px solid "}
+						sx={
+							activeButton == "dinein"
+								? {
+										borderColor: "var(--brand-brand-500, #286043)",
+										background:
+											"var(--semantic-success-success-50, #EAF6EB)",
+										color: "var(--brand-brand-500, #286043)",
+								  }
+								: {
+										borderColor: "transparent",
+										background: "var(--black-b-20, #F5F5F5)",
+								  }
+						}
+						borderRadius={"16px"}
+						onClick={() => setActiveButton("dinein")}
+					>
+						<IconArmchair width={"24px"} height={"24px"} />
+						<Text fontSize={"14px"} fontWeight={600}>
+							Dine-in
+						</Text>
+					</Button>
+
+					<Button
+						w={{ sm: "100px", md: "140px", xl: "166px" }}
+						h={"100px"}
+						display={"flex"}
+						flexDirection={"column"}
+						justifyContent={"center"}
+						alignItems={"center"}
+						border={"1px solid "}
+						sx={
+							activeButton == "takeaway"
+								? {
+										borderColor: "var(--brand-brand-500, #286043)",
+										background:
+											"var(--semantic-success-success-50, #EAF6EB)",
+										color: "var(--brand-brand-500, #286043)",
+								  }
+								: {
+										borderColor: "transparent",
+										background: "var(--black-b-20, #F5F5F5)",
+								  }
+						}
+						borderRadius={"16px"}
+						onClick={() => setActiveButton("takeaway")}
+					>
+						<IconPaperBag width={"24px"} height={"24px"} />
+						<Text fontSize={"14px"} fontWeight={600}>
+							Take-away
+						</Text>
+					</Button>
 				</Flex>
 			</Flex>
 
-			<InputGroup ml={"-9px"}>
-				<InputLeftElement
-					pointerEvents="none"
-					display={"flex"}
-					justifyContent={"center"}
-					alignItems={"center"}
-				>
-					<IconUser width={"24px"} height={"24px"} />
-				</InputLeftElement>
-				<Input
-					type="tel"
-					placeholder="Name"
-					variant={"unstyled"}
-					h={"40px"}
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-				/>
-			</InputGroup>
-
-			<Flex justify={"space-around"}>
-				<Button
-					w={"166px"}
-					h={"100px"}
-					display={"flex"}
-					flexDirection={"column"}
-					justifyContent={"center"}
-					alignItems={"center"}
-					border={"1px solid "}
-					sx={
-						activeButton == "dinein"
-							? {
-									borderColor: "var(--brand-brand-500, #286043)",
-									background:
-										"var(--semantic-success-success-50, #EAF6EB)",
-									color: "var(--brand-brand-500, #286043)",
-							  }
-							: {
-									borderColor: "transparent",
-									background: "var(--black-b-20, #F5F5F5)",
-							  }
-					}
-					borderRadius={"16px"}
-					onClick={() => setActiveButton("dinein")}
-				>
-					<IconArmchair width={"24px"} height={"24px"} />
-					<Text fontSize={"14px"} fontWeight={600}>
-						Dine-in
-					</Text>
-				</Button>
-
-				<Button
-					w={"166px"}
-					h={"100px"}
-					display={"flex"}
-					flexDirection={"column"}
-					justifyContent={"center"}
-					alignItems={"center"}
-					border={"1px solid "}
-					sx={
-						activeButton == "takeaway"
-							? {
-									borderColor: "var(--brand-brand-500, #286043)",
-									background:
-										"var(--semantic-success-success-50, #EAF6EB)",
-									color: "var(--brand-brand-500, #286043)",
-							  }
-							: {
-									borderColor: "transparent",
-									background: "var(--black-b-20, #F5F5F5)",
-							  }
-					}
-					borderRadius={"16px"}
-					onClick={() => setActiveButton("takeaway")}
-				>
-					<IconPaperBag width={"24px"} height={"24px"} />
-					<Text fontSize={"14px"} fontWeight={600}>
-						Take-away
-					</Text>
-				</Button>
-			</Flex>
-
-			<Flex gap={"16px"} direction={"column"}>
+			<Flex
+				direction={"column"}
+				minH={"60%"}
+				justify={"space-around"}
+				gap={5}
+			>
 				<Text>Products</Text>
 				<Product
 					name={name || "Customer"}

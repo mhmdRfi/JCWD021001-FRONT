@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
@@ -7,7 +8,6 @@ import {
 	Image,
 	Grid,
 	Button,
-	Box,
 	Menu,
 	MenuButton,
 	MenuList,
@@ -20,7 +20,11 @@ import toRupiah from "@develoka/angka-rupiah-js";
 import axios from "axios";
 import { useDispatch } from "react-redux/es/exports";
 import { addToCart } from "../../redux/reducer/transactionReducer";
-import { IconSelector } from "@tabler/icons-react";
+import {
+	IconSelector,
+	IconSquareRoundedChevronRight,
+	IconSquareRoundedChevronLeft,
+} from "@tabler/icons-react";
 
 interface Product {
 	id: number;
@@ -37,15 +41,22 @@ export const Category = ({ productName }: any) => {
 	const [activeButton, setActiveButton] = useState<string>("All");
 	const dispatch = useDispatch();
 	const [page, setPage] = useState<number>(1);
+	const [size, setSize] = useState<number>(
+		window.innerWidth < 900 ? 12 : 9
+	);
 	const [category, setCatogory] = useState<number>();
 	const [totalPage, setTotalPage] = useState<number>();
 
-	const productPage = async (page: number, productName: string) => {
+	const productPage = async (
+		page: number,
+		size: number,
+		productName: string
+	) => {
 		try {
 			const response = await axios.get(
 				`${
 					import.meta.env.VITE_APP_API_BASE_URL
-				}/product/${page}?categoryId=${category}&sortName=${sortName}&sortOrder=${sortOrder}&productName=${
+				}/product/${page}/${size}?categoryId=${category}&sortName=${sortName}&sortOrder=${sortOrder}&productName=${
 					productName || ""
 				}`
 			);
@@ -57,8 +68,8 @@ export const Category = ({ productName }: any) => {
 	};
 
 	useEffect(() => {
-		productPage(page, productName);
-	}, [page, category, productName, sortName, sortOrder]);
+		productPage(page, size, productName);
+	}, [page, size, category, productName, sortName, sortOrder]);
 
 	const buttonValue = [
 		"All",
@@ -69,12 +80,17 @@ export const Category = ({ productName }: any) => {
 	];
 
 	return (
-		<Flex direction={"column"} mx={"32px"} gap={"24px"} w={"872px"}>
+		<Flex
+			direction={"column"}
+			mx={"32px"}
+			gap={"24px"}
+			maxW={"872px"}
+		>
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
 			<Flex gap={"16px"} justify={"space-between"}>
-				<Flex gap={"16px"}>
+				<Flex gap={{ sm: "10px", lg: "16px" }}>
 					{buttonValue?.map((Items, index) => {
 						return (
 							<Button
@@ -82,11 +98,11 @@ export const Category = ({ productName }: any) => {
 								display={"flex"}
 								justifyContent={"center"}
 								alignItems={"center"}
-								fontSize={"14px"}
+								fontSize={{ sm: "10px", lg: "14px" }}
 								fontWeight={400}
-								p={"14px 24px"}
+								p={{ sm: "8px 15px", lg: "14px 24px" }}
 								cursor={"pointer"}
-								borderRadius={"100px"}
+								borderRadius={{ sm: "10px", lg: "100px" }}
 								border={"1px solid var(--black-b-80, #949494)"}
 								sx={
 									activeButton == Items
@@ -122,9 +138,9 @@ export const Category = ({ productName }: any) => {
 							display={"flex"}
 							justifyContent={"center"}
 							alignItems={"center"}
-							fontSize={"14px"}
+							fontSize={{ sm: "10px", lg: "14px" }}
 							fontWeight={400}
-							p={"14px 24px"}
+							p={{ sm: "10px 20px", lg: "14px 24px" }}
 							cursor={"pointer"}
 							borderRadius={"100px"}
 							border={"1px solid var(--black-b-80, #949494)"}
@@ -148,9 +164,7 @@ export const Category = ({ productName }: any) => {
 							Sort
 						</MenuButton>
 						<MenuList minWidth="200px">
-							<MenuOptionGroup
-								title="Name"
-							>
+							<MenuOptionGroup title="Name">
 								<MenuItem
 									value="asc"
 									onClick={() => {
@@ -192,11 +206,52 @@ export const Category = ({ productName }: any) => {
 				</Flex>
 			</Flex>
 
+			<Flex gap={7} justifyContent={"end"} align={"center"}>
+				<Card
+					bgColor={"white"}
+					p={"10px 20px"}
+					borderRadius={"100px"}
+				>
+					{page} / {totalPage}
+				</Card>
+				<Flex gap={2}>
+					<Button
+						size={"xm"}
+						cursor={"pointer"}
+						isDisabled={page > 1 ? false : true}
+						onClick={() => {
+							setPage(page - 1);
+						}}
+						color={"rgba(40, 96, 67, 1)"}
+						borderRadius={"10px"}
+						bgColor={"transparent"}
+					>
+						<IconSquareRoundedChevronLeft size={"32px"} stroke={1} />
+					</Button>
+					<Button
+						size={"xm"}
+						cursor={"pointer"}
+						isDisabled={page < Number(totalPage) ? false : true}
+						onClick={() => {
+							setPage(page + 1);
+						}}
+						color={"rgba(40, 96, 67, 1)"}
+						borderRadius={"10px"}
+						bgColor={"transparent"}
+					>
+						<IconSquareRoundedChevronRight stroke={1} size={"32px"} />
+					</Button>
+				</Flex>
+			</Flex>
+
 			<Flex>
 				<Flex color={"black"} w={"fit-content"}>
 					<Grid
 						// mx={"20px"}
-						templateColumns="repeat(3, 1fr)"
+						templateColumns={{
+							base: "repeat(2, 1fr)",
+							lg: "repeat(3, 1fr)",
+						}}
 						alignItems={"flex-start"}
 						alignSelf={"stretch"}
 						gap={"24px"}
@@ -209,7 +264,7 @@ export const Category = ({ productName }: any) => {
 									bgColor={"white"}
 									display={"flex"}
 									gap={"20px"}
-									p={"24px"}
+									p={{ sm: "14px", lg: "24px" }}
 									flexDirection={"row"}
 									borderRadius={"16px"}
 									onClick={() => {
@@ -217,7 +272,7 @@ export const Category = ({ productName }: any) => {
 									}}
 									cursor={"pointer"}
 								>
-									<Box>
+									<Flex align={"center"}>
 										<Image
 											src={`${
 												import.meta.env.VITE_APP_IMAGE_URL
@@ -225,23 +280,19 @@ export const Category = ({ productName }: any) => {
 												items?.image ||
 												"product_ChocolateCreamColdBrew.jpg"
 											}`}
-											minW={"80px"}
-											h={"80px"}
+											minW={{ sm: "60px", xl: "80px" }}
+											h={{ sm: "60px", xl: "80px" }}
 											borderRadius={"16px"}
 										/>
-									</Box>
-									<Flex
-										direction={"column"}
-										justify={"center"}
-										gap={"10px"}
-									>
+									</Flex>
+									<Flex direction={"column"} justify={"space-around"}>
 										<Text
 											fontWeight={600}
-											fontSize={"16px"}
-											lineHeight={"18px"}
+											fontSize={{ sm: "12px", xl: "16px" }}
+											lineHeight={{ sm: "14px", xl: "18px" }}
 											m={0}
-											maxH={"36px"}
-											maxW={"150px"}
+											maxH={{ sm: "30px", xl: "36px" }}
+											maxW={"130px"}
 											display={"flex"}
 											alignItems={"flex-start"}
 											overflow={"hidden"}
@@ -250,8 +301,7 @@ export const Category = ({ productName }: any) => {
 										</Text>
 										<Text
 											fontWeight={400}
-											fontSize={"16px"}
-											lineHeight={"150%"}
+											fontSize={{ sm: "12px", xl: "16px" }}
 											m={0}
 										>
 											{toRupiah(items.price)}
@@ -262,27 +312,6 @@ export const Category = ({ productName }: any) => {
 						})}
 					</Grid>
 				</Flex>
-			</Flex>
-
-			<Flex gap={5} justifyContent={"end"} mb={"50px"}>
-				<Button
-					cursor={"pointer"}
-					isDisabled={page > 1 ? false : true}
-					onClick={() => {
-						setPage(page - 1);
-					}}
-				>
-					Prev
-				</Button>
-				<Button
-					cursor={"pointer"}
-					isDisabled={page < Number(totalPage) ? false : true}
-					onClick={() => {
-						setPage(page + 1);
-					}}
-				>
-					Next
-				</Button>
 			</Flex>
 		</Flex>
 	);

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-	Box,
 	Flex,
 	Image,
 	InputGroup,
@@ -13,23 +12,22 @@ import Logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png";
 import { IconSearch } from "@tabler/icons-react";
 import { Profile } from "./profile";
 
-
 export const Navbar = ({ setProductName }: any) => {
-
 	return (
-		<Box>
+		<Flex justify={"space-between"} align={"center"}>
 			<Flex
 				gap={"16px"}
 				align={"center"}
 				justify={"space-between"}
 				h={"100%"}
 				mx={42}
+				w={"full"}
 			>
 				<Flex align={"center"} w={"72px"} h={"72.9px"}>
 					<Image src={Logo} />
 				</Flex>
 
-				<InputGroup w={"fit-content"}>
+				<InputGroup w={"full"}>
 					<InputLeftElement
 						pointerEvents="none"
 						alignItems={"center"}
@@ -50,7 +48,7 @@ export const Navbar = ({ setProductName }: any) => {
 						display={"flex"}
 						alignItems={"center"}
 						h={"56px"}
-						w={"581px"}
+						maxW={"581px"}
 						borderRadius={" 200px"}
 						border="1px solid var(--black-b-200, #666)"
 						font-family="SoDo Sans"
@@ -58,9 +56,10 @@ export const Navbar = ({ setProductName }: any) => {
 						onChange={(e) => setProductName(e.target.value)}
 					/>
 				</InputGroup>
-
-				<Profile/>
 			</Flex>
-		</Box>
+			<Flex>
+				<Profile />
+			</Flex>
+		</Flex>
 	);
 };

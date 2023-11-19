@@ -22,6 +22,7 @@ import {
 	keepLogin,
 	logoutSuccess,
 } from "../../redux/reducer/authReducer";
+import { removeAllFromCart } from "../../redux/reducer/transactionReducer";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { IconEditCircle } from "@tabler/icons-react";
@@ -106,10 +107,10 @@ export const Profile = () => {
 					)}
 				</Flex>
 				<Box display={"flex"} flexDirection={"column"} gap={"8px"}>
-					<Text m={0}>{user.username}</Text>
+					<Text m={0} fontSize={{ sm: "12px",lg: "14px", xl: "16px" }}>{user.username}</Text>
 					<Text
 						m={0}
-						fontSize={"14px"}
+						fontSize={{ sm: "10px",lg: "12px", xl: "14px" }}
 						color="var(--black-b-70, #A3A3A3)"
 						display={"flex"}
 						justifyContent={"start"}
@@ -324,7 +325,7 @@ export const Profile = () => {
 												"2px solid rgba(245, 245, 245, 1)"
 											}
 											onClick={() => {
-												dispatch(logoutSuccess()), navigate("/");
+												dispatch(logoutSuccess()), navigate("/"), dispatch(removeAllFromCart());
 											}}
 										>
 											<IconLogout2 size={"20px"} color="#FF0000" />

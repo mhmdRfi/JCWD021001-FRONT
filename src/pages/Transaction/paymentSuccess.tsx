@@ -48,6 +48,7 @@ export const PaymentSuccess = ({
 			h={"full"}
 			w={"full"}
 			direction={"column"}
+			gap={{sm: 10, lg: 0}}
 		>
 			<Flex
 				direction={"column"}
@@ -58,7 +59,7 @@ export const PaymentSuccess = ({
 				gap={"56px"}
 			>
 				{paymentSuccess ? (
-					transactionSuccess == "success" ? (
+					transactionSuccess == true ? (
 						<Flex
 							direction={"column"}
 							justify={"center"}
