@@ -97,6 +97,7 @@ function ChangePassword() {
 			borderBottom={"2px solid rgba(245, 245, 245, 1)"}
 			onClick={onOpen}
       _hover={{borderColor: "transparent"}}
+			_focus={{borderColor: "transparent", outlineColor: "transparent"}}
 		>
 			<IconPassword
 				stroke={1.5}
@@ -104,7 +105,7 @@ function ChangePassword() {
 				color="rgba(40, 96, 67, 1)"
 			/>
 			Change Password
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={onClose} isCentered>
 				<ModalOverlay />
 				<form onSubmit={formik.handleSubmit}>
 					<ModalContent>

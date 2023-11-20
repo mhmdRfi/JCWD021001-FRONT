@@ -73,13 +73,13 @@ export const login = (email: string, password: string) => {
 			localStorage.setItem("token", res?.data?.data?.token);
 			dispatch(setUser(res?.data?.data?.user));
 			dispatch(loginSuccess());
-			toast.success("login is successful")
+			toast.success("login is successful");
 			return res?.data?.data?.user;
 		} catch (err) {
 			if (err && axios.isAxiosError(err)) {
 				const axiosError = err as AxiosError;
 				if (axiosError.response) {
-					toast.error("Login failed")
+					toast.error("Login failed");
 				}
 			} else {
 				console.error("An unexpected error occurred:", err);
@@ -93,30 +93,32 @@ export const keepLogin = () => {
 		try {
 			const token = localStorage.getItem("token");
 
-      if (token){
-        const res = await axios.get("http://localhost:8080/auth/keep-login", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+			if (token) {
+				const res = await axios.get(
+					"http://localhost:8080/auth/keep-login",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 
-        dispatch(setUser(res?.data?.data));
-        dispatch(keepLoginSuccess());
-      }
-    } catch (err){
-      localStorage.removeItem("token")
-      if (err && axios.isAxiosError(err)) {
-        const axiosError = err as AxiosError;
-        if (axiosError.response) {
-			toast.error("Invalid Token")
-        }
-      } else {
-        
-        console.error('An unexpected error occurred:', err);
-      }
-    }
-  }
-}
+				dispatch(setUser(res?.data?.data));
+				dispatch(keepLoginSuccess());
+			}
+		} catch (err) {
+			localStorage.removeItem("token");
+			if (err && axios.isAxiosError(err)) {
+				const axiosError = err as AxiosError;
+				if (axiosError.response) {
+					toast.error("Invalid Token");
+				}
+			} else {
+				console.error("An unexpected error occurred:", err);
+			}
+		}
+	};
+};
 
 export const {
 	setUser,

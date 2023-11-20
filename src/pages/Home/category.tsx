@@ -106,6 +106,11 @@ export const Category = ({ productName }: any) => {
 								cursor={"pointer"}
 								borderRadius={{ base: "10px", lg: "100px" }}
 								border={"1px solid var(--black-b-80, #949494)"}
+								_hover={{ borderColor: "var(--black-b-80, #949494)" }}
+								_focus={{
+									borderColor: "transparent",
+									outline: "transparent",
+								}}
 								sx={
 									activeButton == Items
 										? {
@@ -146,6 +151,11 @@ export const Category = ({ productName }: any) => {
 							cursor={"pointer"}
 							borderRadius={"100px"}
 							border={"1px solid var(--black-b-80, #949494)"}
+							_hover={{ borderColor: "var(--black-b-80, #949494)" }}
+							_focus={{
+								borderColor: "trasnparent",
+								outlineColor: "transparent",
+							}}
 							sx={
 								activeButton == "sort"
 									? {
@@ -172,6 +182,9 @@ export const Category = ({ productName }: any) => {
 									onClick={() => {
 										setSortName("name"), setSortOrder("asc");
 									}}
+									border={"none"}
+									_hover={{ border: "none", outline: "none" }}
+									_focus={{ border: "none", outline: "none" }}
 								>
 									A-Z
 								</MenuItem>
@@ -180,6 +193,9 @@ export const Category = ({ productName }: any) => {
 									onClick={() => {
 										setSortName("name"), setSortOrder("desc");
 									}}
+									border={"none"}
+									_hover={{ border: "none", outline: "none" }}
+									_focus={{ border: "none", outline: "none" }}
 								>
 									Z-A
 								</MenuItem>
@@ -191,6 +207,9 @@ export const Category = ({ productName }: any) => {
 									onClick={() => {
 										setSortName("price"), setSortOrder("desc");
 									}}
+									border={"none"}
+									_hover={{ border: "none", outline: "none" }}
+									_focus={{ border: "none", outline: "none" }}
 								>
 									Highest - Lowest
 								</MenuItem>
@@ -199,6 +218,9 @@ export const Category = ({ productName }: any) => {
 									onClick={() => {
 										setSortName("price"), setSortOrder("asc");
 									}}
+									border={"none"}
+									_hover={{ border: "none", outline: "none" }}
+									_focus={{ border: "none", outline: "none" }}
 								>
 									Lowest - Highest
 								</MenuItem>
@@ -235,6 +257,11 @@ export const Category = ({ productName }: any) => {
 						color={"rgba(40, 96, 67, 1)"}
 						borderRadius={"10px"}
 						bgColor={"transparent"}
+						_hover={{ borderColor: "transparent" }}
+						_focus={{
+							borderColor: "transparent",
+							outlineColor: "transparent",
+						}}
 					>
 						<IconSquareRoundedChevronLeft size={"32px"} stroke={1} />
 					</Button>
@@ -248,6 +275,11 @@ export const Category = ({ productName }: any) => {
 						color={"rgba(40, 96, 67, 1)"}
 						borderRadius={"10px"}
 						bgColor={"transparent"}
+						_hover={{ borderColor: "transparent" }}
+						_focus={{
+							borderColor: "transparent",
+							outlineColor: "transparent",
+						}}
 					>
 						<IconSquareRoundedChevronRight stroke={1} size={"32px"} />
 					</Button>
@@ -281,9 +313,13 @@ export const Category = ({ productName }: any) => {
 									onClick={() => {
 										items.quantity > 0
 											? dispatch(addToCart(items))
-											: null
+											: null;
 									}}
-									sx={items.quantity <= 0 ? {filter: "grayscale(100%)"} : {filter: "none"}}
+									sx={
+										items.quantity <= 0
+											? { filter: "grayscale(100%)" }
+											: { filter: "none" }
+									}
 									cursor={"pointer"}
 								>
 									<Flex align={"center"}>

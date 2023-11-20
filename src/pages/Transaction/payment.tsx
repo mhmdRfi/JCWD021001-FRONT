@@ -38,6 +38,8 @@ export const Payment = ({
 					onClick={() => {
 						setActive("Cash"), setCash(true);
 					}}
+					_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
+						_focus={{ borderColor: "transparent", outlineColor: "transparent" }}
 				>
 					Cash
 					<IconChevronRight />
@@ -57,7 +59,9 @@ export const Payment = ({
 						border: "1px solid",
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
+						outline: "none"
 					}}
+					_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
 					onClick={() => {
 						setIsDisableButton(false),
 							setIsPayment(total),
@@ -82,7 +86,9 @@ export const Payment = ({
 						border: "1px solid",
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
+						outline: "none"
 					}}
+					_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
 					onClick={() => {
 						setIsDisableButton(false),
 							setIsPayment(total),
@@ -107,7 +113,9 @@ export const Payment = ({
 						border: "1px solid",
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
+						outline: "none"
 					}}
+					_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
 					onClick={() => {
 						setIsDisableButton(false),
 							setIsPayment(total),
@@ -132,7 +140,9 @@ export const Payment = ({
 						border: "1px solid",
 						borderColor: "var(--brand-brand-500, #286043)",
 						background: "var(--semantic-success-success-50, #EAF6EB)",
+						outline: "none"
 					}}
+					_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
 					onClick={() => {
 							setActive("Qris"),
 							setCash(true);
@@ -150,6 +160,8 @@ export const Payment = ({
 				}}
 				borderRadius={"100px"}
 				background={"var(--black-b-30, #EBEBEB)"}
+				_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
+				_focus={{borderColor: "transparent", outlineColor: "transparent"}}
 			>
 				Pay
 			</Button>
