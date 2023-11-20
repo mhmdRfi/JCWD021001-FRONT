@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Flex, Text, Card, Image, Grid } from "@chakra-ui/react";
+import { Flex, Text, Card, Image, Grid, Box } from "@chakra-ui/react";
 import promo1 from "../../assets/promo1.jpg";
 import promo2 from "../../assets/promo2.jpg";
 import promo3 from "../../assets/promo3.jpg";
@@ -52,6 +52,7 @@ export const Promo: React.FC = () => {
 								flexDirection={"row"}
 								borderRadius={"16px"}
 							>
+								{/* Image */}
 								<Flex align={"center"}>
 									<Image
 										src={item.image}
@@ -60,22 +61,24 @@ export const Promo: React.FC = () => {
 										borderRadius={"16px"}
 									/>
 								</Flex>
+
+								{/* Text */}
 								<Flex
 									direction={"column"}
 									gap={"10px"}
 									justify={"center"}
-									display={{base: "none", sm: "block"}}
+									display={{base: "none", sm: "flex"}}
 									maxW={{
 										base: "50px",
 										sm: "50px",
 										md: "80px",
-										xl: "110px",
+										xl: "120px",
 									}}
 								>
 									<Text
 										fontWeight={600}
 										fontSize={{ sm: "12px", xl: "16px" }}
-										lineHeight={{ sm: "14px", xl: "18px" }}
+										lineHeight={{ sm: "14px", xl: "24px" }}
 										m={0}
 										maxH={{ sm: "30px", xl: "36px" }}
 										alignItems={"flex-start"}
