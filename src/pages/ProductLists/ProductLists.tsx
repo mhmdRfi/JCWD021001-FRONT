@@ -683,7 +683,10 @@ const ProductLists = () => {
 									border="solid 1px #286043"
 									leftIcon={<IconArrowLeft />}
 									isDisabled={page == 1 ? true : false}
-									onClick={() => setPage(page - 1)}
+									onClick={() => {
+										setPage(page - 1);
+										setSelectedPage(selectedPage - 1);
+									}}
 								></Button>
 								{getPageNumbers().map((pageNumber, index) => (
 									<Button
@@ -722,7 +725,10 @@ const ProductLists = () => {
 									border="solid 1px #286043"
 									rightIcon={<IconArrowRight />}
 									isDisabled={page == data?.totalPages ? true : false}
-									onClick={() => setPage(page + 1)}
+									onClick={() => {
+										setPage(page + 1);
+										setSelectedPage(selectedPage + 1);
+									}}
 								></Button>
 							</HStack>
 						</>
