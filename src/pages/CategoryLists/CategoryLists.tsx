@@ -247,7 +247,7 @@ useEffect(() => {
         </ModalContent>
       </Modal>
     <Spacer /> 
-    <Button onClick={exportToPDF} borderRadius='full' border='solid 1px black' leftIcon={<IconArrowNarrowDown />}>Download</Button>
+    {/* <Button onClick={exportToPDF} borderRadius='full' border='solid 1px black' leftIcon={<IconArrowNarrowDown />}>Download</Button> */}
    
   </HStack>
   <Box p="20px" boxShadow='0px 1px 5px gray'><HStack mb='5px'>

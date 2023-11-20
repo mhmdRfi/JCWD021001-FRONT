@@ -164,6 +164,7 @@ const EditProduct = () => {
 
       toast.success("Success edit data");
       fetchData(id);
+      navigate("/product-lists")
   } catch (err) {
       console.log(err);
   }
