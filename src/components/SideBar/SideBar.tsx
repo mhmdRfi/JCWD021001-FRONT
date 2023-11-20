@@ -34,9 +34,15 @@ import {
   FiUsers,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { IconLayoutDashboard, IconCup, IconReportMoney, IconUsers, IconHierarchy2 } from '@tabler/icons-react'
-import { LogoIcon } from './logo.png'
+import { IconLayoutDashboard, IconPasswordUser, IconCup, IconReportMoney, IconUsers, IconHierarchy2 } from '@tabler/icons-react'
+import LogoIcon  from '../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png'
+import { useAppSelector } from '../../redux/hook';
+import { useAppDispatch } from '../../redux/hook';
+import { useNavigate } from 'react-router-dom';
+import { logoutSuccess } from '../../redux/reducer/authReducer';
 import { useLocation, Link } from 'react-router-dom'
+
+
 
 interface LinkItemProps {
   name: string;
@@ -63,6 +69,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Report', icon: IconReportMoney, to: '/report' },
   { name: 'Category', icon: IconHierarchy2, to: '/category-lists' },
   { name: 'Cashier', icon: IconUsers, to: '/cashier' },
+  { name: 'Admin', icon: IconPasswordUser, to:'/cashier-data'}
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -77,9 +84,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" >
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      <Flex justifyContent={'flex-end'}>
+      <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} margin={'20px 20px'}/>
       </Flex>
+      
+      <Flex h="20" alignItems="center" justifyContent="space-between">
+        
+      <Image src={LogoIcon} margin={'auto'} boxSize={'72px'}/>
+        
+      </Flex>
+      
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} to={link.to}>
           {link.name}
@@ -94,42 +108,62 @@ const NavItem = ({ icon, children, to, ...rest }: NavItemProps) => {
   const location = useLocation();
   const isActive = location.pathname === to;
   return (
-    <Link to={to} style={{ textDecoration: 'none' }}>
-    <Flex
-      align="center"
-      p="4"
-      mx="4"
-      borderRadius="lg"
-      role="group"
-      cursor="pointer"
-      _hover={{
-        bg: 'cyan.400',
-        color: 'white',
-      }}
-      {...rest}
-      bg={isActive ? 'cyan.400' : ''}
-      color={isActive ? 'white' : ''}
+<Link to={to} style={{ textDecoration: 'none' }}>
+    <Box
+      as="a"
+      href="#"
+      style={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
+      padding={'16px'}
     >
-      {icon && (
-        <Icon
-          mr="4"
-          fontSize="16"
-          _groupHover={{
-            color: 'white',
-          }}
-          as={icon}
-        />
-      )}
-      {children}
-    </Flex>
-  </Link>
+      <Flex
+        className='nav-item-container'
+        align="center"
+        p="2"
+        margin={'0 auto'}
+        flexDirection={'column'}
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        color={'#4A4A4A'}
+        _hover={{
+          bg: '#EAEFEC',
+          color: '#286043',
+          margin: '0 16px'
+        }}
+        {...rest}
+        bg={isActive ? '#EAEFEC' : ''}
+      color={isActive ? '#286043' : ''}
+      >
+        {icon && (
+          <Icon
+            mb="3"
+            fontSize="24px"
+            stroke={"1px"}
+            _groupHover={{
+              color: '#286043',
+            }}
+            as={icon}
+          />
+        )}
+        <Box className='name-container'
+        fontSize={'14px'}>
+          {children}
+        </Box>
+        
+      </Flex>
+    </Box>
+    </Link>
   );
 };
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const {user} = useAppSelector((state) => state.authReducer);
+    <Flex className='mobile-nav-container'
+      ml={{ base: 0, md: 0 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
@@ -146,28 +180,39 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
+  <Flex alignItems={'center'} gap={'10px'} display={{base:'flex', md: 'none'}} flexDirection={'row'}>
+    <Image src={LogoIcon} boxSize={'29px'}/>
+      <Text fontSize={'22px'} fontWeight={'800'} color={'#286043'}>Starbucks</Text>
+  </Flex>
+      
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
-
-      <HStack spacing={{ base: '0', md: '6' }}>
+      <HStack className='navTop'
+      spacing={{ base: '0', md: '6' }}
+      marginRight={{base: '0', md: '60px'}}>
         <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
               <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
+              {user?.avatar ? (
+						<Avatar
+							name="Dan Abrahmov"
+							src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
+								user?.avatar
+							}`}
+							w={"56px"}
+							h={"56px"}
+						/>
+					) : (
+						<Avatar
+							name="Dan Abrahmov"
+							bg="rgba(40, 96, 67, 1)"
+							src={"https://bit.ly/broken-link"}
+							w={"56px"}
+							h={"56px"}
+							color={"white"}
+						/>
+					)}
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
@@ -213,7 +258,7 @@ const SidebarWithHeader = () => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
+        size="xs"
       >
         <DrawerContent>
           <SidebarContent onClose={onClose} />

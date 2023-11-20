@@ -28,8 +28,8 @@ import { useState } from "react";
 import { IconEditCircle } from "@tabler/icons-react";
 import { IconLogout2 } from "@tabler/icons-react";
 import { IconSettings } from "@tabler/icons-react";
-import { IconPassword } from "@tabler/icons-react";
 import axios from "axios";
+import ChangePassword from "../../pages/ForgotPassword/UpdatePassword";
 
 export const Profile = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -288,29 +288,7 @@ export const Profile = () => {
 											/>
 											Settings
 										</Button>
-										<Button
-											variant={"ghost"}
-											justifyContent={"start"}
-											fontWeight={400}
-											w={"full"}
-											display={"flex"}
-											alignItems={"center"}
-											gap={3}
-											borderRadius={0}
-											borderBottom={
-												"2px solid rgba(245, 245, 245, 1)"
-											}
-											onClick={() => {
-												navigate("/forgot-password");
-											}}
-										>
-											<IconPassword
-												stroke={1.5}
-												size={"20px"}
-												color="rgba(40, 96, 67, 1)"
-											/>
-											Change Password
-										</Button>
+										<ChangePassword/>
 
 										<Button
 											variant={"ghost"}

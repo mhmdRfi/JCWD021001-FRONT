@@ -1,8 +1,8 @@
-import { Box, Flex, Icon, Image, Text, Link, Divider, 
+import { Box, Flex, Icon, Image, Text,  Divider, Button, 
     // useDisclosure 
 } from "@chakra-ui/react";
 import { SidebarWithHeader } from "../../components/SideBar/SideBar";
-import cashier1 from "../../assets/cashier1.png"
+// import cashier1 from "../../assets/cashier1.png"
 import { FaStar } from "react-icons/fa6";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -22,11 +22,10 @@ function Cashier() {
         username: string;
         type: string;
         status: string;
+        avatar: string;
     }
 
     const [cashier, setCashier] = useState<Cashier[]>([]);
-    
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(8);
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -35,8 +34,8 @@ function Cashier() {
     
     const [inactiveCashier, setInactiveCashier] = useState<Cashier[]>([]);
     const [currentInactivePage, setCurrentInactivePage] = useState(1);
-    const [itemsPerInactivePage] = useState(8);
-    const indexOfLastInactiveItem = currentInactivePage * itemsPerPage;
+    const [itemsPerInactivePage] = useState(4);
+    const indexOfLastInactiveItem = currentInactivePage * itemsPerInactivePage;
     const indexOfFirstInactiveItem = indexOfLastInactiveItem - itemsPerInactivePage;
     const currentInactiveCashiers = inactiveCashier?.slice(indexOfFirstInactiveItem, indexOfLastInactiveItem);
 
@@ -77,7 +76,8 @@ function Cashier() {
         fetchInactiveCashier();
     }, [])
 
-    console.log(cashier);
+    console.log(currentCashiers);
+
     
   return (
     <Box>
@@ -92,9 +92,9 @@ function Cashier() {
         justifyContent={'space-between'}
         alignItems={'center'}
         margin={'0 60px'}>
-            <Flex gap={'10px'}>    
-                <Text color={'#949494'}>Last Updated</Text>
-                <Text>17 November 2023 01:37 PM</Text>
+            <Flex gap={'10px'} >    
+                <Text color={'#949494'} display={{base: 'none', md:'block'}}>Last Updated</Text>
+                <Text display={{base: 'none', md:'block'}}>17 November 2023 01:37 PM</Text>
             </Flex>
 
             <Box>
@@ -107,7 +107,7 @@ function Cashier() {
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        margin={'46px 60px 60px'}
+        margin={{base: '20px', md:'46px 60px 60px'}}
         >
             {currentCashiers?.map((item, index) => (
             <Flex className="cashier-container" alignItems={'center'}
@@ -116,7 +116,7 @@ function Cashier() {
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
-            minWidth={'225px'}
+            minWidth={{base: '155px', md:'225px'}}
             maxWidth={'286px'} key={index}>
                 <Box width={'10px'}
                 height={'80px'}
@@ -131,10 +131,13 @@ function Cashier() {
                 >
                     <Flex justifyContent={'center'}
                     alignItems={'center'}
-                    gap={'16px'}>
+                    gap={'16px'}
+                    flexDirection={{base:'column', md: 'row'}}>
                         <Image boxSize={'64px'}
                         borderRadius={'full'}
-                        src={cashier1}/>
+                        src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
+                            item.avatar
+                        }`}/>
                         <Flex flexDirection={'column'}
                         justifyContent={'center'}
                         alignItems={'flex-start'}
@@ -163,32 +166,43 @@ function Cashier() {
                 </Flex>
             </Flex>
             ))}
+            <Flex gap={'10px'}
+            justifyContent={'right'}
+            width={'100%'}
+            >
+        
+                <Button 
+                cursor="pointer" 
+                isDisabled={currentPage > 1 ? false : true}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>Previous</Button>
+                <Button 
+                cursor="pointer" 
+                onClick={() => setCurrentPage(prev => prev + 1)} 
+                isDisabled={currentPage === Math.ceil(cashier?.length / itemsPerPage) ? true : false}>Next</Button>
+        
+            </Flex>
         </Flex>
 
-        <Box>
         
-                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>First</button>
-                <button onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>Previous</button>
-                {/* Additional pagination controls here */}
-                <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={currentPage === Math.ceil(cashier?.length / itemsPerPage)}>Next</button>
-                <button onClick={() => setCurrentPage(Math.ceil(cashier?.length / itemsPerPage))}>Last</button>
-        
-        </Box>
         {/* <UpdateCashier userId={userId} isOpen={isOpen} onClose={onClose} /> */}
         <Box><Divider/></Box>
+        
         <Flex 
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        margin={'46px 60px 60px'}>
+        margin={{base: '20px', md:'46px 60px 60px'}}
+        >
+            {currentInactiveCashiers?.map((item, index) => (
             <Flex className="cashier-container" alignItems={'center'}
             gap={'24px'}
             flex={'1 0 calc(25% - 24px)'}
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
-            minWidth={'225px'}
-            maxWidth={'286px'}>
+            minWidth={{base: '155px', md:'225px'}}
+            maxWidth={'286px'}
+            key={index}>
                 <Box width={'10px'}
                 height={'80px'}
                 backgroundColor={'#D9D9D9'}
@@ -202,10 +216,13 @@ function Cashier() {
                 >
                     <Flex justifyContent={'center'}
                     alignItems={'center'}
-                    gap={'16px'}>
+                    gap={'16px'}
+                    flexDirection={{base:'column', md: 'row'}}>
                         <Image boxSize={'64px'}
                         borderRadius={'full'}
-                        src={cashier1}/>
+                        src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
+                            item.avatar
+                        }`}/>
                         <Flex flexDirection={'column'}
                         justifyContent={'center'}
                         alignItems={'flex-start'}
@@ -213,28 +230,47 @@ function Cashier() {
                             <Flex alignItems={'center'}
                             gap={'8px'}>
                                 <Icon as={FaStar} color={'#D9D9D9'} fontSize={'24px'}/>
-                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>Cashier Name</Text>
+                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>{item.username}</Text>
                             </Flex>
                             <Flex alignItems={'center'}
                             gap={'8px'}>
-                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>Full-Time   |</Text>
-                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>Inactive</Text>
+                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>{item.type}   |</Text>
+                                <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>{item.status}</Text>
                             </Flex>
                             <Flex alignItems={'center'}
                             gap={'8px'}>
-                                <Link backgroundColor={'transparent'}>
-                                    <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>Edit</Text>
-                                </Link>
-                                <Link>
-                                    <Text fontSize={'14px'} fontWeight={'400'} color={'#949494'}>Delete</Text>
-                                </Link>
+                            
+                                    <UpdateCashier id = {item.id} 
+                                    email = {item.email} 
+                                    username = {item.username} type = {item.type} status = {item.status}
+                                    onCashierUpdated={fetchInactiveCashier}/>
+                                    <DeleteCashier id={item.id} username = {item.username} onCashierDeleted={fetchInactiveCashier}/>
                             </Flex>
                                 
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
+            ))}
+             <Flex gap={'10px'}
+            justifyContent={'right'}
+            width={'100%'}
+            >
+                
+                <Button 
+                cursor="pointer" 
+                isDisabled={currentInactivePage > 1 ? false : true}
+                onClick={() => setCurrentInactivePage(prev => Math.max(1, prev - 1))
+                }>Previous</Button>
+                <Button 
+                cursor="pointer" 
+                onClick={() => setCurrentInactivePage(prev => prev + 1)} 
+                isDisabled={currentInactivePage === Math.ceil(inactiveCashier?.length / itemsPerInactivePage)? true : false}>Next</Button>
+
+            </Flex>
         </Flex>
+        
+        
         </Box>
     </Box>
   )

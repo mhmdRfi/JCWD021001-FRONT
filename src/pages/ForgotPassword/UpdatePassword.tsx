@@ -1,15 +1,16 @@
-import { AbsoluteCenter, Box, Button, FormControl, 
+import {  Button, FormControl, 
     FormErrorMessage, 
-    FormLabel, Input, Image, Text, InputGroup, InputRightElement} from "@chakra-ui/react";
+    FormLabel, Input, InputGroup, InputRightElement, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter} from "@chakra-ui/react";
 import axios from "axios";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
-import background from "../../assets/coffee.jpg"
-import logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { RootState } from "../../redux/store";
+import { IconPassword } from "@tabler/icons-react";
+import { useDisclosure } from "@chakra-ui/react";
 
 
 const PasswordSchema = Yup.object().shape({
@@ -35,27 +36,20 @@ const PasswordSchema = Yup.object().shape({
     ),
   });
 
-function SetNewPassword() {
+function ChangePassword() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
     const [showPassword, setShowPassword] = useState(false);
-    function getQueryParam(param: string) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
-
-    const resetToken = getQueryParam('resetToken')
-
-    const navigate = useNavigate();
-
+    const user = useSelector(
+      (state: RootState) => state.authReducer.user
+    );
     const forgotPassword = async (password: string,) => {
-        if (resetToken === null) {
-            toast.error("Invalid or missing reset token");
-            return;
-        }
+        
         try{ 
-          await axios.patch(`http://localhost:8080/auth/reset-password?resetToken=${encodeURIComponent(resetToken)}`, {
+          await axios.patch(`http://localhost:8080/auth/update-password/${user.id}`, {
           password,
         });
         toast.success("Password is reset successfully")
+        onClose();
         } catch (err){
           console.log(err)
           toast.error("password reset has failed")
@@ -74,42 +68,42 @@ function SetNewPassword() {
           values.password, 
           )
           resetForm({values:{ password: "", confirmationPassword: ""} })
-          navigate('/');
         }
       });
 
+      
+
 
   return (
-    <>
-      <Box>
-      <Box width={'100vw'}
-      height={'100vh'}
-      backgroundColor={'black'}
-      position={'relative'}>
-        <Box width={'100vw'}
-        opacity={'0.5'}
-        padding={'0'}
-        backgroundImage={background}
-        height={'100vh'}
-        backgroundSize={"cover"}></Box>
-
-        <AbsoluteCenter>
-            <Box
-            maxWidth={'500'}
-            overflow={'hidden'}
-            marginBottom={'30px'}>
-                <Image src={logo} margin={'auto'} boxSize={'100px'}/>
-            </Box>
-
-            <Box boxShadow={'0px 1px 5px gray'}
-            padding={'30px'}
-            borderRadius={'10px'}
-            alignItems={'center'}
-            backgroundColor={'white'}
-            width={{base: '300px', md:'400px'}}
-            >
-              <Text fontWeight={'bold'} fontSize={'24px'} textAlign={'center'}>Set New Password</Text>
+    <Button
+											variant={"ghost"}
+											justifyContent={"start"}
+											fontWeight={400}
+											w={"full"}
+											display={"flex"}
+											alignItems={"center"}
+											gap={3}
+											borderRadius={0}
+											borderBottom={
+												"2px solid rgba(245, 245, 245, 1)"
+											}
+											onClick={onOpen}
+										>
+											<IconPassword
+												stroke={1.5}
+												size={"20px"}
+												color="rgba(40, 96, 67, 1)"
+											/>
+											Change Password
+              <Modal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                >
+                  <ModalOverlay />
         <form onSubmit={formik.handleSubmit}>
+        <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
         <FormControl 
         isInvalid={
             !!formik.touched.password &&
@@ -187,33 +181,29 @@ function SetNewPassword() {
                       </FormErrorMessage>
                     )}
                 </FormControl>
-            <Button
+                </ModalBody>	
+                <ModalFooter display={'flex'} gap={'10px'} alignContent={'center'}>                  
+                <Button
                   bg={"#286043"}
                   color={"white"}
                   _hover={{
                     bg: "white",
                     color: "#286043",
+                    border: "1px solid #286043"
                   }}
                   borderRadius={'100px'}
                   type="submit"
-                  width={'100%'}
-                  marginBottom={'10px'}
                 >
-                  Reset Password
+                  Change Password
                 </Button>
-                <Link to="/" >
-                <Text fontSize={'12px'} color={'blue.500'} marginBottom={'10px'} textAlign={'center'}>
-                Back to login
-                </Text>
-                </Link>
+                      <Button onClick={onClose} borderRadius={'100px'} color={"#286043"}>Cancel</Button>
+                    </ModalFooter>			
+        </ModalContent>
         </form>
-        </Box>
-        </AbsoluteCenter>
-      </Box>
-    </Box>
-    </>
+        </Modal>
+        </Button>
   )
 }
 
-export default SetNewPassword
+export default ChangePassword;
 

@@ -46,25 +46,33 @@ function Login() {
         height={'100vh'}
         backgroundSize={"cover"}></Box>
 
+          
           <Box position={'absolute'}
-          left={'150px'}
-          top={'200px'}
-          maxWidth={'500'}
+          left={{base:'0', lg:'150px'}}
+          right={{base:'0', lg:'auto'}}
+          margin={{base:'0 auto', lg:'0'}}
+          // display={{base:'block', md:'none'}}
+          top={{base:'20px', lg:'200px'}}
+          maxWidth={{base:'300px', md:'500px'}}
           overflow={'hidden'}>
-            <Image src={logo} boxSize={'100px'}/>
-            <Text color={'white'} fontSize={'72px'} fontWeight={'800'} margin={'0'}>Starbucks</Text>
-            <Text color={'white'} fontSize={'24px'} fontWeight={'500'} margin={'0'}>The overprice coffee to make you look rich even though you are poor.</Text>
+            <Image src={logo} boxSize={{base:'75px', md:'100px'}} margin={{base:'auto', lg:'0'}}/>
+            <Text color={'white'} fontSize={{base:"32px", lg:'72px'}} fontWeight={'800'} margin={'0'} textAlign={{base: 'center', lg: 'left'}}>Starbucks</Text>
+            <Text color={'white'} fontSize={{base:"12px", lg:'24px'}} fontWeight={'500'} margin={'0'} textAlign={{base: 'center', lg: 'left'}}>The overprice coffee to make you look rich even though you are poor.</Text>
 
           </Box>
 
             <Box boxShadow={'0px 1px 5px gray'}
             padding={'30px'}
+            // display={'none'}
             borderRadius={'10px'}
             alignItems={'center'}
             backgroundColor={'white'}
             position={'absolute'}
-            top={'150px'}
-            right={'150px'}>
+            top={{base:'200px', lg:'150px'}}
+            width={{base: '300px', md:'400px'}}
+            right={{base:'0', md: '150px'}}
+            left={{base:'0', md: 'auto'}}
+            margin={{base: '0 auto', md:'0'}}>
               <Text fontWeight={'bold'} fontSize={'24px'}>Login Form</Text>
               <Text fontSize={'12px'} color={'gray'} paddingTop={'0px'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </Text>
 
@@ -122,8 +130,9 @@ function Login() {
                   bg={"#286043"}
                   color={"white"}
                   _hover={{
-                    bg: "black",
-                    color: "white",
+                    bg: "white",
+                    color: "#286043",
+                    border: "1px solid #286043"
                   }}
                   borderRadius={'100px'}
                   type="submit"
