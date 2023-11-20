@@ -47,6 +47,7 @@ import { logoutSuccess } from '../../redux/reducer/authReducer';
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  to: string;
 }
 
 interface NavItemProps extends FlexProps {
@@ -63,12 +64,12 @@ interface SidebarProps extends BoxProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Dashboard', icon: IconLayoutDashboard },
-  { name: 'Product', icon: IconCup },
-  { name: 'Report', icon: IconReportMoney },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Cashier', icon: IconUsers },
-  { name: 'Admin', icon: IconPasswordUser}
+  { name: 'Dashboard', icon: IconLayoutDashboard, to: '/dashboard-admin' },
+  { name: 'Product', icon: IconCup, to:'' },
+  { name: 'Report', icon: IconReportMoney, to:'' },
+  { name: 'Favourites', icon: FiStar, to:'' },
+  { name: 'Cashier', icon: IconUsers, to:'/cashier' },
+  { name: 'Admin', icon: IconPasswordUser, to:'/cashier-data'}
 ];
 
 
@@ -91,7 +92,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} >
           {link.name}
         </NavItem>
       ))}
