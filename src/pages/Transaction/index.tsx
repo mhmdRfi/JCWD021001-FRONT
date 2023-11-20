@@ -25,7 +25,7 @@ import {
 	IconNumber,
 	IconX,
 } from "@tabler/icons-react";
-import CoffeImg from "../../assets/8485f2f23233df3900caffbd968659b3.png";
+// import CoffeImg from "../../assets/8485f2f23233df3900caffbd968659b3.png";
 
 export const Transaction = () => {
 	const [activePage, setIsActivePage] = useState<string>("Payment");
