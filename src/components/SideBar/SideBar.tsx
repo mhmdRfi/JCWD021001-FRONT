@@ -86,11 +86,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mt='20px' justifyContent="space-between">
+      <Flex justifyContent={'flex-end'}>
+      <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} margin={'20px 20px'}/>
+      </Flex>
+      
+      <Flex h="20" alignItems="center" justifyContent="space-between">
         
       <Image src={LogoIcon} margin={'auto'} boxSize={'72px'}/>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        
       </Flex>
+      
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} >
           {link.name}
