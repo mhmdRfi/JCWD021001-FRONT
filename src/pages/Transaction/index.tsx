@@ -115,8 +115,8 @@ export const Transaction = () => {
 			p={"40px 32px 9px 32px"}
 			gap={"44px"}
 			fontSize={"14px"}
-			direction={{ sm: "column", lg: "row" }}
-			mb={{ sm: "50px", lg: 0 }}
+			direction={{ base: "column", lg: "row" }}
+			mb={{ base: "50px", lg: 0 }}
 		>
 			{activePage == "Payment" || activePage == "Cash" ? (
 				<Button

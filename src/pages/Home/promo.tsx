@@ -30,23 +30,16 @@ export const Promo: React.FC = () => {
 	];
 
 	return (
-		<Flex
-			direction={"column"}
-			mt={"40px"}
-			// mx={"32px"}
-			gap={"24px"}
-			maxW={"872px"}
-		>
+		<Flex direction={"column"} mt={"30px"} gap={"24px"} w={"85%"}>
 			<Text fontSize={"18px"} fontWeight={600}>
 				Promo
 			</Text>
-			<Flex color={"black"} w={"fit-content"}>
+			<Flex color={"black"} w={"full"}>
 				<Grid
 					templateColumns={`repeat(${size}, 1fr)`}
-					alignItems={"flex-start"}
-					alignSelf={"stretch"}
-					gap={"24px"}
 					h={"fit-content"}
+					w={"full"}
+					gap={"24px"}
 				>
 					{promo?.slice(0, size).map((item: any, index: number) => {
 						return (
@@ -71,6 +64,7 @@ export const Promo: React.FC = () => {
 									direction={"column"}
 									gap={"10px"}
 									justify={"center"}
+									display={{base: "none", sm: "block"}}
 									maxW={{
 										base: "50px",
 										sm: "50px",

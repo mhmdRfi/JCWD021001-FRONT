@@ -58,9 +58,9 @@ export const Cart = () => {
 		<Flex
 			direction={"column"}
 			bgColor={"white"}
-			p={"32px"}
+			p={{base: "20px 0",sm: "32px"}}
 			maxW={"100%"}
-			h={"100vh"}
+			h={{base: "97vh",sm: "100vh"}}
 			justifyContent={"space-around"}
 			gap={10}
 		>
@@ -68,28 +68,29 @@ export const Cart = () => {
 				direction={"column"}
 				minH={{sm: "30%", xl: "40%"}}
 				justify={"space-around"}
+				gap={{base: 2, sm:  0}}
 			>
 				<Flex h={"full"} align={"center"}>
-					<Text display={"flex"} gap={"8px"}>
+					<Text display={"flex"} gap={"8px"} fontSize={{base: "12px", sm: "16px"}} alignItems={"center"}>
 						<IconNumber /> SBX{randomCode}
 					</Text>
 				</Flex>
 
 				<Flex gap={"32px"} h={"full"} direction={{sm: "column", lg: "row"}} justify={{sm: "center", lg: "start"}}>
-					<Flex gap={2} align={"center"}>
+					<Flex gap={2} align={"center"} fontSize={{base: "12px", sm: "16px"}}>
 						<IconCalendar />
 						<Text>
 							{day} {months[month]} {year}
 						</Text>
 					</Flex>
-					<Flex gap={2} align={"center"}>
+					<Flex gap={2} align={"center"} fontSize={{base: "12px", sm: "16px"}}>
 						<IconCalendar />
 						<Text>{time}</Text>
 					</Flex>
 				</Flex>
 
-				<Flex h={"full"} justify={"center"} align={"center"}>
-					<InputGroup ml={"-9px"}>
+				<Flex h={"full"} justify={"center"} align={"center"} >
+					<InputGroup ml={{base: "-15px",sm: "-9px"}}>
 						<InputLeftElement
 							pointerEvents="none"
 							display={"flex"}
@@ -102,6 +103,7 @@ export const Cart = () => {
 							type="tel"
 							placeholder="Name"
 							variant={"unstyled"}
+							fontSize={{base: "12px", sm: "16px"}}
 							h={"40px"}
 							value={name}
 							onChange={(e) => setName(e.target.value)}
@@ -109,9 +111,9 @@ export const Cart = () => {
 					</InputGroup>
 				</Flex>
 
-				<Flex justify={"space-around"} gap={5} w={"full"} h={"full"} align={"center"}>
+				<Flex justify={"space-around"} gap={{base: 0, sm:5}} w={"full"} h={"full"} align={"center"}>
 					<Button
-						w={{ sm: "100px", md: "140px", xl: "166px" }}
+						w={{ base: "100px", md: "140px", xl: "166px" }}
 						h={"100px"}
 						display={"flex"}
 						flexDirection={"column"}
@@ -141,7 +143,7 @@ export const Cart = () => {
 					</Button>
 
 					<Button
-						w={{ sm: "100px", md: "140px", xl: "166px" }}
+						w={{ base: "100px", md: "140px", xl: "166px" }}
 						h={"100px"}
 						display={"flex"}
 						flexDirection={"column"}

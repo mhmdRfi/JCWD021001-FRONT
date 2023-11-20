@@ -16,7 +16,6 @@ import {
 	IconSquareRoundedPlus,
 	IconSquareRoundedMinus,
 } from "@tabler/icons-react";
-// import { IconArrowRight } from "@tabler/icons-react";
 
 export const Product = ({ name, codeTransaction }: any) => {
 	const dispatch = useDispatch();
@@ -45,8 +44,9 @@ export const Product = ({ name, codeTransaction }: any) => {
 			h={"full"}
 			w={"full"}
 		>
+			{/* Product */}
 			<Flex
-				h={"full"}
+				h={{ base: "320px", sm: "full", lg: "260px" }}
 				overflowX={"auto"}
 				sx={{
 					"::-webkit-scrollbar": {
@@ -54,14 +54,13 @@ export const Product = ({ name, codeTransaction }: any) => {
 					},
 				}}
 				direction={"column"}
-				gap={{ sm: 5, lg: 0 }}
+				gap={{ base: 5, lg: 0 }}
 			>
 				{products?.map((items, index) => {
 					return (
 						<Box
 							key={index}
 							display={"flex"}
-							// bgColor={"red"}
 							h={"fit-content"}
 							justifyContent={"space-between"}
 							flexDirection={"column"}
@@ -81,8 +80,8 @@ export const Product = ({ name, codeTransaction }: any) => {
 											items?.image ||
 											"product_ChocolateCreamColdBrew.jpg"
 										}`}
-										minW={{ sm: "60px", xl: "80px" }}
-										h={{ sm: "60px", xl: "80px" }}
+										minW={{ base: "60px", sm: "70px", xl: "80px" }}
+										h={{ base: "60px", sm: "70px", xl: "80px" }}
 										borderRadius={"16px"}
 									/>
 								</Flex>
@@ -91,12 +90,12 @@ export const Product = ({ name, codeTransaction }: any) => {
 								<Flex
 									direction={"column"}
 									w={"full"}
-									gap={{ sm: 0, lg: 5 }}
+									gap={{ base: 2, lg: 5 }}
 								>
 									<Flex
 										w={"full"}
 										justify={"space-between"}
-										gap={{ sm: "0px", lg: "15px" }}
+										gap={{ sm: 1, lg: "15px" }}
 										direction={{ sm: "column", lg: "row" }}
 									>
 										<Flex
@@ -107,8 +106,8 @@ export const Product = ({ name, codeTransaction }: any) => {
 										>
 											<Text
 												fontWeight={600}
-												fontSize={{ sm: "12px", xl: "16px" }}
-												lineHeight={{ sm: "12px", xl: "18px" }}
+												fontSize={{ base: "12px", xl: "16px" }}
+												lineHeight={{ base: "12px", xl: "18px" }}
 												m={0}
 												maxH={{ sm: "24px", xl: "36px" }}
 												maxW={"130px"}
@@ -120,7 +119,7 @@ export const Product = ({ name, codeTransaction }: any) => {
 											</Text>
 											<Text
 												fontWeight={600}
-												fontSize={{ sm: "12px", xl: "16px" }}
+												fontSize={{ base: "12px", xl: "16px" }}
 												m={0}
 												display={"flex"}
 												alignItems={"flex-start"}
@@ -129,9 +128,7 @@ export const Product = ({ name, codeTransaction }: any) => {
 											</Text>
 										</Flex>
 										<Flex align={"center"}>
-											<Text
-												fontSize={{ sm: "10px", xl: "14px" }}
-											>
+											<Text fontSize={{ base: "10px", xl: "14px" }}>
 												{toRupiah(items.initialPrice || items.price)}
 											</Text>
 										</Flex>
@@ -139,9 +136,11 @@ export const Product = ({ name, codeTransaction }: any) => {
 									<Flex gap={3} h={"fit-content"} justify={"end"}>
 										<Button
 											size={"xm"}
-											w={{ sm: "20px", lg: "30px" }}
-											h={{ sm: "20px", lg: "30px" }}
+											w={{ base: "20px", lg: "30px" }}
+											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
+											bgColor={"transparent"}
+											_hover={{ bgColor: "transparetn" }}
 											onClick={() => handleDecrement(items.id)}
 										>
 											<IconSquareRoundedMinus
@@ -149,14 +148,16 @@ export const Product = ({ name, codeTransaction }: any) => {
 												stroke={1}
 											/>
 										</Button>
-										<Text fontSize={{ sm: "12px", xl: "16px" }}>
+										<Text fontSize={{ base: "12px", xl: "16px" }}>
 											{items.total}
 										</Text>
 										<Button
 											size={"xm"}
-											w={{ sm: "20px", lg: "30px" }}
-											h={{ sm: "20px", lg: "30px" }}
+											w={{ base: "20px", lg: "30px" }}
+											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
+											bgColor={"transparent"}
+											_hover={{ bgColor: "transparetn" }}
 											onClick={() => handleIncrement(items.id)}
 										>
 											<IconSquareRoundedPlus
@@ -166,10 +167,11 @@ export const Product = ({ name, codeTransaction }: any) => {
 										</Button>
 										<Button
 											size={"xm"}
-											w={{ sm: "20px", lg: "30px" }}
-											h={{ sm: "20px", lg: "30px" }}
+											w={{ base: "20px", lg: "30px" }}
+											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
 											bgColor={"transparent"}
+											_hover={{ bgColor: "transparetn" }}
 											onClick={() => handleRemove(items.id)}
 										>
 											<IconTrash color="red" />
@@ -181,6 +183,8 @@ export const Product = ({ name, codeTransaction }: any) => {
 					);
 				})}
 			</Flex>
+
+			{/* Button */}
 			<Flex direction={"column"} gap={"10px"}>
 				<Flex justify={"end"} alignItems={"end"}>
 					{toRupiah(totalPrice)}
@@ -194,6 +198,7 @@ export const Product = ({ name, codeTransaction }: any) => {
 						border={"1px solid"}
 						bgColor={"transparent"}
 						borderColor={" var(--black-b-200, #666)"}
+						isDisabled={products.length == 0 ? true : false}
 						onClick={() => dispatch(removeAllFromCart())}
 					>
 						Cancel
@@ -205,6 +210,7 @@ export const Product = ({ name, codeTransaction }: any) => {
 						borderRadius={"100px"}
 						background={"var(--brand-brand-500, #286043)"}
 						color={"var(--black-b-0, #FFF)"}
+						isDisabled={products.length == 0 ? true : false}
 						onClick={() =>
 							navigate("/transaction", {
 								state: {

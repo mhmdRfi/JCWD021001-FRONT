@@ -14,6 +14,8 @@ import {
 	MenuItem,
 	MenuOptionGroup,
 	MenuDivider,
+	Divider,
+	Box,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import toRupiah from "@develoka/angka-rupiah-js";
@@ -80,17 +82,16 @@ export const Category = ({ productName }: any) => {
 	];
 
 	return (
-		<Flex
-			direction={"column"}
-			mx={"32px"}
-			gap={"24px"}
-			maxW={"872px"}
-		>
+		<Flex direction={"column"} gap={"24px"} w={"85%"}>
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
 			<Flex gap={"16px"} justify={"space-between"}>
-				<Flex gap={{ sm: "10px", lg: "16px" }}>
+				<Grid
+					display={{base: "grid", sm: "flex"}}
+					templateColumns={`repeat(3, 1fr)`}
+					gap={{ base: "10px", lg: "16px" }}
+				>
 					{buttonValue?.map((Items, index) => {
 						return (
 							<Button
@@ -98,11 +99,11 @@ export const Category = ({ productName }: any) => {
 								display={"flex"}
 								justifyContent={"center"}
 								alignItems={"center"}
-								fontSize={{ sm: "10px", lg: "14px" }}
+								fontSize={{ base: "10px", lg: "14px" }}
 								fontWeight={400}
 								p={{ sm: "8px 15px", lg: "14px 24px" }}
 								cursor={"pointer"}
-								borderRadius={{ sm: "10px", lg: "100px" }}
+								borderRadius={{ base: "10px", lg: "100px" }}
 								border={"1px solid var(--black-b-80, #949494)"}
 								sx={
 									activeButton == Items
@@ -138,7 +139,7 @@ export const Category = ({ productName }: any) => {
 							display={"flex"}
 							justifyContent={"center"}
 							alignItems={"center"}
-							fontSize={{ sm: "10px", lg: "14px" }}
+							fontSize={{ base: "10px", lg: "14px" }}
 							fontWeight={400}
 							p={{ sm: "10px 20px", lg: "14px 24px" }}
 							cursor={"pointer"}
@@ -203,16 +204,24 @@ export const Category = ({ productName }: any) => {
 							</MenuOptionGroup>
 						</MenuList>
 					</Menu>
-				</Flex>
+				</Grid>
 			</Flex>
 
-			<Flex gap={7} justifyContent={"end"} align={"center"}>
+			<Flex gap={5} justifyContent={"end"} align={"center"}>
 				<Card
 					bgColor={"white"}
-					p={"10px 20px"}
+					p={"5px 15px"}
+					display={"flex"}
+					flexDirection={"row"}
 					borderRadius={"100px"}
+					fontSize={{ base: "12px", lg: "14px" }}
+					gap={1.5}
 				>
-					{page} / {totalPage}
+					<Text>0{page}</Text>
+					<Text position={"relative"} top={"-1px"}>
+						/
+					</Text>
+					<Text>0{totalPage}</Text>
 				</Card>
 				<Flex gap={2}>
 					<Button
@@ -250,6 +259,7 @@ export const Category = ({ productName }: any) => {
 						// mx={"20px"}
 						templateColumns={{
 							base: "repeat(2, 1fr)",
+							sm: "repeat(2, 1fr)",
 							lg: "repeat(3, 1fr)",
 						}}
 						alignItems={"flex-start"}
@@ -263,9 +273,9 @@ export const Category = ({ productName }: any) => {
 									key={index}
 									bgColor={"white"}
 									display={"flex"}
-									gap={"20px"}
+									gap={{base: 0,sm: "20px"}}
 									p={{ sm: "14px", lg: "24px" }}
-									flexDirection={"row"}
+									flexDirection={{ base: "column", sm: "row" }}
 									borderRadius={"16px"}
 									onClick={() => {
 										dispatch(addToCart(items));
@@ -285,13 +295,13 @@ export const Category = ({ productName }: any) => {
 											borderRadius={"16px"}
 										/>
 									</Flex>
-									<Flex direction={"column"} justify={"space-around"}>
+									<Flex direction={"column"} justify={"space-around"} p={{base: "10px 20px", sm: 0}}>
 										<Text
 											fontWeight={600}
-											fontSize={{ sm: "12px", xl: "16px" }}
-											lineHeight={{ sm: "14px", xl: "18px" }}
+											fontSize={{ base: "12px", xl: "16px" }}
+											lineHeight={{ base: "15px", xl: "18px" }}
 											m={0}
-											maxH={{ sm: "30px", xl: "36px" }}
+											maxH={{ base: "30px", xl: "36px" }}
 											maxW={"130px"}
 											display={"flex"}
 											alignItems={"flex-start"}
@@ -301,7 +311,7 @@ export const Category = ({ productName }: any) => {
 										</Text>
 										<Text
 											fontWeight={400}
-											fontSize={{ sm: "12px", xl: "16px" }}
+											fontSize={{ base: "12px", xl: "16px" }}
 											m={0}
 										>
 											{toRupiah(items.price)}

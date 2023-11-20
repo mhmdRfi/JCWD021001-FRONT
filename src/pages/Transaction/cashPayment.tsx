@@ -12,14 +12,13 @@ export const CashPayment = ({
 }: any) => {
 	const [payment, setPayment] = useState<any>(0 || "");
 
-
 	return (
 		<Flex
 			w={"full"}
 			h={"full"}
 			direction={"column"}
 			justify={"space-between"}
-			gap={{sm: 10, lg: 0}}
+			gap={{ sm: 10, lg: 0 }}
 			// display={"none"}
 		>
 			<Flex w={"full"} gap={"20px"} direction={"column"}>
@@ -148,7 +147,11 @@ export const CashPayment = ({
 				</Button>
 			</Flex>
 
-			<Flex w={"full"} direction={"column"} gap={{sm: "28px",lg: "20px"}}>
+			<Flex
+				w={"full"}
+				direction={"column"}
+				gap={{ sm: "28px", lg: "20px" }}
+			>
 				<Flex justify={"space-between"} w={"full"}>
 					<Text>Payment</Text>
 					<Text>{toRupiah(payment)}</Text>
@@ -181,9 +184,10 @@ export const CashPayment = ({
 					<Button
 						onClick={() => {
 							setIsPayment(payment);
-							setTransactionSuccess(true)
+							setTransactionSuccess(true);
 							setActive("PaymentSuccess");
 						}}
+						isDisabled={total > payment ? true : false}
 						borderRadius={"100px"}
 						background={"var(--brand-brand-500, #286043)"}
 						color={"var(--black-b-0, #FFF)"}

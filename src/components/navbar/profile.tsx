@@ -53,7 +53,7 @@ export const Profile = () => {
 			dispatch(keepLogin());
 
 			toast({
-				title: "Update imgae success",
+				title: "Change image success",
 				status: "success",
 			});
 		} catch (err: any) {
@@ -106,7 +106,7 @@ export const Profile = () => {
 						/>
 					)}
 				</Flex>
-				<Box display={"flex"} flexDirection={"column"} gap={"8px"}>
+				<Box display={{base: "none",sm: "flex"}} flexDirection={"column"} gap={"8px"}>
 					<Text m={0} fontSize={{ sm: "12px",lg: "14px", xl: "16px" }}>{user.username}</Text>
 					<Text
 						m={0}
