@@ -14,13 +14,18 @@ import { Profile } from "./profile";
 
 export const Navbar = ({ setProductName }: any) => {
 	return (
-		<Flex justify={"space-between"} align={"center"} pl={{sm: "40px"}} pr={{sm: "80px"}} >
+		<Flex
+			justify={"space-around"}
+			align={"center"}
+			pl={{ sm: "20px", lg: "40px" }}
+			pr={{ sm: "20px", lg: "80px" }}
+		>
 			<Flex
 				gap={"16px"}
 				align={"center"}
 				justify={"space-between"}
 				h={"100%"}
-				mx={{base: 5,sm: 42}}
+				mx={{ base: 5, lg: 42 }}
 				w={"full"}
 			>
 				<Flex align={"center"} w={"72px"} h={"72.9px"}>
@@ -47,7 +52,7 @@ export const Navbar = ({ setProductName }: any) => {
 						placeholder="Search"
 						display={"flex"}
 						alignItems={"center"}
-						h={{base: "40px",sm: "56px"}}
+						h={{ base: "40px", lg: "56px" }}
 						maxW={"581px"}
 						borderRadius={" 200px"}
 						border="1px solid var(--black-b-200, #666)"
@@ -57,7 +62,7 @@ export const Navbar = ({ setProductName }: any) => {
 					/>
 				</InputGroup>
 			</Flex>
-			<Flex >
+			<Flex>
 				<Profile />
 			</Flex>
 		</Flex>

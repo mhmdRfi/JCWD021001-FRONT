@@ -86,11 +86,12 @@ export const Category = ({ productName }: any) => {
 			<Text fontSize={"18px"} fontWeight={600}>
 				Category
 			</Text>
-			<Flex gap={"16px"} justify={"space-between"}>
+			<Flex gap={"16px"} justify={"space-between"} w={"full"}>
 				<Grid
 					display={{ base: "grid", sm: "flex" }}
 					templateColumns={`repeat(3, 1fr)`}
 					gap={{ base: "10px", lg: "16px" }}
+					w={"full"}
 				>
 					{buttonValue?.map((Items, index) => {
 						return (
