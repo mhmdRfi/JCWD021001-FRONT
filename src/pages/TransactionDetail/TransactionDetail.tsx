@@ -110,8 +110,8 @@ const TransactionDetail = () => {
         <Text fontSize='large' fontWeight='bold'>Cashier Information</Text>
         <HStack>
           <Image
-            // src={`http://localhost:8080/uploads/avatar/${data[0]?.cashier?.avatar}`}
-            src='https://tse3.mm.bing.net/th?id=OIP.pi83Xrt5Xqa_A6F5TOqBxwHaEK&pid=Api&P=0&h=180'
+            src={`http://localhost:8080/uploads/avatar/${data[0]?.cashier?.avatar}`}
+            // src='https://tse3.mm.bing.net/th?id=OIP.pi83Xrt5Xqa_A6F5TOqBxwHaEK&pid=Api&P=0&h=180'
             alt={`${data[0]?.cashier?.username}`}
             boxSize="100px"
             objectFit="cover"

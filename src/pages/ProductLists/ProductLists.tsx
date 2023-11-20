@@ -327,8 +327,8 @@ const getPageNumbers = () => {
                       src={`http://localhost:8080/uploads/products/${item.image}`}
                       alt={item.name}
                       objectFit='cover'
-                      width='100px'
-                      height='50px'
+                      width='80px'
+                      height='80px'
                       borderRadius='lg'
                       justifySelf='center' />
                    <Spacer /> 
