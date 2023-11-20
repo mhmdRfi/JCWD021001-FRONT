@@ -87,34 +87,35 @@ export const login = (email: string, password: string) => {
 };
 
 export const keepLogin = () => {
-  return async (dispatch: Dispatch) => {
-    try{
-      const token = localStorage.getItem("token");
+	return async (dispatch: Dispatch) => {
+		try {
+			const token = localStorage.getItem("token");
 
-      if (token){
-        const res = await axios.get("http://localhost:8080/auth/keep-login", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        dispatch(setUser(res?.data?.data));
-        dispatch(keepLoginSuccess());
-      }
-    } catch (err){
-      localStorage.removeItem("token")
-      if (err && axios.isAxiosError(err)) {
-        const axiosError = err as AxiosError;
-        if (axiosError.response) {
-          alert(axiosError.response.data);
-        }
-      } else {
-        
-        console.error('An unexpected error occurred:', err);
-      }
-    }
-  }
-}
+			if (token) {
+				const res = await axios.get(
+					"http://localhost:8080/auth/keep-login",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+				dispatch(setUser(res?.data?.data));
+				dispatch(keepLoginSuccess());
+			}
+		} catch (err) {
+			localStorage.removeItem("token");
+			if (err && axios.isAxiosError(err)) {
+				const axiosError = err as AxiosError;
+				if (axiosError.response) {
+					alert(axiosError.response.data);
+				}
+			} else {
+				console.error("An unexpected error occurred:", err);
+			}
+		}
+	};
+};
 
 export const {
 	setUser,

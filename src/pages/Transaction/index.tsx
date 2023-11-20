@@ -134,7 +134,7 @@ export const Transaction = () => {
 					gap={1.5}
 					onClick={() => navigate("/cashier")}
 				>
-					<IconX size={"14px"} stroke={1}/> Cancel Order
+					<IconX size={"14px"} stroke={1} /> Cancel Order
 				</Button>
 			) : null}
 
@@ -143,28 +143,28 @@ export const Transaction = () => {
 				direction={"column"}
 				w={{ sm: "100%", lg: "50%" }}
 				bgColor={"white"}
-				p={"32px 52px"}
+				p={{base: "10px 15px",sm: "32px 52px"}}
 				gap={"34px"}
 			>
 				<Flex w={"full"} justify={"space-between"}>
 					<Flex direction={"column"} gap={"24px"} fontSize={"16px"}>
-						<Text display={"flex"} gap={"8px"} alignItems={"center"}>
+						<Text display={"flex"} gap={"8px"} alignItems={"center"} fontSize={{ base: "12px", xl: "16px" }}>
 							<IconNumber /> SBX{state?.transactionCode}
 						</Text>
-						<Flex alignItems={"center"} gap={"8px"} fontSize={"16px"}>
+						<Flex alignItems={"center"} gap={"8px"} fontSize={{ base: "12px", xl: "16px" }}>
 							<IconUser width={"24px"} height={"24px"} />
 							{state?.name}
 						</Flex>
 					</Flex>
 
 					<Flex direction={"column"} gap={"24px"}>
-						<Flex gap={2} alignItems={"center"} fontSize={"16px"}>
+						<Flex gap={2} alignItems={"center"} fontSize={{ base: "12px", xl: "16px" }}>
 							<IconCalendar />
 							<Text>
 								{day} {months[month]} {year}
 							</Text>
 						</Flex>
-						<Flex gap={2} alignItems={"center"} fontSize={"16px"}>
+						<Flex gap={2} alignItems={"center"} fontSize={{ base: "12px", xl: "16px" }}>
 							<IconCalendar />
 							<Text>{time}</Text>
 						</Flex>
@@ -172,7 +172,7 @@ export const Transaction = () => {
 				</Flex>
 
 				{/* Product */}
-				<Box
+				<Flex
 					h={"280px"}
 					overflowX={"auto"}
 					sx={{
@@ -180,6 +180,8 @@ export const Transaction = () => {
 							display: "none",
 						},
 					}}
+					direction={"column"}
+					gap={5}
 				>
 					{cart?.map((items: any, index) => {
 						return (
@@ -193,20 +195,30 @@ export const Transaction = () => {
 								alignItems={"flex-start"}
 								onClick={() => navigate("/")}
 							>
-								<Flex align={"center"} h={"fit-content"} w={"full"}>
+								<Flex align={"center"} h={"fit-content"} w={"full"} gap={5}>
 									<Flex
 										align={"center"}
 										w={"fit-content"}
 										h={"fit-content"}
 									>
-										<Image src={CoffeImg} w={"100px"} h={"80px"} />
+										<Image
+											src={`${
+												import.meta.env.VITE_APP_IMAGE_URL
+											}/products/${
+												items?.image ||
+												"product_ChocolateCreamColdBrew.jpg"
+											}`}
+											minW={{ base: "60px", xl: "80px" }}
+											h={{ base: "60px", xl: "80px" }}
+											borderRadius={"16px"}
+										/>
 									</Flex>
 									<Flex direction={"column"} w={"full"} gap={5}>
 										<Flex w={"full"} justify={"space-between"}>
-											<Text>
+											<Text fontSize={{ base: "12px", xl: "16px" }}>
 												{items.name} ({items.total}x)
 											</Text>
-											<Text>
+											<Text fontSize={{ base: "12px", xl: "16px" }}>
 												{toRupiah(items.initialPrice || items.price)}
 											</Text>
 										</Flex>
@@ -215,8 +227,7 @@ export const Transaction = () => {
 							</Box>
 						);
 					})}
-					{/* <Flex justify={"end"}>{toRupiah(transactionPrice)}</Flex> */}
-				</Box>
+				</Flex>
 				<Flex
 					w={"full"}
 					direction={"column"}
@@ -254,7 +265,7 @@ export const Transaction = () => {
 				w={{ sm: "100%", lg: "50%" }}
 				bgColor={"white"}
 				direction={"column"}
-				p={"32px 52px"}
+				p={{base: "10px 15px",sm: "32px 52px"}}
 				gap={"34px"}
 			>
 				<Flex direction={"column"} gap={"30px"} h={"full"}>

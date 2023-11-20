@@ -88,7 +88,7 @@ export const Category = ({ productName }: any) => {
 			</Text>
 			<Flex gap={"16px"} justify={"space-between"}>
 				<Grid
-					display={{base: "grid", sm: "flex"}}
+					display={{ base: "grid", sm: "flex" }}
 					templateColumns={`repeat(3, 1fr)`}
 					gap={{ base: "10px", lg: "16px" }}
 				>
@@ -273,13 +273,16 @@ export const Category = ({ productName }: any) => {
 									key={index}
 									bgColor={"white"}
 									display={"flex"}
-									gap={{base: 0,sm: "20px"}}
+									gap={{ base: 0, sm: "20px" }}
 									p={{ sm: "14px", lg: "24px" }}
 									flexDirection={{ base: "column", sm: "row" }}
 									borderRadius={"16px"}
 									onClick={() => {
-										dispatch(addToCart(items));
+										items.quantity > 0
+											? dispatch(addToCart(items))
+											: null
 									}}
+									sx={items.quantity <= 0 ? {filter: "grayscale(100%)"} : {filter: "none"}}
 									cursor={"pointer"}
 								>
 									<Flex align={"center"}>
@@ -295,7 +298,11 @@ export const Category = ({ productName }: any) => {
 											borderRadius={"16px"}
 										/>
 									</Flex>
-									<Flex direction={"column"} justify={"space-around"} p={{base: "10px 20px", sm: 0}}>
+									<Flex
+										direction={"column"}
+										justify={"space-around"}
+										p={{ base: "10px 20px", sm: 0 }}
+									>
 										<Text
 											fontWeight={600}
 											fontSize={{ base: "12px", xl: "16px" }}

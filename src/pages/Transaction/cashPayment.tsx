@@ -18,7 +18,7 @@ export const CashPayment = ({
 			h={"full"}
 			direction={"column"}
 			justify={"space-between"}
-			gap={{ sm: 10, lg: 0 }}
+			gap={{ base: 10, lg: 0 }}
 			// display={"none"}
 		>
 			<Flex w={"full"} gap={"20px"} direction={"column"}>
@@ -150,7 +150,7 @@ export const CashPayment = ({
 			<Flex
 				w={"full"}
 				direction={"column"}
-				gap={{ sm: "28px", lg: "20px" }}
+				gap={{ base: "28px", lg: "20px" }}
 			>
 				<Flex justify={"space-between"} w={"full"}>
 					<Text>Payment</Text>

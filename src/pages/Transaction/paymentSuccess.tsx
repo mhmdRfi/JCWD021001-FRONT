@@ -48,7 +48,7 @@ export const PaymentSuccess = ({
 			h={"full"}
 			w={"full"}
 			direction={"column"}
-			gap={{sm: 10, lg: 0}}
+			gap={{base: 10, lg: 0}}
 		>
 			<Flex
 				direction={"column"}

@@ -21,7 +21,7 @@ export const Payment = ({
 			direction={"column"}
 			justify={"space-between"}
 			h={"100%"}
-			gap={{ sm: 10, lg: 0 }}
+			gap={{ base: 10, lg: 0 }}
 		>
 			<Flex w={"full"} gap={"30px"} direction={"column"}>
 				<Button

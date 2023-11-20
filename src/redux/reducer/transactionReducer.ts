@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
 interface Product {
 	id: number;
 	name: string;
@@ -16,12 +15,14 @@ interface CartState {
 	products: Product[];
 	totalPrice: number;
 	countCart: number;
+	// userId: any;
 }
 
 const initialState: CartState = {
 	products: [],
 	totalPrice: 0,
 	countCart: 0,
+	// userId: authReducer,
 };
 
 const cartSlice = createSlice({
@@ -33,23 +34,31 @@ const cartSlice = createSlice({
 			action: PayloadAction<Product>
 		): void => {
 			const newProduct: Product = action.payload;
-			const existingProduct = state.products.find(
-				(item) => item.id === newProduct.id
-			);
+			if (newProduct.quantity > 0) {
+				const existingProduct = state.products.find(
+					(item) => item.id === newProduct.id
+				);
 
-			if (existingProduct) {
-				existingProduct.total += 1;
-				existingProduct.quantity -= 1;
-				state.totalPrice += newProduct.price;
+				if (existingProduct) {
+					if (existingProduct.quantity - 1 == 0) {
+						existingProduct.total += 1;
+						existingProduct.quantity -= 1;
+						state.totalPrice += newProduct.price;
+					} else {
+						return alert("stock abis");
+					}
+				} else {
+					state.countCart += 1;
+
+					state.products.push({
+						...newProduct,
+						total: 1,
+						quantity: newProduct.quantity - 1,
+					});
+					state.totalPrice += newProduct.price;
+				}
 			} else {
-				state.countCart += 1;
-
-				state.products.push({
-					...newProduct,
-					total: 1,
-					quantity: newProduct.quantity - 1,
-				});
-				state.totalPrice += newProduct.price;
+				return alert("Stock abis");
 			}
 		},
 		increment: (
@@ -60,13 +69,17 @@ const cartSlice = createSlice({
 			const productToIncrement = state.products.find(
 				(item) => item.id === productId
 			);
-
+			console.log(productToIncrement?.quantity)
 			if (productToIncrement) {
-				productToIncrement.total += 1;
-				productToIncrement.quantity -= 1;
-				productToIncrement.initialPrice =
-					productToIncrement.price * productToIncrement.total;
-				state.totalPrice += productToIncrement.price;
+				if (productToIncrement?.quantity - 1 >= 0) {
+					productToIncrement.total += 1;
+					productToIncrement.quantity -= 1;
+					productToIncrement.initialPrice =
+						productToIncrement.price * productToIncrement.total;
+					state.totalPrice += productToIncrement.price;
+				} else {
+					return alert("Stock abis")
+				}
 			}
 		},
 		decrement: (
