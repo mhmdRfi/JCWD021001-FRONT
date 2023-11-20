@@ -17,6 +17,7 @@ import {
     FormErrorMessage} from '@chakra-ui/react'
 import { useFormik } from "formik";
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface UpdateCashierProps {
     id: number;
@@ -53,12 +54,12 @@ function UpdateCashier({id, email, username, type, status, onCashierUpdated}: Up
     }
     );
 
-    alert("Edit cashier is successful")
+    toast.success("Edit cashier is successful")
     onCashierUpdated();
     onClose();
     } catch (err){
       console.log(err)
-      alert("Edit cashier failed")
+      toast.error("Edit cashier failed")
     }
   };
 

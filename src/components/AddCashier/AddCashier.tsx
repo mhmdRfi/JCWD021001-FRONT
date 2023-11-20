@@ -21,12 +21,22 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from 'axios';
 import { IconPlus } from '@tabler/icons-react';
+import toast from 'react-hot-toast';
+import { BeatLoader } from "react-spinners";
+import { useState, CSSProperties } from "react";
+
 
 const CashierScheme = Yup.object().shape({
   email: Yup.string().email("email is invalid").required("email is required"),
   username: Yup.string().required("Tanggal tiket wajib diisi"),
   password: Yup.string().required("Password tiket wajib diisi"),
 })
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "white",
+};
 
 interface AddCashierProps {
     onCashierAdded: () => void;
@@ -37,7 +47,7 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
   const token = localStorage.getItem("token");
   
 //   const [addCashier, setAddCashier] = useState();
-
+const [loading, setLoading] = useState(false);
 
   const addCashier = async (
     email: string,
@@ -46,6 +56,8 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
     type: string,
   ) => {
     try{ 
+      setLoading(true);
+      const loadingToastId = toast.loading("Add cashier is on process")
       await axios.post("http://localhost:8080/auth/addcashier", {
       email,
       username,
@@ -57,12 +69,14 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
       }
     });
     onCashierAdded();
-
-    alert("Add cashier is successful")
+    setLoading(false);
+    toast.success("Successfully add cashier", {
+      id: loadingToastId
+    })
     onClose();
     } catch (err){
       console.log(err)
-      alert("Add cashier failed")
+      toast.error("Add cashier failed")
     }
   };
   
@@ -93,7 +107,7 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
         bg={"#286043"}
         color={"white"}
         _hover={{
-            bg: "white",
+            bg: "#EAEFEC",
             color: "#286043",
             border: "2px solid #286043"
         }}
@@ -103,8 +117,8 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
         alignItems={'center'}
         justifyContent={'center'}
         padding={'14px 24px 12px 24px'}>
-            <Text>Add New</Text>
-            <Icon as={IconPlus} color={'#FFFFF'}/>
+            <Text fontSize={{base:'11px', md:'16px'}}>Add New</Text>
+            <Icon as={IconPlus} color={'#FFFFF'} display={{base: 'none', md:'block'}}/>
                 <Modal
                   isOpen={isOpen}
                   onClose={onClose}
@@ -185,11 +199,43 @@ const AddCashier: FC<AddCashierProps> = ({onCashierAdded}) => {
                       
                     </ModalBody>
 
-                    <ModalFooter>
-                      <Button colorScheme='blue' mr={3} type='submit'>
-                        Save
-                      </Button>
-                      <Button onClick={onClose}>Cancel</Button>
+                    <ModalFooter gap={'10px'}>
+                    {loading ?(
+                <Button
+                bg={"#286043"}
+                color={"white"}
+                borderRadius={'100px'}
+                // isDisabled
+              >
+                <div className="sweet-loading">
+              <BeatLoader
+                color={"#ffffff"}
+                loading={loading}
+                cssOverride={override}
+                size={20}
+                aria-label="spiner"
+                data-testid="loader"
+              />
+            </div>
+              </Button>
+              
+                ):(
+                  <Button
+                  bg={"#286043"}
+                  color={"white"}
+                  _hover={{
+                    bg: "white",
+                    color: "#286043",
+                    border: "1px solid #286043"
+                  }}
+                  borderRadius={'100px'}
+                  type="submit"
+                >
+                  Add Cashier
+                </Button>
+
+                )}
+                      <Button onClick={onClose} borderRadius={'100px'}>Cancel</Button>
                     </ModalFooter>
                   </ModalContent>
                   </form>

@@ -5,27 +5,45 @@ import background from "../../assets/coffee.jpg"
 import logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png"
 import axios from "axios";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
+import { useState, CSSProperties } from "react";
 
 const EmailScheme = Yup.object().shape({
     email: Yup.string().email("email is invalid").required("email is required"),
   })
 
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+  };
+
 function ForgotPassword() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const forgotPassword = async (
         email: string,
       ) => {
         try{ 
+          setLoading(true);
+          const loadingToastId = toast.loading("Sending reset password link to your email")
           await axios.patch("http://localhost:8080/auth/forgot-password", {
           email,
         });
-        alert("Link to reset password has been sent to your email")
+        setLoading(false);
+        toast.success("Link to reset password has been sent to your email", {
+          id: loadingToastId
+        })
+        navigate('/');
         } catch (err){
           console.log(err)
-          alert("Email doesn't exist")
+          toast.error("Email doesn't exist")
         }
       };
+
+
     
       const formik = useFormik({
         initialValues:{
@@ -38,7 +56,6 @@ function ForgotPassword() {
           values.email, 
           )
           resetForm({values:{ email: ""} })
-          navigate('/');
         }
       });
 
@@ -70,7 +87,7 @@ function ForgotPassword() {
             borderRadius={'10px'}
             alignItems={'center'}
             backgroundColor={'white'}
-            width={'400px'}
+            width={{base: '300px', md:'400px'}}
             >
               <Text fontWeight={'bold'} fontSize={'24px'} textAlign={'center'}>Forgot Password</Text>
               <Text textAlign={'center'} fontSize={'12px'} color={'gray'} paddingTop={'0px'}>Input your email to reset your password.</Text>
@@ -95,18 +112,42 @@ function ForgotPassword() {
                 </InputGroup>
               </FormControl>
               <Stack >
-              <Button
+                {loading ?(
+                <Button
+                bg={"#286043"}
+                color={"white"}
+                borderRadius={'100px'}
+                // isDisabled
+              >
+                <div className="sweet-loading">
+              <BeatLoader
+                color={"#ffffff"}
+                loading={loading}
+                cssOverride={override}
+                size={20}
+                aria-label="spiner"
+                data-testid="loader"
+              />
+            </div>
+              </Button>
+              
+                ):(
+                  <Button
                   bg={"#286043"}
                   color={"white"}
                   _hover={{
-                    bg: "black",
-                    color: "white",
+                    bg: "white",
+                    color: "#286043",
+                    border: "1px solid #286043"
                   }}
                   borderRadius={'100px'}
                   type="submit"
                 >
                   Send reset link
                 </Button>
+              
+                
+                )}
                 <Link to="/" >
                 <Text fontSize={'12px'} color={'blue.500'} marginBottom={'10px'} textAlign={'center'}>
                 Back to login

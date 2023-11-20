@@ -11,6 +11,7 @@ import {
     Link,
     } from '@chakra-ui/react'
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface DeleteCashierProps {
     id: number;
@@ -34,12 +35,12 @@ function DeleteCashier({id, username, onCashierDeleted}: DeleteCashierProps) {
     }
     );
 
-    alert("Delete cashier is successful")
+    toast.success("Delete cashier is successful")
     onCashierDeleted();
     onClose();
     } catch (err){
       console.log(err)
-      alert("Delete cashier failed")
+      toast.error("Delete cashier failed")
     }
   };
 

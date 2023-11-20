@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 interface User {
 	id: number | null;
@@ -72,12 +73,13 @@ export const login = (email: string, password: string) => {
 			localStorage.setItem("token", res?.data?.data?.token);
 			dispatch(setUser(res?.data?.data?.user));
 			dispatch(loginSuccess());
+			toast.success("login is successful")
 			return res?.data?.data?.user;
 		} catch (err) {
 			if (err && axios.isAxiosError(err)) {
 				const axiosError = err as AxiosError;
 				if (axiosError.response) {
-					alert(axiosError.response.data);
+					toast.error("Login failed")
 				}
 			} else {
 				console.error("An unexpected error occurred:", err);
@@ -106,7 +108,7 @@ export const keepLogin = () => {
       if (err && axios.isAxiosError(err)) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
-          alert(axiosError.response.data);
+			toast.error("Invalid Token")
         }
       } else {
         

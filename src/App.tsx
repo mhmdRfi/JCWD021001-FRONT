@@ -35,11 +35,11 @@ function App() {
 					/>
 					<Route
 						path="/forgot-password"
-						element={<ForgotPassword />}
+						element={<LogInRoute><ForgotPassword /></LogInRoute>}
 					/>
 					<Route
 						path="/auth/reset-password"
-						element={<SetNewPassword />}
+						element={<LogInRoute><SetNewPassword /></LogInRoute>}
 					/>
 					<Route
 						path="/cashier-data"

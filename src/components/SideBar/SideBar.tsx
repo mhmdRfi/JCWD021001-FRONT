@@ -21,7 +21,7 @@ import {
   MenuItem,
   MenuList,
   // Button,
-  // Image,
+  Image,
 } from '@chakra-ui/react';
 import {
   // FiHome,
@@ -35,8 +35,8 @@ import {
   // FiUsers,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { IconLayoutDashboard, IconCup, IconReportMoney, IconUsers } from '@tabler/icons-react'
-// import { LogoIcon } from './logo.png'
+import { IconLayoutDashboard, IconPasswordUser, IconCup, IconReportMoney, IconUsers } from '@tabler/icons-react'
+import LogoIcon  from '../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png'
 import { useAppSelector } from '../../redux/hook';
 import { useAppDispatch } from '../../redux/hook';
 import { useNavigate } from 'react-router-dom';
@@ -68,6 +68,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Report', icon: IconReportMoney },
   { name: 'Favourites', icon: FiStar },
   { name: 'Cashier', icon: IconUsers },
+  { name: 'Admin', icon: IconPasswordUser}
 ];
 
 
@@ -84,11 +85,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {/* <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text> */}
-        {/* <LogoIcon /> */}
+      <Flex h="20" alignItems="center" mt='20px' justifyContent="space-between">
+        
+      <Image src={LogoIcon} margin={'auto'} boxSize={'72px'}/>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -107,31 +106,41 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
       href="#"
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
+      padding={'16px'}
     >
       <Flex
+        className='nav-item-container'
         align="center"
-        p="4"
-        mx="4"
+        p="2"
+        margin={'0 auto'}
+        flexDirection={'column'}
         borderRadius="lg"
         role="group"
         cursor="pointer"
+        color={'#4A4A4A'}
         _hover={{
-          bg: 'cyan.400',
-          color: 'white',
+          bg: '#EAEFEC',
+          color: '#286043',
+          margin: '0 16px'
         }}
         {...rest}
       >
         {icon && (
           <Icon
-            mr="4"
-            fontSize="16"
+            mb="3"
+            fontSize="24px"
+            stroke={"1px"}
             _groupHover={{
-              color: 'white',
+              color: '#286043',
             }}
             as={icon}
           />
         )}
-        {children}
+        <Box className='name-container'
+        fontSize={'14px'}>
+          {children}
+        </Box>
+        
       </Flex>
     </Box>
   );
@@ -142,7 +151,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.authReducer);
   return (
-    <Flex
+    <Flex className='mobile-nav-container'
       ml={{ base: 0, md: 0 }}
       px={{ base: 4, md: 4 }}
       height="20"
@@ -160,29 +169,39 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
+  <Flex alignItems={'center'} gap={'10px'} display={{base:'flex', md: 'none'}} flexDirection={'row'}>
+    <Image src={LogoIcon} boxSize={'29px'}/>
+      <Text fontSize={'22px'} fontWeight={'800'} color={'#286043'}>Starbucks</Text>
+  </Flex>
+      
 
       <HStack className='navTop'
-      spacing={{ base: '0', md: '6' }}>
+      spacing={{ base: '0', md: '6' }}
+      marginRight={{base: '0', md: '60px'}}>
         <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
               <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
+              {user?.avatar ? (
+						<Avatar
+							name="Dan Abrahmov"
+							src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
+								user?.avatar
+							}`}
+							w={"56px"}
+							h={"56px"}
+						/>
+					) : (
+						<Avatar
+							name="Dan Abrahmov"
+							bg="rgba(40, 96, 67, 1)"
+							src={"https://bit.ly/broken-link"}
+							w={"56px"}
+							h={"56px"}
+							color={"white"}
+						/>
+					)}
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
@@ -230,7 +249,7 @@ const SidebarWithHeader = () => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
+        size="xs"
       >
         <DrawerContent>
           <SidebarContent onClose={onClose} />

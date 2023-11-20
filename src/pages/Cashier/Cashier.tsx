@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Image, Text,  Divider, 
+import { Box, Flex, Icon, Image, Text,  Divider, Button, 
     // useDisclosure 
 } from "@chakra-ui/react";
 import { SidebarWithHeader } from "../../components/SideBar/SideBar";
@@ -34,7 +34,7 @@ function Cashier() {
     
     const [inactiveCashier, setInactiveCashier] = useState<Cashier[]>([]);
     const [currentInactivePage, setCurrentInactivePage] = useState(1);
-    const [itemsPerInactivePage] = useState(8);
+    const [itemsPerInactivePage] = useState(4);
     const indexOfLastInactiveItem = currentInactivePage * itemsPerInactivePage;
     const indexOfFirstInactiveItem = indexOfLastInactiveItem - itemsPerInactivePage;
     const currentInactiveCashiers = inactiveCashier?.slice(indexOfFirstInactiveItem, indexOfLastInactiveItem);
@@ -77,8 +77,7 @@ function Cashier() {
     }, [])
 
     console.log(currentCashiers);
-    
-    
+
     
   return (
     <Box>
@@ -93,9 +92,9 @@ function Cashier() {
         justifyContent={'space-between'}
         alignItems={'center'}
         margin={'0 60px'}>
-            <Flex gap={'10px'}>    
-                <Text color={'#949494'}>Last Updated</Text>
-                <Text>17 November 2023 01:37 PM</Text>
+            <Flex gap={'10px'} >    
+                <Text color={'#949494'} display={{base: 'none', md:'block'}}>Last Updated</Text>
+                <Text display={{base: 'none', md:'block'}}>17 November 2023 01:37 PM</Text>
             </Flex>
 
             <Box>
@@ -166,17 +165,24 @@ function Cashier() {
                 </Flex>
             </Flex>
             ))}
+            <Flex gap={'10px'}
+            justifyContent={'right'}
+            width={'100%'}
+            >
+        
+                <Button 
+                cursor="pointer" 
+                isDisabled={currentPage > 1 ? false : true}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>Previous</Button>
+                <Button 
+                cursor="pointer" 
+                onClick={() => setCurrentPage(prev => prev + 1)} 
+                isDisabled={currentPage === Math.ceil(cashier?.length / itemsPerPage) ? true : false}>Next</Button>
+        
+            </Flex>
         </Flex>
 
-        <Box>
         
-                <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>First</button>
-                <button onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>Previous</button>
-                {/* Additional pagination controls here */}
-                <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={currentPage === Math.ceil(cashier?.length / itemsPerPage)}>Next</button>
-                <button onClick={() => setCurrentPage(Math.ceil(cashier?.length / itemsPerPage))}>Last</button>
-        
-        </Box>
         {/* <UpdateCashier userId={userId} isOpen={isOpen} onClose={onClose} /> */}
         <Box><Divider/></Box>
         
@@ -244,13 +250,25 @@ function Cashier() {
                 </Flex>
             </Flex>
             ))}
+             <Flex gap={'10px'}
+            justifyContent={'right'}
+            width={'100%'}
+            >
+                
+                <Button 
+                cursor="pointer" 
+                isDisabled={currentInactivePage > 1 ? false : true}
+                onClick={() => setCurrentInactivePage(prev => Math.max(1, prev - 1))
+                }>Previous</Button>
+                <Button 
+                cursor="pointer" 
+                onClick={() => setCurrentInactivePage(prev => prev + 1)} 
+                isDisabled={currentInactivePage === Math.ceil(inactiveCashier?.length / itemsPerInactivePage)? true : false}>Next</Button>
+
+            </Flex>
         </Flex>
         
-        <button onClick={() => setCurrentInactivePage(1)} disabled={currentInactivePage === 1}>First</button>
-                <button onClick={() => setCurrentInactivePage(prev => Math.max(1, prev - 1))}>Previous</button>
-                {/* Additional pagination controls here */}
-                <button onClick={() => setCurrentInactivePage(prev => prev + 1)} disabled={currentInactivePage === Math.ceil(inactiveCashier?.length / itemsPerInactivePage)}>Next</button>
-                <button onClick={() => setCurrentInactivePage(Math.ceil(inactiveCashier?.length / itemsPerInactivePage))}>Last</button>
+        
         </Box>
     </Box>
   )
