@@ -1,4 +1,4 @@
-
+import React from 'react';
 import {
   IconButton,
   Avatar,
@@ -20,33 +20,28 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  // Button,
-  // Image,
+  Image,
 } from '@chakra-ui/react';
 import {
-  // FiHome,
-  // FiTrendingUp,
-  // FiCompass,
+  FiHome,
+  FiTrendingUp,
+  FiCompass,
   FiStar,
-  // FiSettings,
+  FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
-  // FiUsers,
+  FiUsers,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { IconLayoutDashboard, IconCup, IconReportMoney, IconUsers } from '@tabler/icons-react'
-// import { LogoIcon } from './logo.png'
-import { useAppSelector } from '../../redux/hook';
-import { useAppDispatch } from '../../redux/hook';
-import { useNavigate } from 'react-router-dom';
-import { logoutSuccess } from '../../redux/reducer/authReducer';
-
-
+import { IconLayoutDashboard, IconCup, IconReportMoney, IconUsers, IconHierarchy2 } from '@tabler/icons-react'
+import { LogoIcon } from './logo.png'
+import { useLocation, Link } from 'react-router-dom'
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  to: string;
 }
 
 interface NavItemProps extends FlexProps {
@@ -63,14 +58,12 @@ interface SidebarProps extends BoxProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Dashboard', icon: IconLayoutDashboard },
-  { name: 'Product', icon: IconCup },
-  { name: 'Report', icon: IconReportMoney },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Cashier', icon: IconUsers },
+  { name: 'Dashboard', icon: IconLayoutDashboard, to: '/dashboard-admin' },
+  { name: 'Product', icon: IconCup, to: '/product-lists' },
+  { name: 'Report', icon: IconReportMoney, to: '/report' },
+  { name: 'Category', icon: IconHierarchy2, to: '/category-lists' },
+  { name: 'Cashier', icon: IconUsers, to: '/cashier' },
 ];
-
-
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
@@ -84,15 +77,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {/* <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text> */}
-        {/* <LogoIcon /> */}
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" >
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} to={link.to}>
           {link.name}
         </NavItem>
       ))}
@@ -100,50 +89,47 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, to, ...rest }: NavItemProps) => {
+
+  const location = useLocation();
+  const isActive = location.pathname === to;
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
+    <Link to={to} style={{ textDecoration: 'none' }}>
+    <Flex
+      align="center"
+      p="4"
+      mx="4"
+      borderRadius="lg"
+      role="group"
+      cursor="pointer"
+      _hover={{
+        bg: 'cyan.400',
+        color: 'white',
+      }}
+      {...rest}
+      bg={isActive ? 'cyan.400' : ''}
+      color={isActive ? 'white' : ''}
     >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Box>
+      {icon && (
+        <Icon
+          mr="4"
+          fontSize="16"
+          _groupHover={{
+            color: 'white',
+          }}
+          as={icon}
+        />
+      )}
+      {children}
+    </Flex>
+  </Link>
   );
 };
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.authReducer);
   return (
     <Flex
-      ml={{ base: 0, md: 0 }}
+      ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
@@ -170,8 +156,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         Logo
       </Text>
 
-      <HStack className='navTop'
-      spacing={{ base: '0', md: '6' }}>
+      <HStack spacing={{ base: '0', md: '6' }}>
         <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={'center'}>
           <Menu>
@@ -189,9 +174,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user.username}</Text>
+                  <Text fontSize="sm">Justina Clark</Text>
                   <Text fontSize="xs" color="gray.600">
-                  {user.roleId === 1 ? 'Admin' : user.roleId === 2 ? 'Cashier' : 'Unknown Role'}
+                    Admin
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -207,9 +192,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              
-              <MenuItem onClick={() => {dispatch(logoutSuccess()); navigate("/")}}> Sign out</MenuItem>
-              
+              <MenuItem>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
