@@ -107,7 +107,7 @@ function Cashier() {
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        margin={'46px 60px 60px'}
+        margin={{base: '20px', md:'46px 60px 60px'}}
         >
             {currentCashiers?.map((item, index) => (
             <Flex className="cashier-container" alignItems={'center'}
@@ -116,7 +116,7 @@ function Cashier() {
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
-            minWidth={'225px'}
+            minWidth={{base: '155px', md:'225px'}}
             maxWidth={'286px'} key={index}>
                 <Box width={'10px'}
                 height={'80px'}
@@ -131,7 +131,8 @@ function Cashier() {
                 >
                     <Flex justifyContent={'center'}
                     alignItems={'center'}
-                    gap={'16px'}>
+                    gap={'16px'}
+                    flexDirection={{base:'column', md: 'row'}}>
                         <Image boxSize={'64px'}
                         borderRadius={'full'}
                         src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
@@ -190,7 +191,7 @@ function Cashier() {
         alignItems={'flex-start'}
         gap={'24px'}
         flexWrap={'wrap'}
-        margin={'46px 60px 60px'}
+        margin={{base: '20px', md:'46px 60px 60px'}}
         >
             {currentInactiveCashiers?.map((item, index) => (
             <Flex className="cashier-container" alignItems={'center'}
@@ -199,7 +200,7 @@ function Cashier() {
             borderRadius={'16px'}
             background={'#FFFFFF'}
             boxShadow={'base'}
-            minWidth={'225px'}
+            minWidth={{base: '155px', md:'225px'}}
             maxWidth={'286px'}
             key={index}>
                 <Box width={'10px'}
@@ -215,7 +216,8 @@ function Cashier() {
                 >
                     <Flex justifyContent={'center'}
                     alignItems={'center'}
-                    gap={'16px'}>
+                    gap={'16px'}
+                    flexDirection={{base:'column', md: 'row'}}>
                         <Image boxSize={'64px'}
                         borderRadius={'full'}
                         src={`${import.meta.env.VITE_APP_IMAGE_URL}/avatar/${
