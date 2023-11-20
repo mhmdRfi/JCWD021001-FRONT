@@ -130,7 +130,7 @@ const NavItem = ({ icon, children, to, ...rest }: NavItemProps) => {
 					className="nav-item-container"
 					align="center"
 					p="2"
-					margin={"0 auto"}
+					margin={isActive ? "0 16px": "0 auto"}
 					flexDirection={"column"}
 					borderRadius="lg"
 					role="group"
@@ -216,7 +216,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 						<MenuButton
 							py={2}
 							transition="all 0.3s"
-							_focus={{ boxShadow: "none" }}
+							_focus={{ boxShadow: "none", borderColor: "transparent", outlineColor: "transparent" }}
+              _hover={{borderColor: "transparent"}}
 						>
 							<HStack>
 								{user?.avatar ? (

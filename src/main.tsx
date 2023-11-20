@@ -9,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")!).render(
 	<Provider store={store}>
-	<ChakraProvider>
 	<BrowserRouter>
 		<ChakraProvider>
 			<Provider store={store}>
@@ -18,6 +17,5 @@ createRoot(document.getElementById("root")!).render(
 			</Provider>
 		</ChakraProvider>
 	</BrowserRouter>
-	</ChakraProvider>
 	</Provider>
 );
