@@ -1,5 +1,5 @@
-import { Box, Button, HStack, Icon, Input, InputGroup, InputLeftAddon, InputLeftElement, Spacer, Text, Image, IconButton, Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalContent, ModalCloseButton, ModalBody, ModalFooter, VStack, useColorModeValue, Select, FormLabel } from "@chakra-ui/react"
-import { IconSearch, IconAdjustmentsHorizontal, IconPlus, IconArrowRight, IconArrowLeft, IconLayoutGrid, IconList, IconSortAscending2, IconSortDescending2, IconAbc, IconTags, IconChecks, IconError404, IconTrashx, IconEditCircle, IconArrowNarrowDown, IconTrashX } from '@tabler/icons-react'
+import { Box, Button, HStack, Input, Spacer, Text, IconButton, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalContent, ModalCloseButton, ModalBody, ModalFooter, VStack, useColorModeValue, Select, FormLabel } from "@chakra-ui/react"
+import {  IconPlus, IconEditCircle, IconTrashX } from '@tabler/icons-react'
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
@@ -50,7 +50,7 @@ const CategoryLists = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get<ApiResponse>(
-          `http://localhost:8080/products?page=${page}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}&categoryId=${categoryId}&productName=${productName}`
+          `${import.meta.env.VITE_APP_API_BASE_URL}/products?page=${page}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}&categoryId=${categoryId}&productName=${productName}`
       );
       setData(response?.data);
       
@@ -95,7 +95,7 @@ const CategoryLists = () => {
   const addNewCategory = async () => {
       try {
         await axios.post(
-            `http://localhost:8080/products/add-category`, {
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/add-category`, {
                 category: newCategory
             },
         );
@@ -115,7 +115,7 @@ const CategoryLists = () => {
   const confirmEditCategory = async () => {
     try {
       await axios.patch(
-          `http://localhost:8080/products/edit-category`, {
+          `${import.meta.env.VITE_APP_API_BASE_URL}/products/edit-category`, {
             category_id: selectedCategory?.id,
             categoryNew: editCategory
           })
@@ -131,7 +131,7 @@ const CategoryLists = () => {
   const confirmDeleteCategory = async () => {
       try {
         await axios.delete(
-            `http://localhost:8080/products/remove-category/${selectedCategory.id}`)
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/remove-category/${selectedCategory.id}`)
 
             alert("delete category successful")
             onClose()
@@ -201,7 +201,7 @@ const CategoryLists = () => {
   const fetchCategory = async () => {
     try {
         const response = await axios.get(
-            "http://localhost:8080/products/category-lists"
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/category-lists`
         );
 
         setDataCategory(response?.data)

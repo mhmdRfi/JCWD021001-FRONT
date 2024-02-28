@@ -41,7 +41,7 @@ const TransactionDetail = () => {
   const fetchData = async () => {
       try {
           const response = await axios.get(
-              `http://localhost:8080/report/products-by-transaction/${transactionId}`
+              `${import.meta.env.VITE_APP_API_BASE_URL}/report/products-by-transaction/${transactionId}`
           );
           console.log("ini di fetch data", response);
           

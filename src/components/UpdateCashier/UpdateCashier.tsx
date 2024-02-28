@@ -41,7 +41,7 @@ function UpdateCashier({id, email, username, type, status, onCashierUpdated}: Up
     
   ) => {
     try{ 
-      await axios.patch(`http://localhost:8080/user/updatecashier/${id}`, {
+      await axios.patch(`${import.meta.env.VITE_APP_API_BASE_URL}/user/updatecashier/${id}`, {
       email,
       username,
       status,

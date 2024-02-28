@@ -52,7 +52,7 @@ function SetNewPassword() {
             return;
         }
         try{ 
-          await axios.patch(`http://localhost:8080/auth/reset-password?resetToken=${encodeURIComponent(resetToken)}`, {
+          await axios.patch(`${import.meta.env.VITE_APP_API_BASE_URL}/auth/reset-password?resetToken=${encodeURIComponent(resetToken)}`, {
           password,
         });
         toast.success("Password is reset successfully")

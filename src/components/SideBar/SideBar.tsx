@@ -23,15 +23,11 @@ import {
 	Image,
 } from "@chakra-ui/react";
 import {
-	FiHome,
-	FiTrendingUp,
-	FiCompass,
-	FiStar,
-	FiSettings,
+
 	FiMenu,
 	FiBell,
 	FiChevronDown,
-	FiUsers,
+
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import {
@@ -54,11 +50,12 @@ interface LinkItemProps {
 	icon: IconType;
 	to: string;
 }
-
-interface NavItemProps extends FlexProps {
-	icon: IconType;
+interface NavItemProps {
 	children: React.ReactNode;
-}
+	key: string;
+	icon: IconType;
+	to: string; // Ensure 'to' property is present
+  }
 
 interface MobileProps extends FlexProps {
 	onOpen: () => void;
@@ -222,7 +219,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 							<HStack>
 								{user?.avatar ? (
 									<Avatar
-										name="Dan Abrahmov"
+										name={user.username}
 										src={`${
 											import.meta.env.VITE_APP_IMAGE_URL
 										}/avatar/${user?.avatar}`}
@@ -231,7 +228,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 									/>
 								) : (
 									<Avatar
-										name="Dan Abrahmov"
+										name={user.username}
 										bg="rgba(40, 96, 67, 1)"
 										src={"https://bit.ly/broken-link"}
 										w={"56px"}

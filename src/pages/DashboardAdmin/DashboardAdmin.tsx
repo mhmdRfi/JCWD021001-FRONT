@@ -109,7 +109,7 @@ console.log('Yesterday:', formattedYesterday);
     try {
 
       const response = await axios.get(
-          `http://localhost:8080/report/sales-by-date?startDate=${formattedYesterday}&endDate=${formattedToday}`
+          `${import.meta.env.VITE_APP_API_BASE_URL}/report/sales-by-date?startDate=${formattedYesterday}&endDate=${formattedToday}`
       );
       setSalesData(response?.data);
       
@@ -155,7 +155,7 @@ percentageTotalTransactions = percentageChanges.totalTransactions.toFixed(2) + '
   const addNewCategory = async () => {
       try {
         await axios.post(
-            `http://localhost:8080/products/add-category`, {
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/add-category`, {
                 category: newCategory
             },
         );
@@ -175,7 +175,7 @@ percentageTotalTransactions = percentageChanges.totalTransactions.toFixed(2) + '
   const confirmDeleteCategory = async () => {
       try {
         await axios.delete(
-            `http://localhost:8080/products/remove-category/${selectedCategory.id}`)
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/remove-category/${selectedCategory.id}`)
 
             alert("delete category successful")
             onClose()
@@ -245,7 +245,7 @@ percentageTotalTransactions = percentageChanges.totalTransactions.toFixed(2) + '
   const fetchCategory = async () => {
     try {
         const response = await axios.get(
-            "http://localhost:8080/products/category-lists"
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/category-lists`
         );
 
         setDataCategory(response?.data)

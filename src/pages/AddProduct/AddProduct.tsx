@@ -1,18 +1,14 @@
-import { Box, Button, HStack, Icon, Input, InputGroup, InputLeftAddon, InputLeftElement, Spacer, Text, Image, IconButton, Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalContent, ModalCloseButton, ModalBody, ModalFooter, VStack, Flex, FormLabel, Checkbox, Textarea } from "@chakra-ui/react"
+import { Box, Button, HStack, Input, Spacer, Text, Image, IconButton, VStack, Flex, FormLabel, Textarea } from "@chakra-ui/react"
 import { IconPlus, IconArrowLeft, IconPhotoUp, IconX, IconArrowRight } from '@tabler/icons-react'
 import { ChangeEvent, useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import { SidebarWithHeader } from '../../components/SideBar/SideBar'
 import { FiUpload } from "react-icons/fi"
-import { useFormik } from "formik";
-import { toast, ToastContainer } from 'react-toastify'
+import { toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
-interface ApiResponse {
-  message: string;
-  saleDate: Date;
-}
+
 
 function formatPriceToIDR(price: number) {
   // Use Intl.NumberFormat to format the number as IDR currency
@@ -23,15 +19,11 @@ function formatPriceToIDR(price: number) {
 }
 
 const AddProduct = () => {
-  const [data, setData] = useState<ApiResponse | null>([]);
   const [dataCategory, setDataCategory] = useState([])
   const [fieldImage, setFieldImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedC, setSelectedC] = useState([]);
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const navigate = useNavigate();
-  const [isChecked, setIsChecked] = useState(false);
-
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState<number>(0);
   const [description, setDescription] = useState("");
@@ -46,7 +38,9 @@ const AddProduct = () => {
     let numericValue = event.target.value.replace(/[^0-9]/g, '');
     numericValue = numericValue.replace(/^0+/, '');
 
-    setMainPrice(numericValue); // Store the numeric value without formatting
+    const numericValueAsNumber = parseInt(numericValue, 10);
+
+  setMainPrice(numericValueAsNumber);
   };
 
   const handleInputChangeMarkup = (event: ChangeEvent<HTMLInputElement>) => {
@@ -55,20 +49,17 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    const calculatedPrice = Number(mainPrice) + (Number(mainPrice) * markupPercentage) / 100;
-    setPriceAfterMarkedUp(calculatedPrice);
+    if (markupPercentage !== undefined) {
+      const calculatedPrice = Number(mainPrice) + (Number(mainPrice) * markupPercentage) / 100;
+      setPriceAfterMarkedUp(calculatedPrice);
+    }
   }, [mainPrice, markupPercentage]);
   
-  
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
 
   const fetchCategory = async () => {
       try {
           const response = await axios.get(
-              "http://localhost:8080/products/category-lists"
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/category-lists`
           );
 
           setDataCategory(response?.data)
@@ -84,9 +75,9 @@ const AddProduct = () => {
       fetchCategory();
   }, [])
 
-  console.log(markupPercentage);
+  if (markupPercentage !== undefined) {
   const priceFinal: number = Number(mainPrice) + (mainPrice * markupPercentage / 100)
-  console.log(priceFinal);
+  console.log(priceFinal);}
   
   
 
@@ -109,7 +100,7 @@ const AddProduct = () => {
       formData.append("sku", sku);
 
       await axios.post(
-          `http://localhost:8080/products/add-product`,
+          `${import.meta.env.VITE_APP_API_BASE_URL}/products/add-product`,
           formData
       );
       

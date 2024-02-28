@@ -63,7 +63,7 @@ export const login = (email: string, password: string) => {
 	return async (dispatch: Dispatch) => {
 		try {
 			const res = await axios.post(
-				"http://localhost:8080/auth/login",
+				`${import.meta.env.VITE_APP_API_BASE_URL}/auth/login`,
 				{
 					email,
 					password,
@@ -93,15 +93,12 @@ export const keepLogin = () => {
 		try {
 			const token = localStorage.getItem("token");
 
-			if (token) {
-				const res = await axios.get(
-					"http://localhost:8080/auth/keep-login",
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
+      if (token){
+        const res = await axios.get(`${import.meta.env.VITE_APP_API_BASE_URL}/auth/keep-login`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
 				dispatch(setUser(res?.data?.data));
 				dispatch(keepLoginSuccess());

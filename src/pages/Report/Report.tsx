@@ -2,54 +2,17 @@ import {
 	Box,
 	Button,
 	HStack,
-	Icon,
 	Input,
-	InputGroup,
-	InputLeftAddon,
-	InputLeftElement,
 	Spacer,
 	Text,
-	Image,
 	IconButton,
-	Card,
-	CardBody,
-	Stack,
 	Heading,
-	Divider,
-	CardFooter,
-	ButtonGroup,
-	useDisclosure,
-	Modal,
-	ModalOverlay,
-	ModalHeader,
-	ModalContent,
-	ModalCloseButton,
-	ModalBody,
-	ModalFooter,
-	VStack,
-	useColorModeValue,
-	Select,
 	FormLabel,
 	Flex,
 } from "@chakra-ui/react";
 import {
-	IconSearch,
-	IconGraphFilled,
-	IconPlus,
-	IconArrowRight,
-	IconArrowLeft,
-	IconLayoutGrid,
-	IconList,
-	IconSortAscending2,
-	IconSortDescending2,
-	IconAbc,
-	IconTags,
-	IconChecks,
-	IconError404,
-	IconTrashx,
-	IconEditCircle,
+	
 	IconArrowNarrowDown,
-	IconTrashX,
 	IconInfoCircleFilled,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -154,7 +117,7 @@ const Report = () => {
 	const fetchReport = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8080/report/sales-report?startDate=${startDate}&endDate=${endDate}`
+				`${import.meta.env.VITE_APP_API_BASE_URL}/report/sales-report?startDate=${startDate}&endDate=${endDate}`
 			);
 
 			setReportData(response?.data);
@@ -166,7 +129,7 @@ const Report = () => {
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8080/report/sales-by-date?startDate=${startDate}&endDate=${endDate}`
+				`${import.meta.env.VITE_APP_API_BASE_URL}/report/sales-by-date?startDate=${startDate}&endDate=${endDate}`
 			);
 			setSalesData(response?.data);
 

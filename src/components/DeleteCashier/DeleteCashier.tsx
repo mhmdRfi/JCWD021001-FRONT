@@ -27,7 +27,7 @@ function DeleteCashier({id, username, onCashierDeleted}: DeleteCashierProps) {
   
   const deleteCashier = async () => {
     try{ 
-      await axios.delete(`http://localhost:8080/user/deletecashier/${id}`
+      await axios.delete(`${import.meta.env.VITE_APP_API_BASE_URL}/user/deletecashier/${id}`
     , {
       headers: {
         Authorization: `Bearer ${token}`
