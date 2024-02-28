@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
+
 interface Product {
 	id: number;
 	name: string;
@@ -45,7 +47,7 @@ const cartSlice = createSlice({
 						existingProduct.quantity -= 1;
 						state.totalPrice += newProduct.price;
 					} else {
-						return alert("stock abis");
+						toast.error("Out of Stock")
 					}
 				} else {
 					state.countCart += 1;
@@ -58,7 +60,7 @@ const cartSlice = createSlice({
 					state.totalPrice += newProduct.price;
 				}
 			} else {
-				return alert("Stock abis");
+				toast.error("Out of Stock")
 			}
 		},
 		increment: (
@@ -78,7 +80,7 @@ const cartSlice = createSlice({
 						productToIncrement.price * productToIncrement.total;
 					state.totalPrice += productToIncrement.price;
 				} else {
-					return alert("Stock abis")
+					toast.error("Out of Stock")
 				}
 			}
 		},

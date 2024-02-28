@@ -9,13 +9,13 @@ import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")!).render(
 	<Provider store={store}>
-	<BrowserRouter>
 		<ChakraProvider>
-			<Provider store={store}>
-				<App />
-				<Toaster position="top-right"/>
-			</Provider>
+			<BrowserRouter>
+				<Provider store={store}>
+					<App />
+					<Toaster position="top-right" />
+				</Provider>
+			</BrowserRouter>
 		</ChakraProvider>
-	</BrowserRouter>
 	</Provider>
 );

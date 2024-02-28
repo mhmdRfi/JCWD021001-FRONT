@@ -191,6 +191,7 @@ export const PaymentSuccess = ({
 					navigate("/cashier");
 					dispatch(removeAllFromCart());
 				}}
+				_hover={{ borderColor: "var(--black-b-30, #EBEBEB)" }}
 			>
 				Back to Menu
 			</Button>

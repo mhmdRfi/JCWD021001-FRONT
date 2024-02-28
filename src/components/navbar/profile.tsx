@@ -302,6 +302,7 @@ export const Profile = () => {
 											gap={3}
 											borderRadius={0}
 											_hover={{borderColor: "transparent"}}
+											_focus={{borderColor: "transparent", outlineColor: "transparent"}}
 											borderBottom={
 												"2px solid rgba(245, 245, 245, 1)"
 											}
@@ -327,6 +328,7 @@ export const Profile = () => {
 												"2px solid rgba(245, 245, 245, 1)"
 											}
 											_hover={{borderColor: "transparent"}}
+											_focus={{borderColor: "transparent", outlineColor: "transparent"}}
 										>
 											<IconSettings
 												stroke={1.5}
@@ -350,6 +352,7 @@ export const Profile = () => {
 												"2px solid rgba(245, 245, 245, 1)"
 											}
 											_hover={{borderColor: "transparent"}}
+											_focus={{borderColor: "transparent", outlineColor: "transparent"}}
 											onClick={() => {
 												dispatch(logoutSuccess()),
 													navigate("/"),

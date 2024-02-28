@@ -1,58 +1,96 @@
-import { Box, Button, HStack, Icon, Input, InputGroup, InputLeftAddon, InputLeftElement, Spacer, Text, Image, IconButton, Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalContent, ModalCloseButton, ModalBody, ModalFooter, VStack, Flex, FormLabel, Checkbox, Textarea, Select } from "@chakra-ui/react"
-import { IconPlus, IconArrowLeft, IconPhotoUp, IconX, IconArrowRight } from '@tabler/icons-react'
-import { ChangeEvent, useEffect, useState } from "react"
-import axios from 'axios'
-import { useNavigate, useParams } from "react-router-dom"
-import { SidebarWithHeader } from '../../components/SideBar/SideBar'
-import { FiUpload } from "react-icons/fi"
+import {
+	Box,
+	Button,
+	HStack,
+	Icon,
+	Input,
+	InputGroup,
+	InputLeftAddon,
+	InputLeftElement,
+	Spacer,
+	Text,
+	Image,
+	IconButton,
+	Card,
+	CardBody,
+	Stack,
+	Heading,
+	Divider,
+	CardFooter,
+	ButtonGroup,
+	useDisclosure,
+	Modal,
+	ModalOverlay,
+	ModalHeader,
+	ModalContent,
+	ModalCloseButton,
+	ModalBody,
+	ModalFooter,
+	VStack,
+	Flex,
+	FormLabel,
+	Checkbox,
+	Textarea,
+	Select,
+} from "@chakra-ui/react";
+import {
+	IconPlus,
+	IconArrowLeft,
+	IconPhotoUp,
+	IconX,
+	IconArrowRight,
+} from "@tabler/icons-react";
+import { ChangeEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { SidebarWithHeader } from "../../components/SideBar/SideBar";
+import { FiUpload } from "react-icons/fi";
 import { useFormik } from "formik";
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ApiResponse {
-  message: string;
-  saleDate: Date;
+	message: string;
+	saleDate: Date;
 }
 
 function capitalizeFirstLetter(str) {
-  if (str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-  return str; // return the unchanged string if it's undefined
+	if (str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+	return str; // return the unchanged string if it's undefined
 }
 
-
 function formatPriceToIDR(price: number) {
-  // Use Intl.NumberFormat to format the number as IDR currency
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-  }).format(price);
+	// Use Intl.NumberFormat to format the number as IDR currency
+	return new Intl.NumberFormat("id-ID", {
+		style: "currency",
+		currency: "IDR",
+	}).format(price);
 }
 
 const EditProduct = () => {
-    const { id } = useParams();
-  const [data, setData] = useState([]);
-  
-  const [dataCategory, setDataCategory] = useState([])
-  const [fieldImage, setFieldImage] = useState(null);
-  const [selectedImage, setSelectedImage] = useState('');
-  const [selectedC, setSelectedC] = useState([]);
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const navigate = useNavigate();
-  const [isChecked, setIsChecked] = useState(false);
+	const { id } = useParams();
+	const [data, setData] = useState([]);
 
-  const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState<number>();
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("")
+	const [dataCategory, setDataCategory] = useState([]);
+	const [fieldImage, setFieldImage] = useState(null);
+	const [selectedImage, setSelectedImage] = useState("");
+	const [selectedC, setSelectedC] = useState([]);
+	const [selectedItems, setSelectedItems] = useState<number[]>([]);
+	const navigate = useNavigate();
+	const [isChecked, setIsChecked] = useState(false);
 
+	const [name, setName] = useState("");
+	const [quantity, setQuantity] = useState<number>(0);
+	const [description, setDescription] = useState("");
+	const [status, setStatus] = useState("");
 
-  const [mainPrice, setMainPrice] = useState<number>(0);
-  const [markupPercentage, setMarkupPercentage] = useState<number>();
-  const [priceAfterMarkedUp, setPriceAfterMarkedUp] = useState<number>(0);
-  const [sku, setSku] = useState("")
+	const [mainPrice, setMainPrice] = useState<number>(0);
+	const [markupPercentage, setMarkupPercentage] = useState<number>(0);
+	const [priceAfterMarkedUp, setPriceAfterMarkedUp] =
+		useState<number>(0);
+	const [sku, setSku] = useState("");
 
 
   const fetchData = async (id: number) => {
@@ -60,13 +98,12 @@ const EditProduct = () => {
         const response = await axios.get(
             `${import.meta.env.VITE_APP_API_BASE_URL}/products/details-product/${id}`
         );
-
-        setData((prevData) => response?.data || prevData);
-    } catch (err) {
-        console.log(err);
-    }
-};
-
+		} 
+			catch (err) {
+				console.log(err);
+		}
+	}
+	
   useEffect(() => {
     const fetchDataAndSetState = async () => {
         await fetchData(id);
@@ -460,5 +497,6 @@ console.log(selectedC);
     </Box>
   )
 }
+
 
 export {EditProduct}

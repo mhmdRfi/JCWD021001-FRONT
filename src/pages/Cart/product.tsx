@@ -140,7 +140,11 @@ export const Product = ({ name, codeTransaction }: any) => {
 											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
 											bgColor={"transparent"}
-											_hover={{ bgColor: "transparetn" }}
+											_hover={{ borderColor: "transparent" }}
+											_focus={{
+												borderColor: "transparent",
+												outlineColor: "transparent",
+											}}
 											onClick={() => handleDecrement(items.id)}
 										>
 											<IconSquareRoundedMinus
@@ -157,7 +161,11 @@ export const Product = ({ name, codeTransaction }: any) => {
 											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
 											bgColor={"transparent"}
-											_hover={{ bgColor: "transparetn" }}
+											_hover={{ borderColor: "transparent" }}
+											_focus={{
+												borderColor: "transparent",
+												outlineColor: "transparent",
+											}}
 											onClick={() => handleIncrement(items.id)}
 										>
 											<IconSquareRoundedPlus
@@ -171,7 +179,11 @@ export const Product = ({ name, codeTransaction }: any) => {
 											h={{ base: "20px", lg: "30px" }}
 											borderRadius={"50%"}
 											bgColor={"transparent"}
-											_hover={{ bgColor: "transparetn" }}
+											_hover={{ borderColor: "transparent" }}
+											_focus={{
+												borderColor: "transparent",
+												outlineColor: "transparent",
+											}}
 											onClick={() => handleRemove(items.id)}
 										>
 											<IconTrash color="red" />
@@ -200,6 +212,8 @@ export const Product = ({ name, codeTransaction }: any) => {
 						borderColor={" var(--black-b-200, #666)"}
 						isDisabled={products.length == 0 ? true : false}
 						onClick={() => dispatch(removeAllFromCart())}
+						_hover={{ borderColor: "var(--black-b-200, #666)" }}
+						_focus={{ borderColor: "transparent", outlineColor: "transparent" }}
 					>
 						Cancel
 					</Button>
@@ -211,6 +225,8 @@ export const Product = ({ name, codeTransaction }: any) => {
 						background={"var(--brand-brand-500, #286043)"}
 						color={"var(--black-b-0, #FFF)"}
 						isDisabled={products.length == 0 ? true : false}
+						_hover={{ borderColor: "transparent" }}
+						_focus={{ borderColor: "transparent", outlineColor: "transparent" }}
 						onClick={() =>
 							navigate("/transaction", {
 								state: {
