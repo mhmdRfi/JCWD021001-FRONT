@@ -110,7 +110,7 @@ const ProductLists = () => {
 	const fetchData = async () => {
 		try {
 			const response = await axios.get<ApiResponse>(
-				`http://localhost:8080/products?page=${page}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}&categoryId=${categoryId}&productName=${productName}`
+				`${import.meta.env.VITE_APP_API_BASE_URL}/products?page=${page}&pageSize=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}&categoryId=${categoryId}&productName=${productName}`
 			);
 			setData(response?.data);
 		} catch (err) {
@@ -148,7 +148,7 @@ const ProductLists = () => {
 		try {
 			if (selectedProduct) {
 				const check = await axios.get(
-					`http://localhost:8080/products/check-product/${selectedProduct.id}`
+					`${import.meta.env.VITE_APP_API_BASE_URL}/products/check-product/${selectedProduct.id}`
 				);
 				console.log("ini check", check);
 				console.log("ini check", check.data.serviceResponse);
@@ -160,7 +160,7 @@ const ProductLists = () => {
 				} else {
 					try {
 						await axios.delete(
-							`http://localhost:8080/products/remove-product/${selectedProduct.id}`
+							`${import.meta.env.VITE_APP_API_BASE_URL}/products/remove-product/${selectedProduct.id}`
 						);
 
 						setDeleteModalOpen(false);

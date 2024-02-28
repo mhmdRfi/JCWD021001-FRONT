@@ -58,7 +58,7 @@ const EditProduct = () => {
   const fetchData = async (id: number) => {
     try {
         const response = await axios.get(
-            `http://localhost:8080/products/details-product/${id}`
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/details-product/${id}`
         );
 
         setData((prevData) => response?.data || prevData);
@@ -103,7 +103,7 @@ const EditProduct = () => {
   const fetchCategory = async () => {
       try {
           const response = await axios.get(
-              "http://localhost:8080/products/category-lists"
+              `${import.meta.env.VITE_APP_API_BASE_URL}/products/category-lists`
           );
 
           setDataCategory(response?.data)
@@ -147,7 +147,7 @@ const EditProduct = () => {
       });
 
       await axios.patch(
-          `http://localhost:8080/products/edit-product`,
+          `${import.meta.env.VITE_APP_API_BASE_URL}/products/edit-product`,
           formData
       );
 
@@ -176,7 +176,7 @@ console.log(selectedC);
   const deleteCategoryProduct = async (category_id) => {
       try {
           await axios.delete(
-            `http://localhost:8080/products/remove-category-product?product_id=${data.id}&category_id=${category_id}`
+            `${import.meta.env.VITE_APP_API_BASE_URL}/products/remove-category-product?product_id=${data.id}&category_id=${category_id}`
           )
 
             toast.success("Delete Category Success")
@@ -237,7 +237,7 @@ console.log(selectedC);
             <Box height='max-content' mb='100px'>
             <VStack>
            <Image
-            src={`http://localhost:8080/uploads/products/${data?.image}`}
+            src={`${import.meta.env.VITE_APP_API_BASE_URL}/uploads/products/${data?.image}`}
             alt={`${data?.name}`}
             boxSize="150px"
             objectFit="cover"

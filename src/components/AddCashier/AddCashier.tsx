@@ -58,7 +58,7 @@ const AddCashier: FC<AddCashierProps> = ({ onCashierAdded }) => {
 		try {
 			setLoading(true);
 			await axios.post(
-				"http://localhost:8080/auth/addcashier",
+				`${import.meta.env.VITE_APP_API_BASE_URL}/auth/addcashier`,
 				{
 					email,
 					username,

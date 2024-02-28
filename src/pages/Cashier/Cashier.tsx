@@ -2,7 +2,6 @@ import {
 	Box,
 	Flex,
 	Icon,
-	Image,
 	Text,
 	Divider,
 	Button,
@@ -58,7 +57,7 @@ function Cashier() {
 	const fetchCashier = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8080/user/cashier",
+				`${import.meta.env.VITE_APP_API_BASE_URL}/user/cashier`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,

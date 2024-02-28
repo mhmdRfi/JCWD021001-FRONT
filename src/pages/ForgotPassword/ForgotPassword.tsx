@@ -29,7 +29,7 @@ function ForgotPassword() {
         try{ 
           setLoading(true);
           const loadingToastId = toast.loading("Sending reset password link to your email")
-          await axios.patch("http://localhost:8080/auth/forgot-password", {
+          await axios.patch(`${import.meta.env.VITE_APP_API_BASE_URL}/auth/forgot-password`, {
           email,
         });
         setLoading(false);

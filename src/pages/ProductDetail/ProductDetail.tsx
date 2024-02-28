@@ -1,11 +1,9 @@
-import { Box, Button, HStack, Icon, Input, InputGroup, InputLeftAddon, InputLeftElement, Spacer, Text, Image, IconButton, Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalContent, ModalCloseButton, ModalBody, ModalFooter, VStack, Flex, FormLabel, Checkbox, Textarea } from "@chakra-ui/react"
-import { IconPlus, IconArrowLeft, IconPhotoUp, IconX, IconArrowRight } from '@tabler/icons-react'
-import { ChangeEvent, useEffect, useState } from "react"
+import { Box, Button, HStack, Spacer, Text, Image, VStack, Flex, FormLabel } from "@chakra-ui/react"
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
+import {  useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate, useParams } from "react-router-dom"
 import { SidebarWithHeader } from '../../components/SideBar/SideBar'
-import { FiUpload } from "react-icons/fi"
-import { useFormik } from "formik";
 
 function formatPriceToIDR(price: number) {
   // Use Intl.NumberFormat to format the number as IDR currency
@@ -30,7 +28,7 @@ const ProductDetail = () => {
   const fetchData = async () => {
       try {
           const response = await axios.get(
-              `http://localhost:8080/products/details-product/${id}`
+              `${import.meta.env.VITE_APP_API_BASE_URL}/products/details-product/${id}`
           );
 
           setData(response?.data)
@@ -58,7 +56,7 @@ const ProductDetail = () => {
             <Box height='max-content' mb='100px'>
             <VStack>
            <Image
-            src={`http://localhost:8080/uploads/products/${data.image}`}
+            src={`${import.meta.env.VITE_APP_API_BASE_URL}/uploads/products/${data.image}`}
             alt={`${data.name}`}
             boxSize="150px"
             objectFit="cover"

@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
 	Flex,
 	Image,
 	InputGroup,
 	InputLeftElement,
 	Input,
-	// Text,
-	// Avatar,
 } from "@chakra-ui/react";
 import Logo from "../../assets/ee8e2ef267a626690ecec7c84a48cfd4.png";
 import { IconSearch } from "@tabler/icons-react";

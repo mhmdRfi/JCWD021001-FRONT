@@ -109,7 +109,7 @@ export const Profile = () => {
 						/>
 					) : (
 						<Avatar
-							name="Dan Abrahmov"
+							name={user.username}
 							bg="rgba(40, 96, 67, 1)"
 							src={"https://bit.ly/broken-link"}
 							w={"56px"}

@@ -56,7 +56,7 @@ function ChangePassword() {
 	const forgotPassword = async (password: string) => {
 		try {
 			await axios.patch(
-				`http://localhost:8080/auth/update-password/${user.id}`,
+				`${import.meta.env.VITE_APP_API_BASE_URL}/auth/update-password/${user.id}`,
 				{
 					password,
 				}
